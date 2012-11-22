@@ -1,5 +1,3 @@
-What is the 'src' directory (ask Chad)?
-
 Remove external calls 
   $.getJSON("http://chadnorwood.com/saveJson/?callback=?", {sj: cnMF.reportData}); 
 
