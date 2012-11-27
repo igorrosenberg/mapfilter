@@ -3,6 +3,7 @@ What is the 'src' directory (ask Chad)?
 Remove external calls 
   $.getJSON("http://chadnorwood.com/saveJson/?callback=?", {sj: cnMF.reportData}); 
 
+[EASY] Move this TODO file to git's issue tracking system
 
 [DONE] Write a feature list. See http://chadnorwood.com/projects/gcm/#KeyFeatures
 
