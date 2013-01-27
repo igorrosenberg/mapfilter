@@ -149,9 +149,9 @@ $(document).ready(function() {
 		listId: "tableTab",
 		statusId: "MapStatus",
 		closeDrawer: validateInt('cd', 0, 9, 0),
-		mapCenterLt: validateFloat('lat',-180,180, 41.885405),
-		mapCenterLg: validateFloat('lng',-180,180, -87.626072), // default to Chicago
-		mapZoom: validateInt('z',1,20, 13),
+		mapCenterLt: validateFloat('lat',-180,180, 48.114767),
+		mapCenterLg: validateFloat('lng',-180,180, -1.68251), // default to Rennes
+		mapZoom: validateInt('z',1,20, 8),
 		mapType: validateInt('m',0,4, 0),
 		mapAllOnInit: httpGetParam('z') === null,
 
@@ -1580,9 +1580,10 @@ $(document).ready(function() {
 		mapH: 800,
 		mapw: 600,
 		// Chicago = 41.885405,-87.626072
-		mapCenterLt: '41.885405',
-		mapCenterLg: '-87.626072',
-		mapZoom: 14,
+	  // Rennes = 48.114767,-1.68251
+		mapCenterLt: '48.114767',
+		mapCenterLg: '-1.68251',
+		mapZoom: 10,
 		mapType: 0,
 		mapAllOnInit: true,
 
