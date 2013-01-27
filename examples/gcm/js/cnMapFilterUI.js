@@ -271,7 +271,6 @@ $(document).ready(function() {
 					} else if (gCalURL == 'test2') {
 						getXmlData();
 					} else {
-						_gaq.push(['_trackEvent', 'Loading', 'cal-begin', gCalURL]);
 						cnMF.getGCalData(gCalURL, cnMF.origStartDay, cnMF.origEndDay, {
 								onCalendarLoad: cbCalendarLoad,
 								onGeoDecodeAddr: cbGeoDecodeAddr,
@@ -279,7 +278,6 @@ $(document).ready(function() {
 									cbGeoDecodeComplete(gCalURL, calendarURLs)
 								},
 								onError: function(jqXHR, textStatus) {
-									_gaq.push(['_trackEvent', 'Loading', 'cal-error', textStatus + ": "+ gCalURL]);
 								}
 							});
 					}
@@ -382,13 +380,11 @@ $(document).ready(function() {
 			$('body').on('click touch','a.event_table', function(){
 				//$.getJSON("/debug.mobile", {'touch':'event_table index='+$(this).data('event_index')});
 				eventClicked( cnMF.getEventObj($(this).data('event_index')) ); 
-				_gaq.push(['_trackEvent', 'Interaction', 'a.event_table']);
 				userInteraction.recordInteraction();
 				return false;
 			});
 			$('body').on('click','a.zoom_to', function(){
 				zoomTo( cnMF.getEventObj($(this).data('event_index')) ); 
-				_gaq.push(['_trackEvent', 'Interaction', 'a.zoom_to']);
 				return false;
 			});
 		}
@@ -615,12 +611,10 @@ $(document).ready(function() {
 
 			$("#ResultsMapHdrFilterByMap").click(function(){
 				debug.info('--- ResultsMapHdrFilterByMap clicked');
-				_gaq.push(['_trackEvent', 'Interaction', 'ResultsMapHdrFilterByMap']);
 				cnMF.mapAllEvents();
 			});
 			$("#ResultsMapHdrFilterByDate").click(function(){
 				debug.info('--- ResultsMapHdrFilterByDate clicked');
-				_gaq.push(['_trackEvent', 'Interaction', 'ResultsMapHdrFilterByDate']);
 				resetStartEndDays('sliders');
 				//mapAllEvents();
 			});
@@ -628,7 +622,6 @@ $(document).ready(function() {
 				debug.info('--- ResultsMapHdrFilterFrozen clicked');
 				$("#ResultsMapHdrFilterFrozen").css('display','none');
 				cnMF.myMarkers.closeInfoWindow(); // this will call infoWindowClosed()
-				_gaq.push(['_trackEvent', 'Interaction', 'ResultsMapHdrFilterFrozen']);
 			});
 
 			$("#ResultsMapUnknown").html('<div id="ResultsMapUnknownHdr"></div><div id="ResultsMapUnknownTable"></div>');
@@ -640,7 +633,6 @@ $(document).ready(function() {
 			});
 			$("#ResultsMapHdrWarning").click(function(){
 				debug.info('--- ResultsMapHdrWarning clicked');
-				_gaq.push(['_trackEvent', 'Interaction', 'ResultsMapHdrWarning']);
 				dialogUnknowns.dialog('open');
 		  	});
 
@@ -672,7 +664,6 @@ $(document).ready(function() {
 			// API3 TODO: this only triggers from mouse closing, not from closing by clicking on another marker
 			/*
 			google.maps.event.addListener(cnMF.myMarkers.infoWindow, "closeclick", function() { 
-			   _gaq.push(['_trackEvent', 'Interaction', 'gMrkr', 'infowindowclose']);
 				debug.log('infowindowclose event fired, redrawing map');
 				//$('#ResultsMapHdrFilterFrozen').css('display','none');
 			});
@@ -1208,7 +1199,6 @@ $(document).ready(function() {
 					});
 			  $('#cancelReloadPage').click(function(){
 				debug.info('--- clicked cancelReloadPage, ');
-				_gaq.push(['_trackEvent', 'Interaction', 'cancelReloadPage']);
 				 $("#newDates").dialog('close');
 			  });
 			  $('#reloadPage').click(function(){
@@ -1221,7 +1211,6 @@ $(document).ready(function() {
 					url = url.replace(/u=/,'sd='+sd+'&ed='+ed+'&u=');
 				}
 				debug.info('--- clicked reloadPage, new url: ', url);
-				_gaq.push(['_trackEvent', 'Interaction', 'reloadPage', url]);
 				alert('Reloading to url: '+url);
 				window.location = url;
 				//$("#newDates").dialog('close');
@@ -1287,22 +1276,17 @@ $(document).ready(function() {
 
 				$('#changeDates').click(function(){
 					debug.info('--- clicked changeDates');
-					_gaq.push(['_trackEvent', 'Interaction', 'changeDates']);
 					setupChangeDates();
 				});
 
 				$('#cancelChangeDates').click(function(){
 					debug.info('--- clicked cancelChangeDates');
-					_gaq.push(['_trackEvent', 'Interaction', 'cancelChangeDates']);
 					$("#newDates").css('display','none');
 				});
 				$('#thDate').attr('title','Click to Sort by Event Date, Timezone '+cnMF.tz.name);
 
 			}
 		
-			_gaq.push(['_trackEvent', 'Loading', 'calenders', 'calendarInfo.totalEvents', calendarInfo.totalEvents]);
-			_gaq.push(['_trackEvent', 'Loading', 'calender-calendarInfo.gcLink', calendarInfo.gcLink]);
-
 			//updateStatus2('Found '+ calendarInfo.totalEvents +' ('+calendarInfo.totalEntries+') events, '+ uniqAddrCount +' unique addresses, decoding .. ');
 			cnt = cnMF.myGeo.count();
 		
@@ -1393,28 +1377,12 @@ $(document).ready(function() {
 
 			var decodeMs = parseInt(cnMF.reportData.submitTime.replace(/\./,'')) - parseInt(cnMF.reportData.loadTime.replace(/\./,'') );
 
-			_gaq.push(['_trackEvent', 'Loading', 'cal-complete', gCalURL]);
-			_gaq.push(['_trackEvent', 'Loading', 'cal-loadTime', gCalURL, decodeMs]);  // we can find avg decode time per calendar
 			debug.debug(" cbGeoDecodeComplete() calendars decode time:", gCalURL, decodeMs );
 
 			calendarsDecoding -= 1;
 			if (calendarsDecoding === 0) {
 				// All calendars have been geoDecoded
 				// Event Category: Loading  - Event Action: calendars - Event Label: uniqAddrDecoded
-				_gaq.push(['_trackEvent', 'Loading', 'calenders', 'uniqAddrDecoded', cnMF.reportData.uniqAddrDecoded]);
-				_gaq.push(['_trackEvent', 'Loading', 'calenders', 'uniqAddrTotal', cnMF.reportData.uniqAddrTotal]);
-				_gaq.push(['_trackEvent', 'Loading', 'calenders', 'uniqAddrUnknown', cnMF.reportData.uniqAddrUnknown]);
-				_gaq.push(['_trackEvent', 'Loading', 'calenders', 'uniqAddrErrors', cnMF.reportData.uniqAddrErrors]);
-				_gaq.push(['_trackEvent', 'Loading', 'calenders', 'uniqAddrErrorPercent', 
-					Math.round(10000*cnMF.reportData.uniqAddrErrors/cnMF.reportData.uniqAddrTotal)/100 ]);
-				_gaq.push(['_trackEvent', 'Loading', 'calenders', 'totalGeoDecodes', 1]);
-				_gaq.push(['_trackEvent', 'Loading', 'calenders', 'totalGeoDecodeMsecs', decodeMs]); // so we can find avg decode time
-				_gaq.push(['_trackEvent', 'Loading', 'calenders', 'calendarCount', calendarURLs.length]);  // we can find avg decode time per calendar
-				for (var ii in calendarURLs) {
-					_gaq.push(['_trackEvent', 'Loading', 'cal-decoded' + calendarURLs.length, calendarURLs[ii], cnMF.reportData.uniqAddrDecoded] );
-					_gaq.push(['_trackEvent', 'Loading', 'cal-total' + calendarURLs.length, calendarURLs[ii], cnMF.reportData.uniqAddrTotal] );
-					_gaq.push(['_trackEvent', 'Loading', 'cal-errors' + calendarURLs.length, calendarURLs[ii], cnMF.reportData.uniqAddrErrors] );
-				}
 				debug.debug(" cbGeoDecodeComplete() All calendars decoded.", decodeMs, cnMF.reportData );
 			} else {
 				debug.debug(" cbGeoDecodeComplete() still decoding "+ calendarsDecoding + " more calendar.");

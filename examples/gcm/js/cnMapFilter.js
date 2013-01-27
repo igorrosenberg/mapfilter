@@ -222,9 +222,6 @@
 		google.maps.event.addListener(thisMarkerObj.googleMarker, 'click', function() {
 			debug.log("googleMarker clicked at "+ thisMarkerObj.coordsStr);
 			cnMF.coreOptions.cbMarkerClicked(thisMarkerObj); // cbMarkerClicked function should call openInfoWindow()
-			try {
-				_gaq.push(['_trackEvent', 'Interaction', 'gMarker', 'click']);
-			} catch (e) {}
 		});
 		return this;
 	} 
