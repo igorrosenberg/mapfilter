@@ -566,7 +566,7 @@
 					+ cnMFUI.htmlEncode(cnMFUI.maxStr(kk.desc, 140, 0, '', 1)) + "</td>";
 
 	  		rowHTML += onlyValidCoords ? '<td>' + kk.addrFromGoogle + ' (<a class="actionable" href="javascript:void(0)" title="' 
-					+ cnMFUI.htmlEncode(cnMFUI.maxStr(kk.addrOrig, 100, 0, '', 0)) + '">orig</a>)</td>'
+					+ cnMFUI.htmlEncode(cnMFUI.maxStr(kk.addrOrig, 100, 0, '', 0)) + '">orig</a></td>'
 				: '<td>'+(kk.addrOrig.match(/\w/) ? kk.addrOrig : '[empty]' )
 				  +'<br><a href="' + kk.url + '" title="Click to edit this event (if you have permission) in a new window" target="_blank">Edit Event Address</a><br>Error: ' + kk.error + '</td>';
 	  		rowHTML += "</tr>\n";
