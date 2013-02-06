@@ -23,6 +23,10 @@ body {
 	font-size:80%;
 }
 
+#main_content { 
+	margin: 50px; 
+}
+
  
 /*
  *  Main | Map
@@ -40,12 +44,10 @@ body {
  */
 
 #map_id { 
-	position:absolute;
-	top:0;
-	left:0;
-	height:100%;
-	width:100%;
-    background:#99B3CC;
+	height:400px;
+	width:500px;
+  background:#99B3CC;
+  border: 1px solid black;
 }
 
 /* Info Window styles */
@@ -86,35 +88,21 @@ body {
 }
 
 #rightTab {
-    position:absolute;
-    top:40px;
-    right:0;
     display:block;
-    height:30px;
-    width:30px;
     cursor:pointer;
-    z-index:10;
-    background-color: #FFF;
+    background-color: #DDD;
     font-size:24px;
     font-weight:bold;
     padding-left:6px;
+    z-index:10;
 }
 #rtSide { 
-	position:absolute;
-	top:70px;
-	right:0;
 	margin-right:0;
 	overflow:hidden;
 	z-index:2;
 }
 
 #gcmMapLogo { 
-	position:absolute;
-	bottom:20px;
-	right:4px;
-	background: url(http://chadnorwood.com/beermug.ico) no-repeat 0 0;
-	height:17px;
-	width:17px;
 	overflow:hidden;
 	z-index:25500;
 }

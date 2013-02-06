@@ -341,27 +341,9 @@ $(document).ready(function() {
 		}
 	
 		function initDivs() {
-			$('#'+ cnMFUI.opts.mapId).append(
-				  '<div id="rtSide">'
-				+ '    <div id="titleDiv">'
-				+ '        <div id="calendarTitle"><div id="calendarTitleContent"></div></div>'
-				+ '        <div id="gcmLogo"></div>'
-				+ '    </div>'
-				+ '    <div id="resultsDiv">'
-				+ '        <div id="resultsData">'
-				+ '            <div id="resultsDataFilters"></div>'
-				+ '            <div id="resultsDataStatus"></div>'
-				+ '        </div>'
-				+ '        <div id="ResultsMapHdr" class="transparent"></div>'
-				+ '        <div id="ResultsMapEvents"></div>'
-				+ '        <div id="ResultsMapUnknown"></div>'
-				+ '    </div>'
-				+ '</div>');
 
 			$('#rtSide').width( getRtSideWidth() ).height( getRtSideHeight() );
 			
-		
-			$('#gcmLogo').html("<h1><a href='http://chadnorwood.com/projects/gcm/' class='jumpLink' target='_blank' title='Click to view Google Calendar Map homepage in new window'>GCM</a></h1>");
 			// need to init resultsDiv and put MapStatus under resultsDataStatus
 			$('#resultsDataStatus').html("<div id='MapStatus'>.. Loading Map ..</div><div id='MapStatus2'></div>");
 
