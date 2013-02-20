@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Google Maps JavaScript API v3 Example: Asynchronous Map Simple</title>
+    <title>Google Maps and Calendar</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <script type="text/javascript" src="js/util.js"></script>
@@ -13,23 +13,21 @@ html, body {
   padding: 0;
 }
 
-#button {
+#old_button {
     width: 350px;
     float: right;
 }
 
 #map_canvas {
   height: 100%;
-	width:100%;
+  width:100%;
   border: 1px solid blue;
-  margin: 40px 40px;
-  padding: 15px 15px;
   background-color: yellow;
 }
 
 #wrap_map_canvas {
   height: 260px;
-	width: 360px;
+  width: 360px;
 }
 
 @media print {
@@ -41,9 +39,9 @@ html, body {
     height: 650px;
   }
 
-#footer {
-clear:both;
-}
+  #footer {
+    clear:both;
+  }
 }
 </style>
     <script>
@@ -251,23 +249,102 @@ function hideLog(){
 }
 
     </script>
-  </head>
-  <body>
+<style type="text/css" media="screen, print, projection">
+	body,
+	html {
+		margin:0;
+		padding:0;
+		color:#000;
+		background:#a7a09a;
+	}
+	#wrap {
+		width:750px;
+		margin:0 auto;
+		background:#99c;
+	}
+	#header {
+    	padding:5px 10px;
+		background:#ddd;
+	}
+	h1 {
+	    margin:0;
+    }
+	#nav {
+		padding:5px 10px;
+		background:#c99;
+	}
+	#nav ul {
+		margin:0;
+		padding:0;
+		list-style:none;
+	}
+	#nav li {
+		display:inline;
+		margin:0;
+		padding:0;
+	}
+	#main {
+		float:left;
+		width:480px;
+		padding:10px;
+		background:#9c9;
+	}
+	h2 {
+		margin:0 0 1em;
+	}
+	#sidebar {
+		float:right;
+		width:230px;
+		padding:10px;
+		background:#99c;
+	}
+	#footer {
+		clear:both;
+		padding:5px 10px;
+		background:#cc9;
+	}
+	#footer p {
+		margin:0;
+    }
+	* html #footer {
+		height:1px;
+	}
+	</style>
+</head>
+<body>
+<div id="wrap">
+	<div id="header"><h1>Carte des stages</h1></div>
+	<div id="nav">
+		<ul>
+			<li><a href="/">Option 1</a></li>
+			<li><a href="/">Option 2</a></li>
+			<li><a href="/">Option 3</a></li>
+			<li><a href="/">Option 4</a></li>
+			<li><a href="/">Option 5</a></li>
+		</ul>
+	</div>
+  <div id="main">
+    <div id=wrap_map_canvas>
+      <div id=map_canvas>
+      </div>
+    </div>
+  </div>
+  <div id="sidebar">
     <div id="button">
-		<a href='#' onclick="loadScript()">load map</a><br/>
-		<a href='#' onclick="hideMarkersFromMap()">hideMarkersFromMap</a><br/><br/>
-		<br/>
-		<a href='http://jsfiddle.net/B3a86/2/'>Example many points</a><br/>
-		<a href='https://developers.google.com/maps/documentation/javascript/reference#Map'>Google Maps API reference</a><br/>
-		<br/>
-		<a href='#' onclick="showLog()">show Log</a>
-		<a href='#' onclick="hideLog()">hide Log</a>
+	<a href='#' onclick="loadScript()">load map</a><br/>
+	<a href='#' onclick="hideMarkersFromMap()">hideMarkersFromMap</a><br/><br/>
+	<br/>		
+	<a href='http://jsfiddle.net/B3a86/2/'>Example many points</a><br/>		
+	<a href='https://developers.google.com/maps/documentation/javascript/reference#Map'>Google Maps API reference</a><br/>	
+	<br/>	
+	<a href='#' onclick="showLog()">show Log</a>	
+	<a href='#' onclick="hideLog()">hide Log</a>	
+     </div>	
+  </div>	
+<div id='footer'>	
+	<div id="log">
+		<p>log</p>
 	</div>
-	<div id="wrap_map_canvas">
-		<div id="map_canvas"><h4>Logs</h4></div>
-	</div>
-	<div id='footer'>
-	<div id='log'></div>
-	</div>
-  </body>
+</div>
+</body>
 </html>
