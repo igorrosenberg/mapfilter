@@ -1,5 +1,8 @@
+// ---------------------
+// Implementation of sets
 // Objects are expected to have:  {title, lat, lng, info}
 // same gps, title and date => equality
+// ---------------------
 
 
 function Set() {
@@ -27,3 +30,12 @@ Set.prototype.values = function() {
 	}
 	return res;
 }
+// ---------------------
+// tracing events
+// ---------------------
+function log(){
+		var content = document.createElement('p');
+		content.appendChild(document.createTextNode(event.name));
+		document.getElementById("log").appendChild(content);
+}
+		
