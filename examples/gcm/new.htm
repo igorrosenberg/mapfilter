@@ -48,24 +48,24 @@ function loadCalendars() {
      {title:'TWO', lat:48.15, lng:-1.66, info: 'xxx2'},
      {title:'THREE', lat:48.30, lng:-1.80, info: 'xxx3'}
      ];
-	// console.log ('events before load: ' + event_markers.values().length );
+	// log ('events before load: ' + event_markers.values().length );
 	for (var i = 0 ; i < newData.length ; i++) {
 		var x = newData[i];
-		// console.log ('event loaded: ' + x );
+		// log ('event loaded: ' + x );
         event_markers.add (x);
 		}
-	// console.log ('events after load: ' + event_markers.values().length );
+	// log ('events after load: ' + event_markers.values().length );
 
 
-	var gCalURL = 'https://www.google.com/calendar/feeds/aikidorennes@gmail.com/public/basic';
-	// var gCalURL = 'mock/gcal.json';
+	// var gCalURL = 'https://www.google.com/calendar/feeds/aikidorennes@gmail.com/public/basic';
+	var gCalURL = 'mock/gcal.json';
 	var startDay= '2012-07-01T00:00:00-00:00';
 	var endDay = '2013-06-31T00:00:00-00:00';
 	getGCalData(gCalURL, startDay, endDay);
 	}
 		
 function getGCalData(gCalUrl, startDays, endDays) {
-	console.log ('loading: ' + gCalUrl);
+	log ('loading: ' + gCalUrl);
 	gCalUrl = gCalUrl.replace(/\/basic$/, '/full');
 
 	// http://code.google.com/apis/calendar/docs/2.0/reference.html
@@ -88,11 +88,11 @@ function getGCalData(gCalUrl, startDays, endDays) {
 	xmlhttp.onreadystatechange = function () {
 		if (xmlhttp.readyState==4) {
 			if (xmlhttp.status==200) {
-				 console.log ('Response received, length=' + xmlhttp.responseText.length);
+				 log ('Response received, length=' + xmlhttp.responseText.length);
 				 var calendarAnswer = JSON.parse(xmlhttp.responseText);
 				 treatCalendarEvents(calendarAnswer);
 			} else {
-				 console.log ('Failure... status=' + xmlhttp.status);
+				 log ('Failure... status=' + xmlhttp.status);
 				 }
 		 }				
 	  };
@@ -107,15 +107,15 @@ function treatCalendarEvents(calendarAnswer) {
 
 	if (calendarAnswer.feed.entry)
 	for (var ii=0; calendarAnswer.feed.entry[ii]; ii++) {
-		console.log ('Treating entry ' + ii);
+		log ('Treating entry ' + ii);
 		var curEntry = calendarAnswer.feed.entry[ii];
 		if (!(curEntry['gd$when'] && curEntry['gd$when'][0]['startTime'])) {
-			console.log(" skipping entry (no gd$when) " + curEntry['title']['$t']);
+			log(" skipping entry (no gd$when) " + curEntry['title']['$t']);
 			continue;
 		};
 		var urlMap = {};
 		for (var jj=0; curEntry.link[jj]; jj++) {
-		 console.log ('Treating entry link ' + jj);
+		 log ('Treating entry link ' + jj);
 			var curLink = curEntry.link[jj];
 			if (curLink.type == 'text/html') {
 				// looks like when rel='related', href is original event info (like meetup.com)
@@ -133,14 +133,14 @@ function treatCalendarEvents(calendarAnswer) {
 			dateStart: curEntry['gd$when'][0]['startTime'],
 			dateEnd: curEntry['gd$when'][0]['endTime']
 		};
-		console.log ('created event ' + event.name + ' as ' +  JSON.stringify(event));
+		log ('created event ' + event.name + ' as ' +  JSON.stringify(event));
 		if (event.addrOrig) {
-			console.log("Maybe a new address, get ready to geodecode:" + event.addrOrig);
+			log("Maybe a new address, get ready to geodecode:" + event.addrOrig);
 		} else {
-			console.log(" Skipping blank address for "+event.name+" ["+event.addrOrig+"]",event);
+			log(" Skipping blank address for "+event.name+" ["+event.addrOrig+"]",event);
 		}
-		console.log("parsed curEntry "+ii+": ", event.name);
-		console.log("TODO variable 'event' is lost, push it somewhere!");
+		log("parsed curEntry "+ii+": ", event.name);
+		log("TODO variable 'event' is lost, push it somewhere!");
 		var content = document.createElement('p');
 		content.appendChild(document.createTextNode(event.name));
 		document.getElementById("log").appendChild(content);
@@ -177,7 +177,7 @@ function hideMarkersFromMap() {
 	var values = event_markers.values();
 	for (var i = 0; i < values.length; i++) {
 		var marker = values[i];
-		console.log ('hiding marker ' + marker.title + ' at ' + marker.lat) ;
+		log ('hiding marker ' + marker.title + ' at ' + marker.lat) ;
 		marker.gMarker.setMap(null) ;
 	} // end for markers
 } // end addMarkersToMap
@@ -200,7 +200,7 @@ function initialize() {
 	// document.getElementById('map_canvas').style.display = 'block' ;
 	// document.getElementById('button').style.display = 'none' ;
 	loadCalendars();
-	console.log ('UNCOMMENT');
+	log ('UNCOMMENT');
 	// createMap();
 	// addMarkersToMap();
 } // end initialize
