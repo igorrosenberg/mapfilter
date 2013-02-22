@@ -20,25 +20,26 @@ html, body {
   background-color: yellow;
 }
 
-#old_wrap_map_canvas {
-height: 100%
-//  height: 260px;
-  //width: 360px;
-}
-
-@media print {
-  html, body {
-    height: auto;
-  }
-
-  #map_canvas {
-    height: 650px;
-  }
-
   #footer {
     clear:both;
   }
-}
+
+p {line-height: 100%;}
+h4 {margin:0px;}
+
+ul, ol { margin-left: 1em; padding-left: 0px; }
+#log li { margin-bottom:0.25em; list-style-type: none; }
+
+@media print {
+	  html, body {
+		 height: auto;
+	  }
+
+	  #map_canvas {
+		 height: 650px;
+	  }
+
+} // end @media print 
 </style>
     <script>
 
@@ -141,9 +142,9 @@ function treatCalendarEvents(calendarAnswer) {
 		}
 		log("parsed curEntry "+ii+": ", event.name);
 		log("TODO variable 'event' is lost, push it somewhere!");
-		var content = document.createElement('p');
+		var content = document.createElement('li');
 		content.appendChild(document.createTextNode(event.name));
-		document.getElementById("log").appendChild(content);
+		document.getElementById("log_ul").appendChild(content);
 	}
 } // end treatCalendarEvents
 
@@ -235,7 +236,7 @@ function loadScript() {
 } // end loadScript
 
 
-// DEBUG reñove these methods showLog, hideLog
+// DEBUG remove these methods showLog, hideLog
 
 function showLog(){
 	document.getElementById("log").style.display='block';
@@ -341,9 +342,8 @@ function hideLog(){
 	<a href='#' onclick="hideLog()">hide Log</a>	
      </div>	
   </div>	
-<div id='footer'>	
-	<div id="log">
-		<p>log</p>
+	<div id='footer'>
+		<div id='log'><h4>Logs</h4><ul id='log_ul'></ul></div>
 	</div>
 </div>
 </body>
