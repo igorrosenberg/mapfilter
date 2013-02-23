@@ -83,8 +83,9 @@ function createMap() {
    showMapControls();
 
 } // end createMap
+
 function showMapControls() {
-	var toHide = document.getElementById("no_map_yet_buttons");
+	var toHide = document.getElementById("no_map_yet");
 	var toShow = document.getElementById("map_controls");
 	toHide.style.display = 'none';
 	toShow.style.display = 'block';
