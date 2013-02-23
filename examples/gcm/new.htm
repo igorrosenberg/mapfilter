@@ -6,6 +6,7 @@
     <meta charset="utf-8">
     <script type="text/javascript" src="js/util.js"></script>
     <script type="text/javascript" src="js/json2.js"></script>
+    <script type="text/javascript" src="js/log.js"></script>
     <style >
 html, body {
   height: 100%;
@@ -28,7 +29,7 @@ p {line-height: 100%;}
 h4 {margin:0px;}
 
 ul, ol { margin-left: 1em; padding-left: 0px; }
-#log li { margin-bottom:0.25em; list-style-type: none; }
+#log li { margin-bottom:0.25em; list-style-type: none; font-size:60% }
 
 @media print {
 	  html, body {
@@ -49,13 +50,13 @@ function loadCalendars() {
      {title:'TWO', lat:48.15, lng:-1.66, info: 'xxx2'},
      {title:'THREE', lat:48.30, lng:-1.80, info: 'xxx3'}
      ];
-	// log ('events before load: ' + event_markers.values().length );
+	console.log ('events before load: ' + event_markers.values().length );
 	for (var i = 0 ; i < newData.length ; i++) {
 		var x = newData[i];
-		// log ('event loaded: ' + x );
+		  console.log ('event loaded: ' + x );
         event_markers.add (x);
 		}
-	// log ('events after load: ' + event_markers.values().length );
+	console.log ('events after load: ' + event_markers.values().length );
 
 
 	// var gCalURL = 'https://www.google.com/calendar/feeds/aikidorennes@gmail.com/public/basic';
@@ -66,7 +67,7 @@ function loadCalendars() {
 	}
 		
 function getGCalData(gCalUrl, startDays, endDays) {
-	log ('loading: ' + gCalUrl);
+	info ('loading: ' + gCalUrl);
 	gCalUrl = gCalUrl.replace(/\/basic$/, '/full');
 
 	// http://code.google.com/apis/calendar/docs/2.0/reference.html
@@ -89,11 +90,11 @@ function getGCalData(gCalUrl, startDays, endDays) {
 	xmlhttp.onreadystatechange = function () {
 		if (xmlhttp.readyState==4) {
 			if (xmlhttp.status==200) {
-				 log ('Response received, length=' + xmlhttp.responseText.length);
+				 info ('Calendar response received, length=' + xmlhttp.responseText.length);
 				 var calendarAnswer = JSON.parse(xmlhttp.responseText);
 				 treatCalendarEvents(calendarAnswer);
 			} else {
-				 log ('Failure... status=' + xmlhttp.status);
+				 info ('Calendar response failure... status=' + xmlhttp.status);
 				 }
 		 }				
 	  };
@@ -104,19 +105,20 @@ function getGCalData(gCalUrl, startDays, endDays) {
 
 function treatCalendarEvents(calendarAnswer) {
 	var title = calendarAnswer.feed.title['$t']	
+	info ("Reading calendar data: " + title)
 	var calendarHref = calendarAnswer.feed.link[0].href  // needed for cross reference later	 
 
 	if (calendarAnswer.feed.entry)
 	for (var ii=0; calendarAnswer.feed.entry[ii]; ii++) {
-		log ('Treating entry ' + ii);
+		console.log ('Treating entry ' + ii);
 		var curEntry = calendarAnswer.feed.entry[ii];
 		if (!(curEntry['gd$when'] && curEntry['gd$when'][0]['startTime'])) {
-			log(" skipping entry (no gd$when) " + curEntry['title']['$t']);
+			console.log(" skipping entry (no gd$when) " + curEntry['title']['$t']);
 			continue;
 		};
 		var urlMap = {};
 		for (var jj=0; curEntry.link[jj]; jj++) {
-		 log ('Treating entry link ' + jj);
+		 console.log ('Treating entry link ' + jj);
 			var curLink = curEntry.link[jj];
 			if (curLink.type == 'text/html') {
 				// looks like when rel='related', href is original event info (like meetup.com)
@@ -134,18 +136,16 @@ function treatCalendarEvents(calendarAnswer) {
 			dateStart: curEntry['gd$when'][0]['startTime'],
 			dateEnd: curEntry['gd$when'][0]['endTime']
 		};
-		log ('created event ' + event.name + ' as ' +  JSON.stringify(event));
+		console.log ('created event ' + event.name + ' as ' +  JSON.stringify(event));
 		if (event.addrOrig) {
-			log("Maybe a new address, get ready to geodecode:" + event.addrOrig);
+			console.log("Maybe a new address, get ready to geodecode:" + event.addrOrig);
 		} else {
-			log(" Skipping blank address for "+event.name+" ["+event.addrOrig+"]",event);
+			console.log(" Skipping blank address for "+event.name+" ["+event.addrOrig+"]",event);
 		}
-		log("parsed curEntry "+ii+": ", event.name);
-		log("TODO variable 'event' is lost, push it somewhere!");
-		var content = document.createElement('li');
-		content.appendChild(document.createTextNode(event.name));
-		document.getElementById("log_ul").appendChild(content);
+		console.log("parsed curEntry "+ii+": ", event.name);
+		console.log("TODO variable 'event' is lost, push it somewhere!");
 	}
+	info ("Finished parsing calendar data for: " + title)
 } // end treatCalendarEvents
 
 function createMarker(marker){
@@ -178,7 +178,7 @@ function hideMarkersFromMap() {
 	var values = event_markers.values();
 	for (var i = 0; i < values.length; i++) {
 		var marker = values[i];
-		log ('hiding marker ' + marker.title + ' at ' + marker.lat) ;
+		console.log ('hiding marker ' + marker.title + ' at ' + marker.lat) ;
 		marker.gMarker.setMap(null) ;
 	} // end for markers
 } // end addMarkersToMap
@@ -201,7 +201,7 @@ function initialize() {
 	// document.getElementById('map_canvas').style.display = 'block' ;
 	// document.getElementById('button').style.display = 'none' ;
 	loadCalendars();
-	log ('UNCOMMENT');
+	info ('UNCOMMENT');
 	// createMap();
 	// addMarkersToMap();
 } // end initialize
@@ -234,16 +234,6 @@ function loadScript() {
 	}            
 
 } // end loadScript
-
-
-// DEBUG remove these methods showLog, hideLog
-
-function showLog(){
-	document.getElementById("log").style.display='block';
-}
-function hideLog(){
-	document.getElementById("log").style.display='none';
-}
 
     </script>
 <style type="text/css" media="screen, print, projection">

@@ -24,18 +24,10 @@ Set.prototype.contains = function(val) {
 Set.prototype.values = function() {
 	var res = [];
 	for (var val in this.content)  {
-        console.log ('IN=' + val);
-        console.log ('OUT=' + this.content[val]);
+        // console.log ('IN=' + val);
+        // console.log ('OUT=' + this.content[val]);
         res.push(this.content[val]);
 	}
 	return res;
 }
-// ---------------------
-// tracing events
-// ---------------------
-function log(){
-		var content = document.createElement('p');
-		content.appendChild(document.createTextNode(event.name));
-		document.getElementById("log").appendChild(content);
-}
-		
+
