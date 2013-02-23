@@ -65,23 +65,27 @@ function hideMarkersFromMap() {
 } // end hideMarkersFromMap
 
 function createMap() {
-
-	console.log ('event_markers ('+event_markers+') exists, so use it to bound map ');
-	// only create map if it doesn't exist
-	if (!map) {
-		var mapOptions = {
-			zoom: 8,
-			center: new google.maps.LatLng(48.114767,-1.68251), // Rennes
-			mapTypeId: google.maps.MapTypeId.ROADMAP
-        };
-		var mapBlock = document.getElementById('map_canvas');
-      map = new google.maps.Map(mapBlock, mapOptions);
-     }
-     
-   addMarkersToMap(event_markers);
-   
-   showMapControls();
-
+	// loop on this function until google maps ready
+	if (!mapScriptLoaded){
+		console.log ('map script not yet ready ??');
+		setTimeout(createMap, 100);
+	} else {
+		console.log ('event_markers exists, so use it to bound map ');
+		// only create map if it doesn't exist
+		if (!map) {
+			var mapOptions = {
+				zoom: 8,
+				center: new google.maps.LatLng(48.114767,-1.68251), // Rennes
+				mapTypeId: google.maps.MapTypeId.ROADMAP
+		     };
+			var mapBlock = document.getElementById('map_canvas');
+		   map = new google.maps.Map(mapBlock, mapOptions);
+		  }
+		  
+		addMarkersToMap(event_markers);
+		
+		showMapControls();
+	}
 } // end createMap
 
 function showMapControls() {

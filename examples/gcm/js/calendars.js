@@ -1,8 +1,6 @@
 
-function loadCalendars(calURL) {
-	// var gCalURL = 'https://www.google.com/calendar/feeds/aikidorennes@gmail.com/public/basic';
-	var gCalURL = calURL ; //'mock/gcal.json';
-	var startDay= '2012-07-01T00:00:00-00:00';
+function loadCalendars(gCalURL) {
+	var startDay= '2010-07-01T00:00:00-00:00';
 	var endDay = '2013-06-31T00:00:00-00:00';
 	getGCalData(gCalURL, startDay, endDay);
 	}
