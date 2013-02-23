@@ -30,9 +30,7 @@ function loadScript() {
 } // end loadScript
 
 function initialize() {
-	// document.getElementById('map_canvas').style.display = 'block' ;
-	// document.getElementById('button').style.display = 'none' ;
-	loadCalendars();
+	loadCalendars('mock/gcal.json');
 	info ('UNCOMMENT');
 	// createMap();
 	// addMarkersToMap();

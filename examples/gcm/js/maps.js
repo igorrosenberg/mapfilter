@@ -79,6 +79,14 @@ function createMap() {
      }
      
    addMarkersToMap(event_markers);
+   
+   showMapControls();
 
 } // end createMap
+function showMapControls() {
+	var toHide = document.getElementById("no_map_yet_buttons");
+	var toShow = document.getElementById("map_controls");
+	toHide.style.display = 'none';
+	toShow.style.display = 'block';
+}
 

@@ -69,6 +69,10 @@
 		padding:10px;
 		background:#99c;
 	}
+	#map_controls {
+		display:none;
+	}
+	
 	#footer {
 		clear:both;
 		padding:5px 10px;
