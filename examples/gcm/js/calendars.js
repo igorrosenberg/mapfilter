@@ -46,60 +46,64 @@ function getGCalData(gCalUrl, startDays, endDays) {
 		if (xmlhttp.readyState==4) {
 			if (xmlhttp.status==200) {
 				 info ('Calendar response received, length=' + xmlhttp.responseText.length);
-				 var calendarAnswer = JSON.parse(xmlhttp.responseText);
-				 treatCalendarEvents(calendarAnswer);
+				 var calendarEvents = parseCalendarEvents(xmlhttp.responseText);
+				 geocode (calendarEvents);
 			} else {
 				 info ('Calendar response failure... status=' + xmlhttp.status);
 				 }
-		 }				
+		 }
 	  };
 
 	xmlhttp.open("GET",ajaxURL,true);
 	xmlhttp.send();
 }
 
-function treatCalendarEvents(calendarAnswer) {
-	var title = calendarAnswer.feed.title['$t']	
-	info ("Reading calendar data: " + title)
+function parseCalendarEvents(calendarAnswerText) {
+	var calendarAnswer = JSON.parse(calendarAnswerText);
+	var calendarTitle = calendarAnswer.feed.title['$t']	
+	info ("Reading calendar data: " + calendarTitle)
 	var calendarHref = calendarAnswer.feed.link[0].href  // needed for cross reference later	 
 
-	if (calendarAnswer.feed.entry)
-	for (var ii=0; calendarAnswer.feed.entry[ii]; ii++) {
-		console.log ('Treating entry ' + ii);
-		var curEntry = calendarAnswer.feed.entry[ii];
-		if (!(curEntry['gd$when'] && curEntry['gd$when'][0]['startTime'])) {
-			console.log(" skipping entry (no gd$when) " + curEntry['title']['$t']);
-			continue;
-		};
-		var urlMap = {};
-		for (var jj=0; curEntry.link[jj]; jj++) {
-		 console.log ('Treating entry link ' + jj);
-			var curLink = curEntry.link[jj];
-			if (curLink.type == 'text/html') {
-				// looks like when rel='related', href is original event info (like meetup.com)
-				// when rel='alternate', href is the google.com calendar event info
-				urlMap[curLink.rel] = curLink.href;
+	if (calendarAnswer.feed.entry) { 
+		var calendarEvents = new Array();
+		for (var ii=0; calendarAnswer.feed.entry[ii]; ii++) {
+			console.log ('Treating entry ' + ii);
+			var curEntry = calendarAnswer.feed.entry[ii];
+			if (!(curEntry['gd$when'] && curEntry['gd$when'][0]['startTime'])) {
+				console.log(" skipping entry (no gd$when) " + curEntry['title']['$t']);
+				continue;
+			};
+			var urlMap = {};
+			for (var jj=0; curEntry.link[jj]; jj++) {
+			 console.log ('Treating entry link ' + jj);
+				var curLink = curEntry.link[jj];
+				if (curLink.type == 'text/html') {
+					// looks like when rel='related', href is original event info (like meetup.com)
+					// when rel='alternate', href is the google.com calendar event info
+					urlMap[curLink.rel] = curLink.href;
+				}
 			}
-		}
 
-		var event = {
-			calTitle: title,
-			name: curEntry['title']['$t'],
-			desc: curEntry['content']['$t'],
-			addrOrig: curEntry['gd$where'][0]['valueString'] || '',  // 'location' field of the event
-			url: urlMap.related || urlMap.alternate, // TODO - is this what we want? see href above
-			dateStart: curEntry['gd$when'][0]['startTime'],
-			dateEnd: curEntry['gd$when'][0]['endTime']
-		};
-		console.log ('created event ' + event.name + ' as ' +  JSON.stringify(event));
-		if (event.addrOrig) {
-			console.log("Maybe a new address, get ready to geodecode:" + event.addrOrig);
-		} else {
-			console.log(" Skipping blank address for "+event.name+" ["+event.addrOrig+"]",event);
-		}
-		console.log("parsed curEntry "+ii+": ", event.name);
-		geocode (event);
-	}
-	info ("Finished parsing calendar data for: " + title)
-} // end treatCalendarEvents
+			var event = {
+				title: calendarTitle,
+				name: curEntry['title']['$t'],
+				desc: curEntry['content']['$t'],
+				addrOrig: curEntry['gd$where'][0]['valueString'] || '',  // 'location' field of the event
+				url: urlMap.related || urlMap.alternate, // TODO - is this what we want? see href above
+				dateStart: curEntry['gd$when'][0]['startTime'],
+				dateEnd: curEntry['gd$when'][0]['endTime']
+			};
+			console.log ('created event ' + event.name + ' as ' +  JSON.stringify(event));
+			if (event.addrOrig) {
+				console.log("Maybe a new address, get ready to geodecode:" + event.addrOrig);
+			} else {
+				console.log(" Skipping blank address for "+event.name+" ["+event.addrOrig+"]",event);
+			}
+			console.log("parsed curEntry "+ii+": ", event.name);
+			calendarEvents.push (event);
+		} 
+	} // end if calendarAnswer.feed.entry
+	info ("Finished parsing calendar data for: " + calendarTitle)
+	return calendarEvents;
+} // end parseCalendarEvents
 

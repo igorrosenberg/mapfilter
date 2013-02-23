@@ -1,30 +1,56 @@
 
-function geocode(event){
-	console.log("TODO variable 'event' is lost, push it somewhere!");
+function geocode(eventArray){
+	
+	for (var i = 0; i < eventArray.length; i++) {
+		var event = eventArray[i];
+      console.log("geocode 'event' of " + event.addrOrig);
+		event.lat = 48.10 + i / 100; 
+		event.lng = -1.62 + i / 25; 
+		
+		var dates; 
+		if (event.dateStart == event.dateEnd ) {
+			dates = 	'Date: le ' + event.dateStart;
+		}
+		else {
+			dates = 'Dates: du ' + event.dateStart + ' au ' + event.dateEnd;  
+		}
+
+		event.full = '<h4>' + event.name + '</h4><ul>' +
+			'<li>' + event.desc + '</li>' + 
+			'<li>' + dates + '</li>' + 
+			'<li>' + 'Adresse: ' + event.addrOrig + '</li>' + 
+			'<li>' + 'Calendrier <a href="'+event.url+'">' + event.title + '</a>' + 
+			'</li></ul>' ;
+		event_markers.add(event);
+	}
+
+	console.log("call createMap / addMarkersToMap should be made else where");
+	createMap();
 }
-function createMarker(marker){
+
+function addSingleMarkerToMap(marker){
 	// new Gmarker object
 	var gMarker = new google.maps.Marker({
 		position: new google.maps.LatLng(marker.lat, marker.lng),
-		title: marker.desc,
-		map: map,
+		title: marker.name,
+		map: map,          // adds the marker to gmap called 'map'
 		zIndex: 2,
 		//  icon: image,
-		});
+	});
 
-		// add Listener that pops an infoWindow 
-		google.maps.event.addListener(gMarker, 'click', function() {
-			var infowindow = new google.maps.InfoWindow({content: marker.info});
-			infowindow.open(map, gMarker);
-		});
-		return gMarker;
-}  // end createMarker
+	// add Listener that pops an infoWindow 
+	google.maps.event.addListener(gMarker, 'click', function() {
+		var infowindow = new google.maps.InfoWindow({content: marker.full});
+		infowindow.open(map, gMarker);
+	});
+	return gMarker;
+}  // end addSingleMarkerToMap
   
-function addMarkersToMap() {
-	var values = event_markers.values();
+function addMarkersToMap(markerList) {
+	var values = markerList.values();
 	for (var i = 0; i < values.length; i++) {
 		// remember marker so hiding is posible
-		values[i].gMarker = createMarker(values[i]);
+		values[i].gMarker = addSingleMarkerToMap(values[i]);
 		} // end for markers
 } // end addMarkersToMap
 
@@ -35,10 +61,11 @@ function hideMarkersFromMap() {
 		console.log ('hiding marker ' + marker.title + ' at ' + marker.lat) ;
 		marker.gMarker.setMap(null) ;
 	} // end for markers
-} // end addMarkersToMap
+} // end hideMarkersFromMap
 
 function createMap() {
 
+	console.log ('event_markers exists, so use it to bound map ');
 	// only create map if it doesn't exist
 	if (!map) {
 		var mapOptions = {
@@ -46,8 +73,11 @@ function createMap() {
 			center: new google.maps.LatLng(48.114767,-1.68251), // Rennes
 			mapTypeId: google.maps.MapTypeId.ROADMAP
         };
-        map = new google.maps.Map(document.getElementById('map_canvas'), mapOptions);
+		var mapBlock = document.getElementById('map_canvas');
+      map = new google.maps.Map(mapBlock, mapOptions);
      }
+     
+   addMarkersToMap(event_markers);
 
-   } // end createMap
+} // end createMap
 
