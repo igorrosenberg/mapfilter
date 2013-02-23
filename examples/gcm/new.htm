@@ -1,157 +1,16 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Google Maps and Calendar</title>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
+    <title>Google Maps and Calendar</title>
+    <link rel="stylesheet" type="text/css" href="css/aikido.css">
     <script type="text/javascript" src="js/util.js"></script>
     <script type="text/javascript" src="js/json2.js"></script>
     <script type="text/javascript" src="js/log.js"></script>
     <script type="text/javascript" src="js/maps.js"></script>
     <script type="text/javascript" src="js/calendars.js"></script>
-	 <style type="text/css" media="screen, print, projection">
-	html, body {
-	  height: 100%;
-	  margin: 0;
-	  padding: 0;
-	  color:#000;
-	  background:#a7a09a;
-	}
-
-	p {line-height: 100%;}
-	ul, ol { margin-left: 1em; padding-left: 0px; }
-
-	h1 { margin:0; }
-	h2 { margin:0 0 1em; }
-	h4 {margin:0px;}
-	#log li { margin-bottom:0.25em; list-style-type: none; font-size:60%; }
-	#wrap {
-		width:750px;
-		margin:0 auto;
-		background:#99c;
-	}
-	#header {
-	  	padding:5px 10px;
-		background:#ddd;
-	}
-	
-	#noscript {
-		border: 4px solid red;
-		background:#d99;
-		font-size: 150%; 
-		margin: 30px 30px;
-		padding: 20px 20px;
-		text-align: center;
-	}
-
-	
-	#nav {
-		padding:5px 10px;
-		background:#c99;
-	}
-	#nav ul {
-		margin:0;
-		padding:0;
-		list-style:none;
-	}
-	#nav li {
-		display:inline;
-		margin:0;
-		padding:0;
-	}
-	#main {
-		float:left;
-		width:480px;
-		padding:10px;
-		background:#9c9;
-	}
-	#wrap_map_canvas {
-		height:300px;
-		width:478px;
-	}
-	#map_canvas {
-	  height: 100%;
-	  width:100%;
-	  border: 1px solid blue;
-	  background-color: yellow;
-	}
-	#sidebar {
-		float:right;
-		width:230px;
-		padding:10px;
-		background:#99c;
-	}
-	#footer {
-		clear:both;
-		padding:5px 10px;
-		background:#cc9;
-		position:relative;
-	}
-	#log_control {
-		text-decoration:none;
-		position:absolute;
-		top:0px;
-		right:0px;
-		font-size:50%; 
-	}
-	* html #footer {
-		height:1px;
-	}
-
-@media print {
-	  html, body {
-		 height: auto;
-	  }
-
-	  #map_canvas {
-		 height: 650px;
-	  }
-
-} // end @media print 
-
-	</style>
-    <script>
-
-// the google map object
-var map;
-
-// list calendars currently active. 
-var calendarList = [];
-
-// list of the events with information. 
-var event_markers = new Set();
-
-/*
- * Add google maps script if not there yet = async load gmaps
- */ 
-function loadScript() {
-
-	// calendarList = calendarList1;
-
-	var callback='initialize'; // see also else block... 
-	var g_id = 'google_maps';
-	if ( ! document.getElementById(g_id) ) {
-		var script = document.createElement('script');
-		script.id = g_id;
-		script.type = 'text/javascript';
-		script.src = 'https://maps.googleapis.com/maps/api/js?v=3.10&sensor=false&callback=' + callback;
-		document.body.appendChild(script);
-	} else {
-		initialize();
-	}            
-
-} // end loadScript
-
-function initialize() {
-	// document.getElementById('map_canvas').style.display = 'block' ;
-	// document.getElementById('button').style.display = 'none' ;
-	loadCalendars();
-	info ('UNCOMMENT');
-	// createMap();
-	// addMarkersToMap();
-} // end initialize
-
-    </script>
+    <script type="text/javascript" src="js/main.js"></script>
 </head>
 <body>
 <div id="wrap">

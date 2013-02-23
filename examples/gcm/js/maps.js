@@ -47,6 +47,7 @@ function addSingleMarkerToMap(marker){
 }  // end addSingleMarkerToMap
   
 function addMarkersToMap(markerList) {
+	console.log ('markerList '+markerList);
 	var values = markerList.values();
 	for (var i = 0; i < values.length; i++) {
 		// remember marker so hiding is posible
@@ -65,7 +66,7 @@ function hideMarkersFromMap() {
 
 function createMap() {
 
-	console.log ('event_markers exists, so use it to bound map ');
+	console.log ('event_markers ('+event_markers+') exists, so use it to bound map ');
 	// only create map if it doesn't exist
 	if (!map) {
 		var mapOptions = {
