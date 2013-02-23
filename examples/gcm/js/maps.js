@@ -32,7 +32,7 @@ function addSingleMarkerToMap(marker){
 	// new Gmarker object
 	var gMarker = new google.maps.Marker({
 		position: new google.maps.LatLng(marker.lat, marker.lng),
-		title: marker.name,
+		title: marker.name + '\n' + marker.addrOrig,
 		map: map,          // adds the marker to gmap called 'map'
 		zIndex: 2,
 		//  icon: image,

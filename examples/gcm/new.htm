@@ -24,16 +24,27 @@
 	h1 { margin:0; }
 	h2 { margin:0 0 1em; }
 	h4 {margin:0px;}
-	#log li { margin-bottom:0.25em; list-style-type: none; font-size:60% }
+	#log li { margin-bottom:0.25em; list-style-type: none; font-size:60%; }
 	#wrap {
 		width:750px;
 		margin:0 auto;
 		background:#99c;
 	}
 	#header {
-	    	padding:5px 10px;
+	  	padding:5px 10px;
 		background:#ddd;
 	}
+	
+	#noscript {
+		border: 4px solid red;
+		background:#d99;
+		font-size: 150%; 
+		margin: 30px 30px;
+		padding: 20px 20px;
+		text-align: center;
+	}
+
+	
 	#nav {
 		padding:5px 10px;
 		background:#c99;
@@ -56,7 +67,7 @@
 	}
 	#wrap_map_canvas {
 		height:300px;
-		width:460px;
+		width:478px;
 	}
 	#map_canvas {
 	  height: 100%;
@@ -74,6 +85,14 @@
 		clear:both;
 		padding:5px 10px;
 		background:#cc9;
+		position:relative;
+	}
+	#log_control {
+		text-decoration:none;
+		position:absolute;
+		top:0px;
+		right:0px;
+		font-size:50%; 
 	}
 	* html #footer {
 		height:1px;
@@ -137,6 +156,12 @@ function initialize() {
 <body>
 <div id="wrap">
 	<div id="header"><h1>Carte des stages</h1></div>
+	<noscript>
+  		<div id='noscript'>
+  			Cette page permet de voir les stages sur une carte.
+  			Il est nécessaire d'activer Javascript pour la voir fonctionner.
+  		</div>
+	</noscript>
 	<div id="nav">
 		<ul>
 			<li><a href="/">Option 1</a></li>
@@ -147,25 +172,25 @@ function initialize() {
 		</ul>
 	</div>
   <div id="main">
-    <div id=wrap_map_canvas>
-      <div id=map_canvas>
-      </div>
+    <div id='wrap_map_canvas'>
+      <div id='map_canvas'></div>
     </div>
   </div>
   <div id="sidebar">
     <div id="button">
-	<a href='#' onclick="loadScript()">load map</a><br/>
-	<a href='#' onclick="hideMarkersFromMap()">hideMarkersFromMap</a><br/><br/>
-	<br/>		
+	<a href='#' onclick="loadScript(); return false;">load map</a><br/>
+	<a href='#' onclick="hideMarkersFromMap(); return false;">hideMarkersFromMap</a>
+	<br/><br/><br/>		
 	<a href='http://jsfiddle.net/B3a86/2/'>Example many points</a><br/>		
 	<a href='https://developers.google.com/maps/documentation/javascript/reference#Map'>Google Maps API reference</a><br/>	
-	<br/>	
-	<a href='#' onclick="showLog()">show Log</a>	
-	<a href='#' onclick="hideLog()">hide Log</a>	
      </div>	
   </div>	
 	<div id='footer'>
-		<div id='log'><h4>Logs</h4><ul id='log_ul'></ul></div>
+		<a id='log_control' href='#' onclick="showHideLog(); return false;">-/+</a>
+		<div id='log'>
+			<h4>Logs</h4>
+			<ul id='log_ul'></ul>
+			</div>
 	</div>
 </div>
 </body>

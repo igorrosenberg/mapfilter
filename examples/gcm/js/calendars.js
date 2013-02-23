@@ -1,19 +1,5 @@
 
 function loadCalendars() {
-	var newData = [
-     {title:'ONE', lat:48.00, lng:-1.50, info: 'xxx1'},
-     {title:'TWO', lat:48.15, lng:-1.66, info: 'xxx2'},
-     {title:'THREE', lat:48.30, lng:-1.80, info: 'xxx3'}
-     ];
-	console.log ('events before load: ' + event_markers.values().length );
-	for (var i = 0 ; i < newData.length ; i++) {
-		var x = newData[i];
-		  console.log ('event loaded: ' + x );
-        event_markers.add (x);
-		}
-	console.log ('events after load: ' + event_markers.values().length );
-
-
 	// var gCalURL = 'https://www.google.com/calendar/feeds/aikidorennes@gmail.com/public/basic';
 	var gCalURL = 'mock/gcal.json';
 	var startDay= '2012-07-01T00:00:00-00:00';

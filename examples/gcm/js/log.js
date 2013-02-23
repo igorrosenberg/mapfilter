@@ -2,11 +2,14 @@
 // ---------------------
 // tracing events
 // ---------------------
-function showLog(){
-	document.getElementById("log").style.display='block';
-}
-function hideLog(){
-	document.getElementById("log").style.display='none';
+function showHideLog(){
+	var div = document.getElementById("log");
+	if (div.style.display == 'none'){
+		div.style.display = 'block';
+	}
+	else {
+		div.style.display = 'none';
+	}
 }
 
 function info(string){
