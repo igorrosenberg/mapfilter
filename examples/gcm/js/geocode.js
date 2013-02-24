@@ -1,6 +1,17 @@
 var geoCodeCalls = 0;
 
-function geocode(eventArray){	
+var googleGeocoder ; 
+
+function geocode(eventArray) {	
+	// loop on this function until google maps ready
+	if (!mapScriptLoaded){
+		console.log ('map script not yet ready ??');
+		setTimeout(function(){geocode(eventArray);}, 50);
+		return;
+	}
+	if (! googleGeocoder )	
+		googleGeocoder = new google.maps.Geocoder();
+
 	for (var i = 0; i < eventArray.length; i++) {
 		var event = eventArray[i];
 		geocodeOneEvent(event);
@@ -8,16 +19,9 @@ function geocode(eventArray){
 	// call to createMap made in geocodeOneEvent
 }
 
-function addLatLong(event, jsonText){
-	var geocodeAnswer = JSON.parse(jsonText);
-	if (geocodeAnswer.status != 'OK'){
-		info ('   failed to geocode: ' + geocodeAnswer.status + ' for ' + event.addrOrig);	
-		return;
-	}
-	info ('received geocoding data for: ' + event.addrOrig);
-	var point = geocodeAnswer.results.geometry.location;
-	event.lat = point.lat; 
-	event.lng = point.lng; 
+function addLatLong(event, point){
+	event.lat = point.lat(); 
+	event.lng = point.lng();
 
 	// TODO Move this code to gmaps.js
 	// also prepare the text for the marker... 	
@@ -40,37 +44,21 @@ function addLatLong(event, jsonText){
 
 function geocodeOneEvent(event) {
 	info ('geocoding event: ' + event.addrOrig);
-	// https://developers.google.com/maps/documentation/geocoding/
-	geoCodeObj = {
-		'address': event.addrOrig,
-		'sensor': false
-		};
-
-	var array = [];
-	for (var key in geoCodeObj) {
- 		array.push( key + '=' + geoCodeObj[key] ) ;
-	}		
-	var mapString = array.join("&");
-	var geocodeUrl = 'http://maps.googleapis.com/maps/api/geocode/json?';
-	var ajaxURL = geocodeUrl + mapString;
-	var xmlhttp=new XMLHttpRequest();
-	xmlhttp.onreadystatechange = function () {
-		if (xmlhttp.readyState==4) {
-			if (xmlhttp.status==200) {
-				 info ('Geocode response received, length=' + xmlhttp.responseText.length);
-				 addLatLong(event, xmlhttp.responseText);
-			} else {
-				 info ('Geocode response failure... status=' + xmlhttp.status);
-			}
-			geoCodeCalls--;
-			if (geoCodeCalls == 0) {
-			   createMap();
-			}
-		 }
-	  };
-
 	geoCodeCalls ++ ;
-	xmlhttp.open("GET",ajaxURL,true);
-	xmlhttp.send();
-}
+	// https://developers.google.com/maps/documentation/javascript/v2/services?hl=es#Geocoding_Object
+
+	googleGeocoder.geocode({'address': event.addrOrig}, function(results, status){
+		geoCodeCalls--;
+		if (status != 'OK') {
+			info ('encodqge GPS d'adresse impossible: ' + status + ' pour ' + event.addrOrig);
+			return; 
+			}
+		var point = results[0].geometry.location;
+		addLatLong(event, point); 
+
+		if (geoCodeCalls == 0) {
+		   createMap();
+		}
+	});
+} // end geocodeOneEvent
 
