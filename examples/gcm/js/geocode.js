@@ -22,23 +22,6 @@ function geocode(eventArray) {
 function addLatLong(event, point){
 	event.lat = point.lat(); 
 	event.lng = point.lng();
-
-	// TODO Move this code to gmaps.js
-	// also prepare the text for the marker... 	
-	var dates; 
-	if (event.dateStart == event.dateEnd ) {
-		dates = 'Date: le ' + event.dateStart;
-	}
-	else {
-		dates = 'Dates: du ' + event.dateStart + ' au ' + event.dateEnd;  
-	}
-
-	event.full = '<h4>' + event.name + '</h4><ul>' +
-		'<li>' + event.desc + '</li>' + 
-		'<li>' + dates + '</li>' + 
-		'<li>' + 'Adresse: ' + event.addrOrig + '</li>' + 
-		'<li>' + 'Calendrier <a href="'+event.url+'">' + event.title + '</a>' + 
-		'</li></ul>' ;
 	event_markers.add(event);
 }
 
@@ -50,7 +33,7 @@ function geocodeOneEvent(event) {
 	googleGeocoder.geocode({'address': event.addrOrig}, function(results, status){
 		geoCodeCalls--;
 		if (status != 'OK') {
-			info ('encodqge GPS d'adresse impossible: ' + status + ' pour ' + event.addrOrig);
+			info ("encodage GPS d'adresse impossible: " + status + ' pour ' + event.addrOrig);
 			return; 
 			}
 		var point = results[0].geometry.location;

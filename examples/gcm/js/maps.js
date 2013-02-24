@@ -1,3 +1,23 @@
+function myInfowindow(event) {
+	var dates; 
+	if (event.dateStart == event.dateEnd ) {
+		dates = 'Date: le ' + event.dateStart;
+	}
+	else {
+		dates = 'Dates: du ' + event.dateStart + ' au ' + event.dateEnd;  
+	}
+
+	var full = '<h4>' + event.name + '</h4><ul>' ;
+	if (event.desc && event.desc !== "") {
+		full += '<li>' + event.desc + '</li>';
+	}
+	full += '<li>' + dates + '</li>' + 
+		 '<li>' + 'Adresse: ' + event.addrOrig + '</li>' + 
+		 '<li>' + 'Calendrier <a href="'+event.url+'">' + event.title + '</a>' + 
+		 '</li></ul>' ;
+	return new google.maps.InfoWindow({content: full});
+}
+
 function addSingleMarkerToMap(marker){
 	// new Gmarker object
 	var gMarker = new google.maps.Marker({
@@ -10,8 +30,7 @@ function addSingleMarkerToMap(marker){
 
 	// add Listener that pops an infoWindow 
 	google.maps.event.addListener(gMarker, 'click', function() {
-		var infowindow = new google.maps.InfoWindow({content: marker.full});
-		infowindow.open(map, gMarker);
+		myInfowindow(marker).open(map, gMarker);
 	});
 	return gMarker;
 }  // end addSingleMarkerToMap
