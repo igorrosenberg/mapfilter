@@ -5,9 +5,34 @@ function loadCalendars(gCalURL) {
 	getGCalData(gCalURL, startDay, endDay);
 	}
 		
-function getGCalData(gCalUrl, startDays, endDays) {
-	info ('loading: ' + gCalUrl);
+
+function verifyURL(gCalUrl) {
 	gCalUrl = gCalUrl.replace(/\/basic$/, '/full');
+
+	var startswith = 'https://www.google.com/calendar/feeds/';
+	if (gCalUrl.slice(0, startswith.length) != startswith){
+		gCalUrl = startswith + gCalUrl;
+	}
+	var endswith0 = '@gmail.com';
+	var endswith1 = '@gmail.com/public/full';
+	if (gCalUrl.slice(-endswith0.length) == endswith0){
+		gCalUrl = gCalUrl.slice(0,-endswith0.length) + endswith1;
+	}
+	if (gCalUrl.slice(-endswith1.length) != endswith1){
+		var endswith2 = '@gmail.com/public/basic';
+		if (gCalUrl.slice(-endswith2.length) == endswith2){
+			gCalUrl = gCalUrl.slice(0,-endswith2.length) + endswith1;
+		}
+		gCalUrl = gCalUrl + endswith1;
+	}
+	return gCalUrl;
+}
+
+function getGCalData(gCalUrl, startDays, endDays) {
+
+	gCalUrl = verifyURL(gCalUrl);
+
+	info ('loading: ' + gCalUrl);
 
 	// http://code.google.com/apis/calendar/docs/2.0/reference.html
 	gCalObj = {

@@ -36,8 +36,17 @@
     </div>
   </div>
   <div id="sidebar">
-		<a href='#' onclick="loadScript('mock/gcal.json'); return false;">load mock map</a><br/>
-		<a href='#' onclick="loadScript('https://www.google.com/calendar/feeds/aikidorennes@gmail.com/public/basic'); return false;">load remote map</a><br/>
+  		Load map: 
+  		<ul id='map_list'>
+  			<li><a href='#' onclick="loadScript('mock/gcal.json'); return false;">mock</a></li>
+			<li><a href='#' onclick="loadScript('https://www.google.com/calendar/feeds/aikidorennes@gmail.com/public/basic'); return false;">aikidorennes</a></li>
+			<li>
+				<form onsubmit='loadScript(document.getElementById("user_cal").value); return false;' id='form' name='form'>
+				<input type="text" id='user_cal' placeholder='Id de Google calendar'/> 
+				<a href='#' onclick='loadScript(document.getElementById("user_cal").value); return false;'>go</a>
+				</form>
+			</li>
+		</ul>
 		<a href='#' onclick="hideMarkersFromMap(); return false;">hideMarkersFromMap</a>
 		<br/><br/><br/>		
     <div id="no_map_yet">

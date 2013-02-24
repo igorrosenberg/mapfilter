@@ -68,7 +68,7 @@ function createMap() {
 	// loop on this function until google maps ready
 	if (!mapScriptLoaded){
 		console.log ('map script not yet ready ??');
-		setTimeout(createMap, 100);
+		setTimeout(createMap, 50);
 	} else {
 		console.log ('event_markers exists, so use it to bound map ');
 		// only create map if it doesn't exist
