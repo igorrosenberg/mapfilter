@@ -1,0 +1,237 @@
+{ "encoding" : "UTF-8",
+  "feed" : { "author" : [ { "name" : { "$t" : "Test GCM" } } ],
+      "category" : [ { "scheme" : "http://schemas.google.com/g/2005#kind",
+            "term" : "http://schemas.google.com/g/2005#event"
+          } ],
+      "entry" : [ { "author" : [ { "name" : { "$t" : "Test GCM" } } ],
+            "category" : [ { "scheme" : "http://schemas.google.com/g/2005#kind",
+                  "term" : "http://schemas.google.com/g/2005#event"
+                } ],
+            "content" : { "$t" : "Date : lun. 28 nov. 2011<br />\n\n<br />Lieu : Paris, France\n<br />État de l'événement : confirmé\n<br />Description de l'événement : A test in Paris",
+                "type" : "html"
+              },
+            "id" : { "$t" : "http://www.google.com/calendar/feeds/0ei0284so407vu24o7o0q5ares%40group.calendar.google.com/public/basic/pr51v6egaved0jiu2a2n77mmjc" },
+            "link" : [ { "href" : "https://www.google.com/calendar/event?eid=cHI1MXY2ZWdhdmVkMGppdTJhMm43N21tamMgMGVpMDI4NHNvNDA3dnUyNG83bzBxNWFyZXNAZw",
+                  "rel" : "alternate",
+                  "title" : "alternate",
+                  "type" : "text/html"
+                },
+                { "href" : "https://www.google.com/calendar/feeds/0ei0284so407vu24o7o0q5ares%40group.calendar.google.com/public/basic/pr51v6egaved0jiu2a2n77mmjc",
+                  "rel" : "self",
+                  "type" : "application/atom+xml"
+                }
+              ],
+            "published" : { "$t" : "2011-11-23T13:32:46.000Z" },
+            "summary" : { "$t" : "Date : lun. 28 nov. 2011<br>\n\n<br>Lieu : Paris, France\n<br>État de l'événement : confirmé",
+                "type" : "html"
+              },
+            "title" : { "$t" : "Event Paris",
+                "type" : "html"
+              },
+            "updated" : { "$t" : "2011-11-23T13:32:46.000Z" }
+          },
+          { "author" : [ { "name" : { "$t" : "Test GCM" } } ],
+            "category" : [ { "scheme" : "http://schemas.google.com/g/2005#kind",
+                  "term" : "http://schemas.google.com/g/2005#event"
+                } ],
+            "content" : { "$t" : "Date : mar. 29 nov. 2011<br />\n\n<br />Lieu : Colmar, France\n<br />État de l'événement : confirmé\n<br />Description de l'événement : A Test in Colmar",
+                "type" : "html"
+              },
+            "id" : { "$t" : "http://www.google.com/calendar/feeds/0ei0284so407vu24o7o0q5ares%40group.calendar.google.com/public/basic/nl6majvmo9fld6dipfjcckasbg" },
+            "link" : [ { "href" : "https://www.google.com/calendar/event?eid=bmw2bWFqdm1vOWZsZDZkaXBmamNja2FzYmcgMGVpMDI4NHNvNDA3dnUyNG83bzBxNWFyZXNAZw",
+                  "rel" : "alternate",
+                  "title" : "alternate",
+                  "type" : "text/html"
+                },
+                { "href" : "https://www.google.com/calendar/feeds/0ei0284so407vu24o7o0q5ares%40group.calendar.google.com/public/basic/nl6majvmo9fld6dipfjcckasbg",
+                  "rel" : "self",
+                  "type" : "application/atom+xml"
+                }
+              ],
+            "published" : { "$t" : "2011-11-23T13:33:05.000Z" },
+            "summary" : { "$t" : "Date : mar. 29 nov. 2011<br>\n\n<br>Lieu : Colmar, France\n<br>État de l'événement : confirmé",
+                "type" : "html"
+              },
+            "title" : { "$t" : "Test Colmar",
+                "type" : "html"
+              },
+            "updated" : { "$t" : "2011-11-23T13:33:05.000Z" }
+          },
+          { "author" : [ { "name" : { "$t" : "Test GCM" } } ],
+            "category" : [ { "scheme" : "http://schemas.google.com/g/2005#kind",
+                  "term" : "http://schemas.google.com/g/2005#event"
+                } ],
+            "content" : { "$t" : "Date : mer. 30 nov. 2011<br />\n\n<br />Lieu : Ploërmel, France\n<br />État de l'événement : confirmé\n<br />Description de l'événement : A Test for accents: Ploërmel",
+                "type" : "html"
+              },
+            "id" : { "$t" : "http://www.google.com/calendar/feeds/0ei0284so407vu24o7o0q5ares%40group.calendar.google.com/public/basic/9gmcfjbani1d0snbqu34verf7o" },
+            "link" : [ { "href" : "https://www.google.com/calendar/event?eid=OWdtY2ZqYmFuaTFkMHNuYnF1MzR2ZXJmN28gMGVpMDI4NHNvNDA3dnUyNG83bzBxNWFyZXNAZw",
+                  "rel" : "alternate",
+                  "title" : "alternate",
+                  "type" : "text/html"
+                },
+                { "href" : "https://www.google.com/calendar/feeds/0ei0284so407vu24o7o0q5ares%40group.calendar.google.com/public/basic/9gmcfjbani1d0snbqu34verf7o",
+                  "rel" : "self",
+                  "type" : "application/atom+xml"
+                }
+              ],
+            "published" : { "$t" : "2011-11-23T13:33:29.000Z" },
+            "summary" : { "$t" : "Date : mer. 30 nov. 2011<br>\n\n<br>Lieu : Ploërmel, France\n<br>État de l'événement : confirmé",
+                "type" : "html"
+              },
+            "title" : { "$t" : "Test Ploërmel",
+                "type" : "html"
+              },
+            "updated" : { "$t" : "2011-11-23T13:33:29.000Z" }
+          },
+          { "author" : [ { "name" : { "$t" : "Test GCM" } } ],
+            "category" : [ { "scheme" : "http://schemas.google.com/g/2005#kind",
+                  "term" : "http://schemas.google.com/g/2005#event"
+                } ],
+            "content" : { "$t" : "Date : jeu. 1 déc. 2011<br />\n\n<br />Lieu : nowhere special, France\n<br />État de l'événement : confirmé\n<br />Description de l'événement : Test in Bourges",
+                "type" : "html"
+              },
+            "id" : { "$t" : "http://www.google.com/calendar/feeds/0ei0284so407vu24o7o0q5ares%40group.calendar.google.com/public/basic/7ka0e9ev3ilbgm3383s6jk92t8" },
+            "link" : [ { "href" : "https://www.google.com/calendar/event?eid=N2thMGU5ZXYzaWxiZ20zMzgzczZqazkydDggMGVpMDI4NHNvNDA3dnUyNG83bzBxNWFyZXNAZw",
+                  "rel" : "alternate",
+                  "title" : "alternate",
+                  "type" : "text/html"
+                },
+                { "href" : "https://www.google.com/calendar/feeds/0ei0284so407vu24o7o0q5ares%40group.calendar.google.com/public/basic/7ka0e9ev3ilbgm3383s6jk92t8",
+                  "rel" : "self",
+                  "type" : "application/atom+xml"
+                }
+              ],
+            "published" : { "$t" : "2011-11-23T13:35:43.000Z" },
+            "summary" : { "$t" : "Date : jeu. 1 déc. 2011<br>\n\n<br>Lieu : nowhere special, France\n<br>État de l'événement : confirmé",
+                "type" : "html"
+              },
+            "title" : { "$t" : "Test nowhere",
+                "type" : "html"
+              },
+            "updated" : { "$t" : "2011-11-23T14:07:33.000Z" }
+          },
+          { "author" : [ { "name" : { "$t" : "Test GCM" } } ],
+            "category" : [ { "scheme" : "http://schemas.google.com/g/2005#kind",
+                  "term" : "http://schemas.google.com/g/2005#event"
+                } ],
+            "content" : { "$t" : "Date : mar. 23 oct. 2012<br />\n\n<br />Lieu : bruz, france\n<br />État de l'événement : confirmé",
+                "type" : "html"
+              },
+            "id" : { "$t" : "http://www.google.com/calendar/feeds/0ei0284so407vu24o7o0q5ares%40group.calendar.google.com/public/basic/fci1mhufdfr0iqvrrhl2rt776o" },
+            "link" : [ { "href" : "https://www.google.com/calendar/event?eid=ZmNpMW1odWZkZnIwaXF2cnJobDJydDc3Nm8gMGVpMDI4NHNvNDA3dnUyNG83bzBxNWFyZXNAZw",
+                  "rel" : "alternate",
+                  "title" : "alternate",
+                  "type" : "text/html"
+                },
+                { "href" : "https://www.google.com/calendar/feeds/0ei0284so407vu24o7o0q5ares%40group.calendar.google.com/public/basic/fci1mhufdfr0iqvrrhl2rt776o",
+                  "rel" : "self",
+                  "type" : "application/atom+xml"
+                }
+              ],
+            "published" : { "$t" : "2012-10-24T13:06:53.000Z" },
+            "summary" : { "$t" : "Date : mar. 23 oct. 2012<br>\n\n<br>Lieu : bruz, france\n<br>État de l'événement : confirmé",
+                "type" : "html"
+              },
+            "title" : { "$t" : "yesterday",
+                "type" : "html"
+              },
+            "updated" : { "$t" : "2012-10-24T13:06:53.000Z" }
+          },
+          { "author" : [ { "name" : { "$t" : "Test GCM" } } ],
+            "category" : [ { "scheme" : "http://schemas.google.com/g/2005#kind",
+                  "term" : "http://schemas.google.com/g/2005#event"
+                } ],
+            "content" : { "$t" : "Date : jeu. 25 oct. 2012<br />\n\n<br />Lieu : rennes, france\n<br />État de l'événement : confirmé",
+                "type" : "html"
+              },
+            "id" : { "$t" : "http://www.google.com/calendar/feeds/0ei0284so407vu24o7o0q5ares%40group.calendar.google.com/public/basic/6ej8equsfksvhnjt6blve7fm5k" },
+            "link" : [ { "href" : "https://www.google.com/calendar/event?eid=NmVqOGVxdXNma3N2aG5qdDZibHZlN2ZtNWsgMGVpMDI4NHNvNDA3dnUyNG83bzBxNWFyZXNAZw",
+                  "rel" : "alternate",
+                  "title" : "alternate",
+                  "type" : "text/html"
+                },
+                { "href" : "https://www.google.com/calendar/feeds/0ei0284so407vu24o7o0q5ares%40group.calendar.google.com/public/basic/6ej8equsfksvhnjt6blve7fm5k",
+                  "rel" : "self",
+                  "type" : "application/atom+xml"
+                }
+              ],
+            "published" : { "$t" : "2012-10-24T13:06:05.000Z" },
+            "summary" : { "$t" : "Date : jeu. 25 oct. 2012<br>\n\n<br>Lieu : rennes, france\n<br>État de l'événement : confirmé",
+                "type" : "html"
+              },
+            "title" : { "$t" : "Tomorrow",
+                "type" : "html"
+              },
+            "updated" : { "$t" : "2012-10-24T13:06:05.000Z" }
+          },
+          { "author" : [ { "name" : { "$t" : "Test GCM" } } ],
+            "category" : [ { "scheme" : "http://schemas.google.com/g/2005#kind",
+                  "term" : "http://schemas.google.com/g/2005#event"
+                } ],
+            "content" : { "$t" : "Date : ven. 26 oct. 2012<br />\n\n<br />Lieu : redon, france\n<br />État de l'événement : confirmé",
+                "type" : "html"
+              },
+            "id" : { "$t" : "http://www.google.com/calendar/feeds/0ei0284so407vu24o7o0q5ares%40group.calendar.google.com/public/basic/5o7ooenp9k1ou2a6kvckic6dd8" },
+            "link" : [ { "href" : "https://www.google.com/calendar/event?eid=NW83b29lbnA5azFvdTJhNmt2Y2tpYzZkZDggMGVpMDI4NHNvNDA3dnUyNG83bzBxNWFyZXNAZw",
+                  "rel" : "alternate",
+                  "title" : "alternate",
+                  "type" : "text/html"
+                },
+                { "href" : "https://www.google.com/calendar/feeds/0ei0284so407vu24o7o0q5ares%40group.calendar.google.com/public/basic/5o7ooenp9k1ou2a6kvckic6dd8",
+                  "rel" : "self",
+                  "type" : "application/atom+xml"
+                }
+              ],
+            "published" : { "$t" : "2012-10-24T13:06:24.000Z" },
+            "summary" : { "$t" : "Date : ven. 26 oct. 2012<br>\n\n<br>Lieu : redon, france\n<br>État de l'événement : confirmé",
+                "type" : "html"
+              },
+            "title" : { "$t" : "Next day",
+                "type" : "html"
+              },
+            "updated" : { "$t" : "2012-10-24T13:06:24.000Z" }
+          }
+        ],
+      "gCal$timesCleaned" : { "value" : 0 },
+      "gCal$timezone" : { "value" : "Europe/Paris" },
+      "gd$where" : { "valueString" : "France" },
+      "generator" : { "$t" : "Google Calendar",
+          "uri" : "http://www.google.com/calendar",
+          "version" : "1.0"
+        },
+      "id" : { "$t" : "http://www.google.com/calendar/feeds/0ei0284so407vu24o7o0q5ares%40group.calendar.google.com/public/basic" },
+      "link" : [ { "href" : "https://www.google.com/calendar/embed?src=0ei0284so407vu24o7o0q5ares%40group.calendar.google.com",
+            "rel" : "alternate",
+            "type" : "text/html"
+          },
+          { "href" : "https://www.google.com/calendar/feeds/0ei0284so407vu24o7o0q5ares%40group.calendar.google.com/public/basic",
+            "rel" : "http://schemas.google.com/g/2005#feed",
+            "type" : "application/atom+xml"
+          },
+          { "href" : "https://www.google.com/calendar/feeds/0ei0284so407vu24o7o0q5ares%40group.calendar.google.com/public/basic/batch",
+            "rel" : "http://schemas.google.com/g/2005#batch",
+            "type" : "application/atom+xml"
+          },
+          { "href" : "https://www.google.com/calendar/feeds/0ei0284so407vu24o7o0q5ares%40group.calendar.google.com/public/basic?alt=json&max-results=200&start-min=2010-07-01T00%3A00%3A00-00%3A00&singleevents=false&start-max=2013-06-31T00%3A00%3A00-00%3A00&sortorder=ascending&orderby=starttime",
+            "rel" : "self",
+            "type" : "application/atom+xml"
+          }
+        ],
+      "openSearch$itemsPerPage" : { "$t" : 200 },
+      "openSearch$startIndex" : { "$t" : 1 },
+      "openSearch$totalResults" : { "$t" : 7 },
+      "subtitle" : { "$t" : "",
+          "type" : "text"
+        },
+      "title" : { "$t" : "Test GCM",
+          "type" : "text"
+        },
+      "updated" : { "$t" : "2012-10-24T13:06:53.000Z" },
+      "xmlns" : "http://www.w3.org/2005/Atom",
+      "xmlns$gCal" : "http://schemas.google.com/gCal/2005",
+      "xmlns$gd" : "http://schemas.google.com/g/2005",
+      "xmlns$openSearch" : "http://a9.com/-/spec/opensearchrss/1.0/"
+    },
+  "version" : "1.0"
+}
