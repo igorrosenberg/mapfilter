@@ -7,6 +7,10 @@ function loadCalendars(gCalURL) {
 		
 
 function verifyURL(gCalUrl) {
+	var startswithM = 'mock/';
+	if (gCalUrl.slice(0, startswithM.length) == startswithM){
+		return gCalUrl;
+	}
 	gCalUrl = gCalUrl.replace(/\/basic$/, '/full');
 
 	var startswith = 'https://www.google.com/calendar/feeds/';
