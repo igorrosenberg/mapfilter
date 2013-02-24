@@ -7,7 +7,7 @@ function loadCalendars(gCalURL) {
 		
 
 function verifyURL(gCalUrl) {
-	var startswithM = 'mock/';
+	/*var startswithM = 'mock/';
 	if (gCalUrl.slice(0, startswithM.length) == startswithM){
 		return gCalUrl;
 	}
@@ -17,6 +17,8 @@ function verifyURL(gCalUrl) {
 	if (gCalUrl.slice(0, startswith.length) != startswith){
 		gCalUrl = startswith + gCalUrl;
 	}
+
+
 	var endswith0 = '@gmail.com';
 	var endswith1 = '@gmail.com/public/full';
 	if (gCalUrl.slice(-endswith0.length) == endswith0){
@@ -28,7 +30,7 @@ function verifyURL(gCalUrl) {
 			gCalUrl = gCalUrl.slice(0,-endswith2.length) + endswith1;
 		}
 		gCalUrl = gCalUrl + endswith1;
-	}
+	}*/
 	return gCalUrl;
 }
 
@@ -72,6 +74,7 @@ function getGCalData(gCalUrl, startDays, endDays) {
 }
 
 function parseCalendarEvents(calendarAnswerText) {
+	console.log(calendarAnswerText);
 	var calendarAnswer = JSON.parse(calendarAnswerText);
 	var calendarTitle = calendarAnswer.feed.title['$t']	
 	info ("Reading calendar data: " + calendarTitle)
@@ -84,6 +87,7 @@ function parseCalendarEvents(calendarAnswerText) {
 			var curEntry = calendarAnswer.feed.entry[ii];
 			if (!(curEntry['gd$when'] && curEntry['gd$when'][0]['startTime'])) {
 				console.log(" skipping entry (no gd$when) " + curEntry['title']['$t']);
+				console.log(" skipped " + curEntry['gd$when'] + '/' + curEntry);
 				continue;
 			};
 			var urlMap = {};
