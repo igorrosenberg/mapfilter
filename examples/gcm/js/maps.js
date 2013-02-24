@@ -1,33 +1,3 @@
-
-function geocode(eventArray){
-	
-	for (var i = 0; i < eventArray.length; i++) {
-		var event = eventArray[i];
-      console.log("geocode 'event' of " + event.addrOrig);
-		event.lat = 48.10 + i / 100; 
-		event.lng = -1.62 + i / 25; 
-		
-		var dates; 
-		if (event.dateStart == event.dateEnd ) {
-			dates = 	'Date: le ' + event.dateStart;
-		}
-		else {
-			dates = 'Dates: du ' + event.dateStart + ' au ' + event.dateEnd;  
-		}
-
-		event.full = '<h4>' + event.name + '</h4><ul>' +
-			'<li>' + event.desc + '</li>' + 
-			'<li>' + dates + '</li>' + 
-			'<li>' + 'Adresse: ' + event.addrOrig + '</li>' + 
-			'<li>' + 'Calendrier <a href="'+event.url+'">' + event.title + '</a>' + 
-			'</li></ul>' ;
-		event_markers.add(event);
-	}
-
-	console.log("call createMap / addMarkersToMap should be made else where");
-	createMap();
-}
-
 function addSingleMarkerToMap(marker){
 	// new Gmarker object
 	var gMarker = new google.maps.Marker({

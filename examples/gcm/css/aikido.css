@@ -97,8 +97,8 @@ table.sortable thead {
     cursor: default;
 }
 table.sortable {
-      border = 1px solid black;
-      width=100%;
+      border: 1px solid black;
+      width: 100%;
 } 
 
 
@@ -112,5 +112,3 @@ table.sortable {
 	  }
 
 } // end @media print 
-
-
