@@ -10,6 +10,7 @@
     <script type="text/javascript" src="js/log.js"></script>
     <script type="text/javascript" src="js/maps.js"></script>
     <script type="text/javascript" src="js/calendars.js"></script>
+    <script type="text/javascript" src="js/sorttable.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
 </head>
 <body>
@@ -39,7 +40,7 @@
   		Load map: 
   		<ul id='map_list'>
   			<li><a href='#' onclick="loadScript('mock/gcal.json'); return false;">mock</a></li>
-			<li><a href='#' onclick="loadScript('https://www.google.com/calendar/feeds/aikidorennes@gmail.com/public/basic'); return false;">aikidorennes</a></li>
+			<li><a href='#' onclick="loadScript('https://www.google.com/calendar/feeds/aikidorennes@gmail.com/public/full'); return false;">aikidorennes</a></li>
 			<li><a href='#' onclick="loadScript('https://www.google.com/calendar/feeds/0ei0284so407vu24o7o0q5ares%40group.calendar.google.com/public/basic'); return false;">Test Igor</a></li>
 
 			<li>
@@ -55,10 +56,24 @@
 		<a href='https://developers.google.com/maps/documentation/javascript/reference#Map'>Google Maps API reference</a><br/>	
      </div>	
     <div id="map_controls">
-
 		<a href='#' onclick="hideMarkersFromMap(); return false;">hideMarkersFromMap</a>
 		<br/>
- 	    more map_controls
+ 	    more map_controls<br/>
+<table class='sortable'>
+<thead>
+<td>x</td><td>y</TD>
+</thead>
+<tbody>
+<tr>
+<td>1.1</td>
+<td>1.2</td>
+</tr>
+<tr>
+<td>2.1</td>
+<td>2.2</td>
+</tr>
+</tbody>
+</table>
 	 </div>	
   </div>	
 	<div id='footer'>

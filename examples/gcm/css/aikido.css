@@ -90,6 +90,18 @@
 		height:1px;
 	}
 
+
+/* Sortable tables */
+table.sortable thead {
+    font-weight: bold;
+    cursor: default;
+}
+table.sortable {
+      border = 1px solid black;
+      width=100%;
+} 
+
+
 @media print {
 	  html, body {
 		 height: auto;
