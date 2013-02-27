@@ -1,4 +1,5 @@
 <?php
+
   header("Content-Type: text/json");
 
   require 'passwords.php';
@@ -16,7 +17,7 @@
   
   // read from db
   $sql = 'SELECT latitude,longitude FROM geocode ' .
-	  " WHERE address LIKE '$address' LIMIT 1;"
+	  " WHERE address LIKE '$address' LIMIT 1;";
   $result = mysql_query($sql) or die ('Problem reading data from database: ' . mysql_error());
   $row = mysql_fetch_assoc($result);
 
@@ -46,8 +47,8 @@
 		$msg = 'remote service hit';
 
 		 // write to db
-		 $sql = 'INSERT into geocode ( address, latitude, longitude )' . 
-		        " VALUES ( $address, $latitude, $longitude);"
+		 $sql = 'INSERT into geocode ( address, latitude, longitude, date_created)' .
+		        " VALUES ( $address, $latitude, $longitude, NOW());";
 		 $result = mysql_query($sql);
 		 if (! $result){
 		      $msg .= ' but DB write failed ' . mysql_error();
