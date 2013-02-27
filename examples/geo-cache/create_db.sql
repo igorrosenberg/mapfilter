@@ -1,9 +1,11 @@
-CREATE TABLE `postcodes` (
+# works for mysql 5.0.x
+
+CREATE TABLE `geocode` (
   `id` int(11) NOT NULL auto_increment,
-  `postcode` text NOT NULL,
+  `address` text NOT NULL COMMENT 'the place to geolocalize',
   `latitude` float NOT NULL default '0',
   `longitude` float NOT NULL default '0',
-  `date_created` datetime DEFAULT CURRENT_TIMESTAMP
-  `date_modified`  datetime DEFAULT ON UPDATE CURRENT_TIMESTAMP
+  `date_created` timestamp DEFAULT 0,
+  `date_modified`  timestamp ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY  (`id`)
-)
+);
