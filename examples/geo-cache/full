@@ -1,0 +1,60 @@
+<?php
+  header("Content-Type: text/json");
+
+  require 'passwords.php';
+
+  $db = @mysql_connect($host, $user, $password) or die('database connection error: ' + mysql_error());
+    
+  mysql_select_db($dbname, $db) or die('No such schema ' + $dbname +': '+ mysql_error());
+  
+  // sanitation
+  $address = $_GET['address'];
+  if ($address)
+     $address = 'UPPER(' . mysql_real_escape_string($_GET['address']) . ')';
+  else
+     die('please provide an "address" parameter');
+  
+  // read from db
+  $sql = 'SELECT latitude,longitude FROM geocode ' .
+	  " WHERE address LIKE '$address' LIMIT 1;"
+  $result = mysql_query($sql) or die ('Problem reading data from database: ' . mysql_error());
+  $row = mysql_fetch_assoc($result);
+
+  if ($row) {
+    $latitude = $row['latitude'];
+    $longitude = $row['latitude'];
+    $msg = 'cache hit';
+  } else {
+    //poll remote geocode service
+   $string = str_replace (" ", "+", urlencode($address));
+   $details_url = "http://maps.googleapis.com/maps/api/geocode/json?address=".$string."&sensor=false";
+ 
+   $ch = curl_init();
+   curl_setopt($ch, CURLOPT_URL, $details_url);
+   curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+   $response = json_decode(curl_exec($ch), true);
+ 
+   // If Status Code is ZERO_RESULTS, OVER_QUERY_LIMIT, REQUEST_DENIED or INVALID_REQUEST
+   if ($response['status'] != 'OK') {
+    return null;
+   }
+ 
+   // print_r($response);
+   $geometry = $response['results'][0]['geometry'];
+ 
+    $longitude = $geometry['location']['lat'];
+    $latitude = $geometry['location']['lng'];
+ 
+    $msg = 'remote service hit';
+
+    // write to db
+    $sql = 'INSERT into geocode ( address, latitude, longitude, date_added )' . 
+           " VALUES ( $address, $latitude, $longitude, NOW() );"
+    $result = mysql_query($sql);
+    if (! $result){
+         $msg .= ' but DB write failed ' . mysql_error();
+    }
+  }
+  echo "{lat:$latitude,lng:$longitude,msg:'$message'}";
+?>
+
