@@ -1,4 +1,3 @@
-
 <?php
  
 function lookup($string){
@@ -16,7 +15,7 @@ function lookup($string){
     return null;
    }
  
-   print_r($response);
+   // print_r($response);
    $geometry = $response['results'][0]['geometry'];
  
     $longitude = $geometry['location']['lat'];
@@ -32,10 +31,9 @@ function lookup($string){
  
 }
  
-$city = 'San Francisco, USA';
+$city = 'Bruz, France';
  
 $array = lookup($city);
 print_r($array);
  
 ?>
-</pre
