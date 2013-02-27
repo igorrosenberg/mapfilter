@@ -1,4 +1,5 @@
 <?php
+  header("Content-Type: text/json");
 
   require 'passwords.php';
 
