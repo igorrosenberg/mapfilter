@@ -25,18 +25,33 @@
     $longitude = $row['latitude'];
     $msg = 'cache hit';
   } else {
-    //poll remote geocode service
-    $latitude =  48.00 + date('s') / 300; 
-    $longitude = -1.70 + date('s') / 300;
-    $msg = 'remote service hit';
+		 //poll remote geocode service
+		$string = str_replace (" ", "+", urlencode($address));
+		$details_url = "http://maps.googleapis.com/maps/api/geocode/json?address=".$string."&sensor=false";
+	 
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $details_url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		$response = json_decode(curl_exec($ch), true);
+	 
+		// If Status Code is ZERO_RESULTS, OVER_QUERY_LIMIT, REQUEST_DENIED or INVALID_REQUEST
+		if ($response['status'] != 'OK') {
+		 return null;
+	   }
+ 
+		// print_r($response);
+		$geometry = $response['results'][0]['geometry'];
+		$latitude = $geometry['location']['lng'];
+		$longitude = $geometry['location']['lat'];
+		$msg = 'remote service hit';
 
-    // write to db
-    $sql = 'INSERT into geocode ( address, latitude, longitude, date_added )' . 
-           " VALUES ( $address, $latitude, $longitude, NOW() );"
-    $result = mysql_query($sql);
-    if (! $result){
-         $msg .= ' but DB write failed ' . mysql_error();
-    }
+		 // write to db
+		 $sql = 'INSERT into geocode ( address, latitude, longitude )' . 
+		        " VALUES ( $address, $latitude, $longitude);"
+		 $result = mysql_query($sql);
+		 if (! $result){
+		      $msg .= ' but DB write failed ' . mysql_error();
+		 }
   }
   echo "{lat:$latitude,lng:$longitude,msg:'$message'}";
 ?>

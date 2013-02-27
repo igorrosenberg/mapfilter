@@ -3,6 +3,7 @@ CREATE TABLE `postcodes` (
   `postcode` text NOT NULL,
   `latitude` float NOT NULL default '0',
   `longitude` float NOT NULL default '0',
-  `date_added` datetime default NULL,
+  `date_created` datetime DEFAULT CURRENT_TIMESTAMP
+  `date_modified`  datetime DEFAULT ON UPDATE CURRENT_TIMESTAMP
   PRIMARY KEY  (`id`)
 )
