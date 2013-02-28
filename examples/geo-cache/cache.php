@@ -1,17 +1,20 @@
 <?php
 
+   error_reporting(E_ALL);
+   ini_set( 'display_errors','1'); 
+  
   header("Content-Type: text/json");
 
   require 'passwords.php';
 
-  $db = @mysql_connect($host, $user, $password) or die('database connection error: ' + mysql_error());
-    
-  mysql_select_db($dbname, $db) or die('No such schema ' + $dbname +': '+ mysql_error());
+  $db = @mysql_connect($host, $user, $password) or die('database connection error: ' . mysql_error());
+
+  mysql_select_db($dbname, $db) or die('No such schema ' . $dbname . ': ' . mysql_error());
   
   // sanitation
-  $address = $_GET['address'];
+  $address = strtoupper($_GET['address']);
   if ($address)
-     $address = 'UPPER(' . mysql_real_escape_string($_GET['address']) . ')';
+     $address = mysql_real_escape_string($_GET['address']) ;
   else
      die('please provide an "address" parameter');
   
@@ -23,37 +26,20 @@
 
   if ($row) {
     $latitude = $row['latitude'];
-    $longitude = $row['latitude'];
+    $longitude = $row['longitude'];
     $msg = 'cache hit';
+    echo "{status:'OK',lat:$latitude,lng:$longitude,msg:'$msg'}";
   } else {
-		 //poll remote geocode service
-		$string = str_replace (" ", "+", urlencode($address));
-		$details_url = "http://maps.googleapis.com/maps/api/geocode/json?address=".$string."&sensor=false";
-	 
-		$ch = curl_init();
-		curl_setopt($ch, CURLOPT_URL, $details_url);
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-		$response = json_decode(curl_exec($ch), true);
-	 
-		// If Status Code is ZERO_RESULTS, OVER_QUERY_LIMIT, REQUEST_DENIED or INVALID_REQUEST
-		if ($response['status'] != 'OK') {
-		 return null;
-	   }
- 
-		// print_r($response);
-		$geometry = $response['results'][0]['geometry'];
-		$latitude = $geometry['location']['lng'];
-		$longitude = $geometry['location']['lat'];
-		$msg = 'remote service hit';
-
-		 // write to db
-		 $sql = 'INSERT into geocode ( address, latitude, longitude, date_created)' .
-		        " VALUES ( $address, $latitude, $longitude, NOW());";
+		 // write to pending db
+		 $sql = 'INSERT into geocode_pending(address)' .
+		        " VALUES ( $address, NOW() );";
 		 $result = mysql_query($sql);
-		 if (! $result){
-		      $msg .= ' but DB write failed ' . mysql_error();
+		 if ($result) {
+		      $msg = 'DB write failed ' . mysql_error();
+		      echo "{status:'KO',msg:'$msg'}";
+		 } else {
+		      echo "{status:'KO',msg:'key not found in cache'}";	 
 		 }
   }
-  echo "{lat:$latitude,lng:$longitude,msg:'$message'}";
 ?>
 
