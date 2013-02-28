@@ -1,19 +1,19 @@
 <?php
-  header("Content-Type: text/json");
+  header("Content-Type: application/json");
 
   require 'passwords.php';
 
-  function fail(message){
+  function fail($message) {
     echo "{status:'KO', message:'$message'}";
-    die($message);
+    die();
   }
   
-  function safe(sql){
-	 return mysql_real_escape_string(sql);
+  function safe($sql) {
+	 return mysql_real_escape_string($sql);
 	}
 	
   // db connexion
-  if ( ! $_GET['pass'].strcmp('update_key')) 
+  if ( 0 != strcmp($update_key, $_GET['pass'])) 
       fail('wrong password');
   $db = @mysql_connect($host, $user, $password) or fail('database connection error: ' + mysql_error());
   mysql_select_db($dbname, $db) or fail('No such schema ' + $dbname +': '+ mysql_error());
@@ -22,30 +22,44 @@
   if ( ! $address ) {
     // read from db
     $limit = intval($_GET['limit']);
+    if ($limit == 0)
+    	$limit = 20;
+    	
     $sql = 'SELECT id, address FROM geocode_pending ' .
-          " ORDER_BY id LIMIT $limit;"
+          " ORDER BY id LIMIT $limit" ;
     $result = mysql_query($sql) or fail('Problem reading data from database: ' . mysql_error());
-    json_msg = '';
+    $num_rows = mysql_num_rows($result);
+    if ($num_rows == 0) {
+    	fail('no addresses to geocode');
+    }
+    $json_msg = '';
     while ( $row = mysql_fetch_assoc($result) ){
       $id = $row['id'];
       $address = $row['address'];
-      $json_msg .= "{id:$id, address:'$address'}";
+      $json_msg .= "{address:'$address'},";
     }
-    
+	 $json_msg = substr($json_msg,0,-1) ;     
+	 
     // delete data sent back
     $sql = "DELETE FROM geocode_pending WHERE id <= $id";
     $result = mysql_query($sql) or fail("Problem deleting data ($id) from database: " . mysql_error());
 
-    echo "{status:'OK', keys: [ $json_msg ] }";
-
+    echo "{status:'OK', keys: [ $json_msg ] }";    
   } else {
     // write user data to db
     $address = safe($address);
-    $latitude = safe($_GET['latitude']);
-    $longitude = safe($_GET['longitude']);
+    $longitude = $_GET['longitude'];
+    if ( ! $longitude ) 
+		fail ('add longitude parameter');
+    $latitude = $_GET['latitude'];
+    if ( ! $latitude ) 
+		fail ('add latitude parameter');
+		
+    $latitude = safe($latitude);
+    $longitude = safe($longitude);
 
-    $sql = 'UPDATE geocode ( address, latitude, longitude )' . 
-           " VALUES ( $address, $latitude, $longitude )" ;
+    $sql = 'INSERT INTO geocode ( address, latitude, longitude, date_created )' . 
+           " VALUES ( '$address', '$latitude', '$longitude' , NOW() )" ;
     $result = mysql_query($sql);
     if (! $result) {
          fail ('DB write failed ' . mysql_error());

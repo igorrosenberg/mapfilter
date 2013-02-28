@@ -3,7 +3,7 @@
    error_reporting(E_ALL);
    ini_set( 'display_errors','1'); 
   
-  header("Content-Type: text/json");
+  header("Content-Type: application/json");
 
   require 'passwords.php';
 
@@ -32,14 +32,16 @@
   } else {
 		 // write to pending db
 		 $sql = 'INSERT into geocode_pending(address)' .
-		        " VALUES ( $address, NOW() );";
+		        " VALUES ( '$address' );";
 		 $result = mysql_query($sql);
-		 if ($result) {
-		      $msg = 'DB write failed ' . mysql_error();
-		      echo "{status:'KO',msg:'$msg'}";
+		 if (! $result) {
+		      // $msg = 'DB write failed: ' . mysql_error(); // failed to write to cache pending list
+     		 echo "{status:'MISS',msg:'key not found in cache'}";	 
 		 } else {
-		      echo "{status:'KO',msg:'key not found in cache'}";	 
+		 		 echo "{status:'MISS',msg:'key was not found in cache'}";	 
 		 }
+
+		 
   }
 ?>
 
