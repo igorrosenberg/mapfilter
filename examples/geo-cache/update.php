@@ -18,18 +18,24 @@
   if ( ! $address ) {
     // read from db
     $limit = safe($_GET['limit']);
-    $sql = 'SELECT id, address FROM geocode_pending ' .
+    $sql = 'SELECT geocode_id, address FROM geocode_pending ' .
           " ORDER_BY id LIMIT $limit;"
     $result = mysql_query($sql) or fail('Problem reading data from database: ' . mysql_error());
     json_msg = '';
     while ( $row = mysql_fetch_assoc($result) ){
-      $id = $row['id'];
+      $id = $row['geocode_id'];
       $address = $row['address'];
       $json_msg .= "{id:$id, address:'$address'}";
     }
+    
+    // delete data sent back
+    $sql = "DELETE FROM geocode_pending WHERE id <= $id";
+    $result = mysql_query($sql) or fail("Problem deleting data ($id) from database: " . mysql_error());
+
     echo "{status:'OK', keys: [ $json_msg ] }";
+
   } else {
-    // write to db
+    // write user data to db
     $id = safe($id);
     $address = safe($address);
     $latitude = safe($_GET['latitude']);
