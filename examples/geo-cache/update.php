@@ -1,4 +1,5 @@
 <?php
+
   header("Content-Type: application/json");
 
   require 'passwords.php';
@@ -20,6 +21,26 @@
   
   $address = $_GET['address'];
   if ( ! $address ) {
+    // write user data to db
+    $address = safe($address);
+    $longitude = $_GET['longitude'];
+    if ( ! $longitude ) 
+		fail ('add longitude parameter');
+    $latitude = $_GET['latitude'];
+    if ( ! $latitude ) 
+		fail ('add latitude parameter');
+		
+    $longitude = safe($longitude);
+    $latitude = safe($latitude);
+
+    $sql = 'INSERT INTO geocode ( address, latitude, longitude, date_created )' . 
+           " VALUES ( '$address', '$latitude', '$longitude' , NOW() )" ;
+    $result = mysql_query($sql);
+    if (! $result) {
+         fail ('DB write failed ' . mysql_error());
+    }
+    echo "{status:'OK'}";
+  } else {
     // read from db
     $limit = intval($_GET['limit']);
     if ($limit == 0)
@@ -45,26 +66,6 @@
     $result = mysql_query($sql) or fail("Problem deleting data ($id) from database: " . mysql_error());
 
     echo "{status:'OK', keys: [ $json_msg ] }";    
-  } else {
-    // write user data to db
-    $address = safe($address);
-    $longitude = $_GET['longitude'];
-    if ( ! $longitude ) 
-		fail ('add longitude parameter');
-    $latitude = $_GET['latitude'];
-    if ( ! $latitude ) 
-		fail ('add latitude parameter');
-		
-    $latitude = safe($latitude);
-    $longitude = safe($longitude);
-
-    $sql = 'INSERT INTO geocode ( address, latitude, longitude, date_created )' . 
-           " VALUES ( '$address', '$latitude', '$longitude' , NOW() )" ;
-    $result = mysql_query($sql);
-    if (! $result) {
-         fail ('DB write failed ' . mysql_error());
-    }
-  echo "{status:'OK'}";
   }
 ?>
 
