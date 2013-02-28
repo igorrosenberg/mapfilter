@@ -14,17 +14,20 @@
   $db = @mysql_connect($host, $user, $password) or fail('database connection error: ' + mysql_error());
   mysql_select_db($dbname, $db) or fail('No such schema ' + $dbname +': '+ mysql_error());
   
-  // sanitation
   $address = $_GET['address'];
   if ( ! $address ) {
     // read from db
-    $sql = 'SELECT latitude,longitude FROM geocode ' .
-          " WHERE address LIKE '$address' LIMIT 1;"
+    $limit = safe($_GET['limit']);
+    $sql = 'SELECT id, address FROM geocode_pending ' .
+          " ORDER_BY id LIMIT $limit;"
     $result = mysql_query($sql) or fail('Problem reading data from database: ' . mysql_error());
+    json_msg = '';
     while ( $row = mysql_fetch_assoc($result) ){
-      $latitude = $row['latitude'];
-      $longitude = $row['latitude'];
-      $msg = 'cache hit';
+      $id = $row['id'];
+      $address = $row['address'];
+      $json_msg .= "{id:$id, address:'$address'}";
+    }
+    echo "{status:'OK', keys: [ $json_msg ] }";
   } else {
     // write to db
     $id = safe($id);
@@ -39,7 +42,7 @@
     if (! $result) {
          fail ('DB write failed ' . mysql_error());
     }
-  }
   echo "{status:'OK'}";
+  }
 ?>
 
