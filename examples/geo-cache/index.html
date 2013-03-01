@@ -5,10 +5,10 @@
     <meta charset="utf-8">
     <title>GCM: cache update</title>
     <link rel="stylesheet" type="text/css" href="update-interface.css">
-    <script type="text/javascript" src="js/util.js"></script>
-    <script type="text/javascript" src="js/json2.js"></script>
-    <script type="text/javascript" src="js/log.js"></script>
-    <script type="text/javascript" src="js/geocode.js"></script>
+    <script type="text/javascript" src="../gcm/js/util.js"></script>
+    <script type="text/javascript" src="../gcm/js/json2.js"></script>
+    <script type="text/javascript" src="../gcm/js/log.js"></script>
+    <script type="text/javascript" src="../gcm/js/geocode.js"></script>
     <script type="text/javascript" src="update-interface.js"></script>
 </head>
 <body>
@@ -16,7 +16,7 @@
 	<div id="header"><h1>Geocoding cache update interface</h1></div>
 	<noscript>
   		<div id="noscript">
-  			Il est nécessaire d"activer Javascript pr voir cette page fonctionner.
+  			Please activate javascript for this page.
   		</div>
 	</noscript>
 	<div id="nav">
@@ -33,13 +33,13 @@
     <h4>Encoding queue</h4>
     <div class="new_task">
        <p>Start new geocoding batch:</p>
-       <div class="control">
-         <span id="x1">Number of entries</span>
-         <input id="x2" type="number" value="50" name="nb"/>
-         <span id="x3">Cache update delay (ms)</span>
-         <input id="x4" type="number" value="60" name="nb"/>
-         <span id="x5">geocode poll min delay (ms)</span>
-         <input id="x6" type="number" value="70" name="nb"/>
+       <div class="control">       
+         <span>Number of entries</span>
+         <input id="nb_entries" type="number" value="2" name="nb"/>
+         <span>Cache update delay (ms)</span>
+         <input id="cache_update_delay" type="number" value="60" name="nb"/>
+         <span>geocode poll min delay (ms)</span>
+         <input id="geocode_poll_min_delay" type="number" value="70" name="nb"/>
          <a href="#" id="new_task_button">Go</a>
       </div>
     </div>

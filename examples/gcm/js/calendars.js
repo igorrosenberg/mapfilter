@@ -62,7 +62,7 @@ function getGCalData(gCalUrl, startDays, endDays) {
 			if (xmlhttp.status==200) {
 				 info ('Calendar response received, length=' + xmlhttp.responseText.length);
 				 var calendarEvents = parseCalendarEvents(xmlhttp.responseText);
-				 geocode (calendarEvents);
+				 geocode(calendarEvents, createMap);
 			} else {
 				 info ('Calendar response failure... status=' + xmlhttp.status);
 				 }
@@ -111,13 +111,12 @@ function parseCalendarEvents(calendarAnswerText) {
 				dateEnd: curEntry['gd$when'][0]['endTime']
 			};
 			console.log ('created event ' + event.name + ' as ' +  JSON.stringify(event));
-			if (event.addrOrig) {
+			if (event.addrOrig && event.addrOrig.trim() !== '' ) {
 				console.log("Maybe a new address, get ready to geodecode:" + event.addrOrig);
+				calendarEvents.push (event);
 			} else {
-				console.log(" Skipping blank address for "+event.name+" ["+event.addrOrig+"]",event);
+				console.log("Skipping blank address for "+event.name+" ["+event.addrOrig+"]",event);
 			}
-			console.log("parsed curEntry "+ii+": ", event.name);
-			calendarEvents.push (event);
 		} 
 	} // end if calendarAnswer.feed.entry
 	info ("Finished parsing calendar data for: " + calendarTitle)

@@ -2,11 +2,11 @@ var geoCodeCalls = 0;
 
 var googleGeocoder ; 
 
-function geocode(eventArray) {	
+function geocode(eventArray, callback) {	
 	// loop on this function until google maps ready
 	if (!mapScriptLoaded){
 		console.log ('map script not yet ready ??');
-		setTimeout(function(){geocode(eventArray);}, 50);
+		setTimeout(function(){geocode(eventArray, callback);}, 50);
 		return;
 	}
 	if (! googleGeocoder )	
@@ -14,7 +14,7 @@ function geocode(eventArray) {
 
 	for (var i = 0; i < eventArray.length; i++) {
 		var event = eventArray[i];
-		geocodeOneEvent(event);
+		geocodeOneEvent(event, callback);
 		}
 	// call to createMap made in geocodeOneEvent
 }
@@ -25,7 +25,7 @@ function addLatLong(event, point){
 	event_markers.add(event);
 }
 
-function geocodeOneEvent(event) {
+function geocodeOneEvent(event, callback) {
 	info ('geocoding event: ' + event.addrOrig);
 	geoCodeCalls ++ ;
 	// https://developers.google.com/maps/documentation/javascript/v2/services?hl=es#Geocoding_Object
@@ -40,7 +40,7 @@ function geocodeOneEvent(event) {
 		addLatLong(event, point); 
 
 		if (geoCodeCalls == 0) {
-		   createMap();
+		   callback();
 		}
 	});
 } // end geocodeOneEvent
