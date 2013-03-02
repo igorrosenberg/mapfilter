@@ -6,7 +6,6 @@
     <title>GCM: cache update</title>
     <link rel="stylesheet" type="text/css" href="update-interface.css">
     <script type="text/javascript" src="../gcm/js/util.js"></script>
-    <script type="text/javascript" src="../gcm/js/json2.js"></script>
     <script type="text/javascript" src="../gcm/js/log.js"></script>
     <script type="text/javascript" src="../gcm/js/geocode.js"></script>
     <script type="text/javascript" src="update-interface.js"></script>
@@ -35,11 +34,13 @@
        <p>Start new geocoding batch:</p>
        <div class="control">       
          <span>Number of entries</span>
-         <input id="nb_entries" type="number" value="2" name="nb"/>
+         <input id="nb_entries" type="number" value="2"/>
          <span>Cache update delay (ms)</span>
-         <input id="cache_update_delay" type="number" value="60" name="nb"/>
+         <input id="cache_update_delay" type="number" value="60"/>
          <span>geocode poll min delay (ms)</span>
-         <input id="geocode_poll_min_delay" type="number" value="70" name="nb"/>
+         <input id="geocode_poll_min_delay" type="number" value="70"/>
+         <span>geocode cache password</span>
+         <input id="password" type="password" />
          <a href="#" id="new_task_button">Go</a>
       </div>
     </div>

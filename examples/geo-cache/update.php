@@ -5,7 +5,7 @@
   require 'passwords.php';
 
   function fail($message) {
-    echo "{status:'KO', message:'$message'}";
+    echo "{\"status\":\"KO\", \"message\":\"$message\"}";
     die();
   }
   
@@ -20,7 +20,7 @@
   mysql_select_db($dbname, $db) or fail('No such schema ' + $dbname +': '+ mysql_error());
   
   $address = $_GET['address'];
-  if ( ! $address ) {
+  if ( $address ) {
     // write user data to db
     $address = safe($address);
     $longitude = $_GET['longitude'];
@@ -39,7 +39,7 @@
     if (! $result) {
          fail ('DB write failed ' . mysql_error());
     }
-    echo "{status:'OK'}";
+    echo "{\"status\":\"OK\"}";
   } else {
     // read from db
     $limit = intval($_GET['limit']);
@@ -57,7 +57,7 @@
     while ( $row = mysql_fetch_assoc($result) ){
       $id = $row['id'];
       $address = $row['address'];
-      $json_msg .= "{address:'$address'},";
+      $json_msg .= "{\"address\":\"$address\"},";
     }
 	 $json_msg = substr($json_msg,0,-1) ;     
 	 
@@ -65,7 +65,7 @@
     $sql = "DELETE FROM geocode_pending WHERE id <= $id";
     $result = mysql_query($sql) or fail("Problem deleting data ($id) from database: " . mysql_error());
 
-    echo "{status:'OK', keys: [ $json_msg ] }";    
+    echo "{\"status\":\"OK\", \"keys\": [ $json_msg ] }";    
   }
 ?>
 
