@@ -21,8 +21,8 @@ function googleMapsLoaded() {
 }
 
 function startAction(event) {
+	console.log("start geocode " );
 	var password =  document.getElementById ("password").value;
-	console.log("start geocode " + password);
 	var nb_entries =  document.getElementById ("nb_entries").value;
 	var geocode_poll_min_delay =  document.getElementById ("geocode_poll_min_delay").value;
 	getPendingAdresses(password, nb_entries, geocode_poll_min_delay);
@@ -103,8 +103,9 @@ function pushLatLong(address, point, pass) {
 		if (xmlhttp.readyState==4) {
 			if (xmlhttp.status==200) {
 				 console.log ('pushed lat n long for ' + address + ' response ' + xmlhttp.responseText);
+				report ('Done: ' + address);
 			} else {
-				 console.log ('Cqnnot push lat n long:' + xmlhttp.status);
+				 console.log ('Cannot push lat n long:' + xmlhttp.status);
 			}
 		 }
 	  };
@@ -113,3 +114,9 @@ function pushLatLong(address, point, pass) {
 
 }
 
+
+function report(string){
+                var content = document.createElement('li');
+                content.appendChild(document.createTextNode(string));
+                document.getElementById("queue_ul").appendChild(content);
+}
