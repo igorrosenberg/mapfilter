@@ -1,8 +1,10 @@
-<!DOCTYPE html>
-<html>
-  <head>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
-    <meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<meta name="description" content="Web interface to update the geolocation cache data">
+	<meta name="author" content="Igor Rosenberg, http://igor.rosenberg.free.fr/">
     <title>GCM: cache update</title>
     <link rel="stylesheet" type="text/css" href="update-interface.css">
     <script type="text/javascript" src="../gcm/js/util.js"></script>
@@ -10,7 +12,7 @@
     <script type="text/javascript" src="update-interface.js"></script>
 </head>
 <body>
-<div id="wrap">
+   <div id="wrap">
 	<div id="header"><h1>Geocoding cache update interface</h1></div>
 	<noscript>
   		<div id="noscript">
@@ -20,20 +22,17 @@
 	<div id="nav">
 		<ul>
 			<li><a href="../">Go back to GCM</a></li>
-			<li><a href="/">Option 3</a></li>
-			<li><a href="/">Option 4</a></li>
-			<li><a href="/">Option 5</a></li>
 		</ul>
 	</div>
-    <div id="new_task">
+   <div id="sidebar">
        <h4>Start new geocoding batch:</h4>
        <div class="control"> 
          <span>Number of entries</span>
-         <input id="nb_entries" type="number" value="2"/>
+         <input id="nb_entries" type="number" size='8' value="2"/>
          <span>geocode poll min delay (ms)</span>
-         <input id="geocode_poll_min_delay" type="number" value="70"/>
+         <input id="geocode_poll_min_delay" size='8' type="number" value="70"/>
          <span>geocode cache password</span>
-         <input id="password" type="password" value="me_and_you"/>
+         <input id="password" type="password" size='8' value="me_and_you"/>
          <span> </span>
          <a href="#" id="new_task_button">Go</a>
       </div>
@@ -43,6 +42,7 @@
         <ul id='queue_ul'/>
     </div>
     <div id="log">
+	<a id='log_control' href='#' onclick="showHideLog(); return false;">-/+</a>
       <h4>Logs</h4>
       <ul id="log_ul"></ul>
     </div>
