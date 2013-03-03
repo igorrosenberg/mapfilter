@@ -52,9 +52,12 @@
 		padding:10px;
 		background:#9c9;
 	}
+ 
+	.new_task { 
+		width: 50%;
+	}
 
 	.control {
-		width: 400px;
 		padding-left:30px;		
 	 }
 	.control input {
@@ -66,25 +69,16 @@
 		width:70%;
 		float:left;
 	}
-	.control	#new_task_button {
+	.control #new_task_button {
 	  width:100%;
   		clear:both;
   		text-align:right;
 	}
-	/*
-	#x1 {
-  width:100%;
-  clear:both;
-}
-#x2 {
-  width:50%;
-  float:left;
-}
-#x3 {
-  width:50%;
-  float:right;
-}*/
-		
+
+	#queue {
+		width:36%;
+		float: right;
+	}		
 	#footer {
 		clear:both;
 		padding:5px 10px;

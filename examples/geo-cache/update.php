@@ -56,7 +56,7 @@
     $json_msg = '';
     while ( $row = mysql_fetch_assoc($result) ){
       $id = $row['id'];
-      $address = $row['address'];
+      $address = str_replace('\\','',$row['address']);
       $json_msg .= "{\"address\":\"$address\"},";
     }
 	 $json_msg = substr($json_msg,0,-1) ;     
