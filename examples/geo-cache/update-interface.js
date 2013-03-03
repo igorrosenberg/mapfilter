@@ -21,8 +21,8 @@ function googleMapsLoaded() {
 }
 
 function startAction(event) {
-	console.log("start geocode");
 	var password =  document.getElementById ("password").value;
+	console.log("start geocode " + password);
 	var nb_entries =  document.getElementById ("nb_entries").value;
 	var geocode_poll_min_delay =  document.getElementById ("geocode_poll_min_delay").value;
 	getPendingAdresses(password, nb_entries, geocode_poll_min_delay);
@@ -39,7 +39,7 @@ function getPendingAdresses(pass, limit, geocode_poll_min_delay){
 			if (xmlhttp.status==200) {
 				 console.log ('response received (list of addresses to geocode), length=' + xmlhttp.responseText.length);
 				 var addresses = parsePendingAdresses(xmlhttp.responseText);
-				 geocode(adresses, geocode_poll_min_delay);
+				 geocode(addresses, geocode_poll_min_delay, pass);
 			} else {
 				 console.log ('Pending addresses could not be fetched... status=' + xmlhttp.status);
 			}
@@ -69,7 +69,7 @@ function updateCache() {
 }
 
 
-function geocode(addresses, geocode_poll_min_delay) {
+function geocode(addresses, geocode_poll_min_delay, pass) {
 	if ( (!addresses) || addresses.length == 0 )
 		return;
 	var address = addresses.shift();
@@ -80,16 +80,31 @@ function geocode(addresses, geocode_poll_min_delay) {
 			console.log ("encodage GPS d'adresse impossible: " + status + ' pour ' + address);
 			return; 
 			}
-		pushLatLong(address, results[0].geometry.location);
+		pushLatLong(address, results[0].geometry.location, pass);
 	});
-	setTimeout(function() { geocode(addresses, geocode_poll_min_delay); }, geocode_poll_min_delay); 
+	setTimeout(function() { geocode(addresses, geocode_poll_min_delay, pass); }, geocode_poll_min_delay); 
 }
 
 
-function pushLatLong(address, point) {
+function pushLatLong(address, point, pass) {
  	var lat = point.lat(); 
 	var lng = point.lng();
 	console.log ('received: address=' + address + ' google=' + lat + '/' + lng);
-	console.log("call updateCache");
+
+	var fetchUrl = 'update.php';
+	var ajaxURL = fetchUrl + "?pass=" + pass + "&address=" + address + "&latitude=" + lat + "&longitude=" + lng ;
+	var xmlhttp=new XMLHttpRequest();
+	xmlhttp.onreadystatechange = function () {
+		if (xmlhttp.readyState==4) {
+			if (xmlhttp.status==200) {
+				 console.log ('pushed lat n long for ' + address + ' response ' + xmlhttp.responseText);
+			} else {
+				 console.log ('Cqnnot push lat n long:' + xmlhttp.status);
+			}
+		 }
+	  };
+	xmlhttp.open('GET', ajaxURL, true);
+	xmlhttp.send();
+
 }
 
