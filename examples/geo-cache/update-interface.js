@@ -5,10 +5,12 @@ function init() {
 	var button = document.getElementById ("new_task_button");
 	button.addEventListener("click", startAction, false);
 	
-	var script = document.createElement('script');
-	script.type = 'text/javascript';
-	script.src = 'https://maps.googleapis.com/maps/api/js?v=3.10&sensor=false&callback=googleMapsLoaded';
-	document.body.appendChild(script);
+	setTimeout(function() { 
+  		var script = document.createElement('script');
+		script.type = 'text/javascript';
+		script.src = 'https://maps.googleapis.com/maps/api/js?v=3.10&sensor=false&callback=googleMapsLoaded';
+		document.body.appendChild(script);
+	}, 1);
 	}            
 
 // has the map loading script finished ?
