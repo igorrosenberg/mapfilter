@@ -13,9 +13,8 @@
 	h1 { margin:0; }
 	h2 { margin:0 0 1em; }
 	h4 {margin:0px;}
-	#log li { margin-bottom:0.25em; list-style-type: none; font-size:60%; }
 	#wrap {
-		width:750px;
+		width:800px;
 		margin:0 auto;
 		background:#99c;
 	}
@@ -48,20 +47,13 @@
 		margin:0;
 		padding:0;
 	}
-	#main {
-		padding:10px;
-		background:#9c9;
-	}
  
-	.new_task { 
-		width: 50%;
-	}
 
 	.control {
 		padding-left:30px;		
 	 }
-	.control input {
-		border: 0px solid;
+	.control input, .control a {
+		border: 0px;
 		width:30%;
 		float:right;
 	}
@@ -75,10 +67,11 @@
   		text-align:right;
 	}
 
-	#queue {
-		width:36%;
-		float: right;
-	}		
+	#new_task { width: 50%; width:400px; }
+	#queue { float: right; width:300px; }		
+	#log {clear:both;}
+	#log li { margin-bottom:0.25em; list-style-type: none; font-size:60%; }
+
 	#footer {
 		clear:both;
 		padding:5px 10px;
@@ -96,12 +89,3 @@
 		height:1px;
 	}
 
-.new_task{}
-.control{}
-#wrap{}
-#header{}
-#noscript{}
-#nav{}
-#main{}
-#log{}
-#log_ul{}
