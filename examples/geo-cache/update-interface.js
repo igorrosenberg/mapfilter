@@ -76,11 +76,16 @@ function geocode(addresses, geocode_poll_min_delay, pass) {
 	console.log ('geocoding event: ' + address);
 	googleGeocoder.geocode({'address': address}, function(results, status){
 		console.log ('Geocode response received' + status);
-		if (status != 'OK') {
+		if (status == 'OK') {
+			pushLatLong(address, results[0].geometry.location, pass);
+		} else {
 			console.log ("encodage GPS d'adresse impossible: " + status + ' pour ' + address);
-			return; 
+			if (status == 'OVER_QUERY_LIMIT') {
+				var justOne = [address];
+				var adjusted_delay = 5*geocode_poll_min_delay;
+				setTimeout(function() { geocode(justOne, adjusted_delay, pass); }, adjusted_delay);
 			}
-		pushLatLong(address, results[0].geometry.location, pass);
+		}
 	});
 	setTimeout(function() { geocode(addresses, geocode_poll_min_delay, pass); }, geocode_poll_min_delay); 
 }
