@@ -29,7 +29,7 @@ function startAction(event) {
 	event.preventDefault();
 }
 
-function	getPendingAdresses(pass, limit, geocode_poll_min_delay){
+function getPendingAdresses(pass, limit, geocode_poll_min_delay){
 	console.log("    " + limit + " " + geocode_poll_min_delay);
 	var fetchUrl = 'update.php';
 	var ajaxURL = fetchUrl + "?pass=" + pass + "&limit="  + limit;
@@ -39,15 +39,7 @@ function	getPendingAdresses(pass, limit, geocode_poll_min_delay){
 			if (xmlhttp.status==200) {
 				 console.log ('response received (list of addresses to geocode), length=' + xmlhttp.responseText.length);
 				 var addresses = parsePendingAdresses(xmlhttp.responseText);
-				 for (var i=0 ; i < addresses.length; i++){
-				 	var addr = addresses[i];
-				 	 geocode(addr);
-/*				 	
-					setTimeout(function() {
-					 	 geocode(addr);
-					}, geocode_poll_min_delay);
-*/					
-				 }
+				 geocode(adresses, geocode_poll_min_delay);
 			} else {
 				 console.log ('Pending addresses could not be fetched... status=' + xmlhttp.status);
 			}
@@ -72,12 +64,15 @@ function parsePendingAdresses(responseText) {
 	return addressArray; 
 }
 
-function	updateCache() {
+function updateCache() {
 	console.log("Need to call the cache service to write new geolocation data ");
 }
 
 
-function geocode(address) {
+function geocode(addresses, geocode_poll_min_delay) {
+	if ( (!addresses) || addresses.length == 0 )
+		return;
+	var address = addresses.shift();
 	console.log ('geocoding event: ' + address);
 	googleGeocoder.geocode({'address': address}, function(results, status){
 		console.log ('Geocode response received' + status);
@@ -87,6 +82,7 @@ function geocode(address) {
 			}
 		pushLatLong(address, results[0].geometry.location);
 	});
+	setTimeout(function() { geocode(addresses, geocode_poll_min_delay); }, geocode_poll_min_delay); 
 }
 
 
