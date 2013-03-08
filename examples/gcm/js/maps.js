@@ -66,12 +66,14 @@ function createMap() {
 				zoom: 8,
 				center: new google.maps.LatLng(48.114767,-1.68251), // Rennes
 				mapTypeId: google.maps.MapTypeId.ROADMAP
-		     };
+			};
 			var mapBlock = document.getElementById('map_canvas');
-		   map = new google.maps.Map(mapBlock, mapOptions);
+			map = new google.maps.Map(mapBlock, mapOptions);
 		  }
 		  
 		addMarkersToMap(event_markers);
+
+		addMarkersToTable(event_markers);
 		
 		showMapControls();
 	}
@@ -82,5 +84,24 @@ function showMapControls() {
 	var toShow = document.getElementById("map_controls");
 	toHide.style.display = 'none';
 	toShow.style.display = 'block';
+}
+
+
+// Insert in separate file
+function populateTable (events) {
+	var tableElememt = document.getElementById("event_table");
+
+	for (var i=0; i < events.length; i++) {
+        	var content = document.createElement('tr');
+        	// add color to table lines? content.class = css_classes;
+        	var td1 = document.createElement('td'); td1.appendChild(document.createTextNode(events[i].name));  content.appendChild(td1);
+        	var td2 = document.createElement('td'); td2.appendChild(document.createTextNode(events[i].addr));  content.appendChild(td2);
+        	var td3 = document.createElement('td');
+        	td3.appendChild(document.createTextNode(events[i].dateStart + ' / ' + events[i].dateEnd)); 
+        	content.appendChild(td3);
+        	
+        	tableElement.appendChild(content);
+        }
+        
 }
 

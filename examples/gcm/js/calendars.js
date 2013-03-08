@@ -18,7 +18,6 @@ function verifyURL(gCalUrl) {
 		gCalUrl = startswith + gCalUrl;
 	}
 
-
 	var endswith0 = '@gmail.com';
 	var endswith1 = '@gmail.com/public/full';
 	if (gCalUrl.slice(-endswith0.length) == endswith0){
@@ -54,14 +53,14 @@ function getGCalData(gCalUrl, startDays, endDays) {
 	for (var key in gCalObj) {
  		array.push( key + '=' + gCalObj[key] ) ;
 	}		
-	var mapString = array.join("&");
-	var ajaxURL = gCalUrl + "?alt=json&" + mapString;
+	var ajaxURL = gCalUrl + "?alt=json&" +  array.join("&");
 	var xmlhttp=new XMLHttpRequest();
 	xmlhttp.onreadystatechange = function () {
 		if (xmlhttp.readyState==4) {
 			if (xmlhttp.status==200) {
 				 info ('Calendar response received, length=' + xmlhttp.responseText.length);
 				 var calendarEvents = parseCalendarEvents(xmlhttp.responseText);
+				 populateTable(calendarEvents);
 				 geocode(calendarEvents, createMap);
 			} else {
 				 info ('Calendar response failure... status=' + xmlhttp.status);
