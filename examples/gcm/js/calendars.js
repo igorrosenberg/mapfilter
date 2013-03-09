@@ -109,7 +109,6 @@ function parseCalendarEvents(calendarAnswerText) {
 				dateStart: curEntry['gd$when'][0]['startTime'].substring(0,10),
 				dateEnd: curEntry['gd$when'][0]['endTime'].substring(0,10)
 			};
-			console.warn ('event dates' + event.dateStart);
 			console.log ('created event ' + event.name + ' as ' +  JSON.stringify(event));
 			if (event.addrOrig && event.addrOrig.trim() !== '' ) {
 				console.log("Maybe a new address, get ready to geodecode:" + event.addrOrig);

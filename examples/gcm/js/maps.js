@@ -73,35 +73,50 @@ function createMap() {
 		  
 		addMarkersToMap(event_markers);
 
-		populateTable(event_markers);
-		
 		showMapControls();
 	}
 } // end createMap
 
+// FIXME move somewhere else?
 function showMapControls() {
-	var toHide = document.getElementById("no_map_yet");
-	var toShow = document.getElementById("map_controls");
-	toHide.style.display = 'none';
-	toShow.style.display = 'block';
+	document.getElementById("no_map_yet").style.display = 'none';
+	document.getElementById("map_controls").style.display = 'block';
+	
+	// remove suggested calendars
+	var parent = document.getElementById("cal_list");
+	var nodes = parent.getElementsByTagName('li');
+	for(var i=nodes.length-1; i>=0; i--) {
+		if (nodes[i].className.match(/\btemp\b/)) {
+			parent.removeChild(nodes[i]);
+			}
+	}
+
 }
 
 
 // Insert in separate file
 function populateTable (events) {
+
+	// also places the name in the show/hide list
+ 	var cal_list = document.getElementById("cal_list");
+	appendTextChild(cal_list, 'li', events[0].title + " (X -)");
+
 	var tableElement = document.getElementById("event_table_body");
 
 	for (var i=0; i < events.length; i++) {
         	var content = document.createElement('tr');
         	// add color to table lines? content.class = css_classes;
-        	var td1 = document.createElement('td'); td1.appendChild(document.createTextNode(events[i].name));  content.appendChild(td1);
-        	var td2 = document.createElement('td'); td2.appendChild(document.createTextNode(events[i].addrOrig));  content.appendChild(td2);
-        	var td3 = document.createElement('td');
-        	td3.appendChild(document.createTextNode(events[i].dateStart + ' ' + events[i].dateEnd)); 
-        	content.appendChild(td3);
-        	
+        	appendTextChild(content, 'td' , events[i].name);
+        	appendTextChild(content, 'td' , events[i].addrOrig);
+        	appendTextChild(content, 'td' , events[i].dateStart + ' ' + events[i].dateEnd);        	
         	tableElement.appendChild(content);
         }
-        
+       
+}
+
+function appendTextChild(parent, nodeName, text){
+        	var node = document.createElement(nodeName);
+        	node.appendChild(document.createTextNode(text)); 
+        	parent.appendChild(node);
 }
 
