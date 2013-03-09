@@ -73,7 +73,6 @@ function getGCalData(gCalUrl, startDays, endDays) {
 }
 
 function parseCalendarEvents(calendarAnswerText) {
-	console.log(calendarAnswerText);
 	var calendarAnswer = JSON.parse(calendarAnswerText);
 	var calendarTitle = calendarAnswer.feed.title['$t']	
 	info ("Reading calendar data: " + calendarTitle)
@@ -82,16 +81,16 @@ function parseCalendarEvents(calendarAnswerText) {
 	if (calendarAnswer.feed.entry) { 
 		var calendarEvents = new Array();
 		for (var ii=0; calendarAnswer.feed.entry[ii]; ii++) {
-			console.log ('Treating entry ' + ii);
+			// console.log ('Treating entry ' + ii);
 			var curEntry = calendarAnswer.feed.entry[ii];
 			if (!(curEntry['gd$when'] && curEntry['gd$when'][0]['startTime'])) {
-				console.log(" skipping entry (no gd$when) " + curEntry['title']['$t']);
-				console.log(" skipped " + curEntry['gd$when'] + '/' + curEntry);
+				// console.log(" skipping entry (no gd$when) " + curEntry['title']['$t']);
+				// console.log(" skipped " + curEntry['gd$when'] + '/' + curEntry);
 				continue;
 			};
 			var urlMap = {};
 			for (var jj=0; curEntry.link[jj]; jj++) {
-			 console.log ('Treating entry link ' + jj);
+			   // console.log ('Treating entry link ' + jj);
 				var curLink = curEntry.link[jj];
 				if (curLink.type == 'text/html') {
 					// looks like when rel='related', href is original event info (like meetup.com)

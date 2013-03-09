@@ -38,13 +38,11 @@
     </div>
   </div>
   <div id="sidebar">
-  		Load map: 
+  		Calendriers:
   		<ul id='map_list'>
   			<li><a href='#' onclick="loadScript('mock/gcal.json'); return false;">mock</a></li>
 			<li><a href='#' onclick="loadScript('https://www.google.com/calendar/feeds/aikidorennes@gmail.com/public/full'); return false;">aikidorennes</a></li>
-			 <li><a href='#' onclick="loadScript('https://www.google.com/calendar/feeds/0ei0284so407vu24o7o0q5ares%40group.calendar.google.com/public/full'); return false;">Test Igor</a></li> 
-
-			<li>
+			<li id="calendar_form">
 				<form onsubmit='loadScript(document.getElementById("user_cal").value); return false;' id='form' name='form'>
 				<input type="text" id='user_cal' placeholder='Id de Google calendar'/> 
 				<a href='#' onclick='loadScript(document.getElementById("user_cal").value); return false;'>go</a>
@@ -58,22 +56,13 @@
      </div>	
     <div id="map_controls">
 		<a href='#' onclick="hideMarkersFromMap(); return false;">hideMarkersFromMap</a>
-		<br/>
- 	    more map_controls<br/>
-<table class='sortable' id='event_table'>
-<thead>
-<td>Nom</td><td>Adresse</td><td>Dates</td>
-</thead>
-<tbody>
-<tr>
-<td>1.1</td> <td>1.2</td> <td>1.3</td>
-</tr>
-<tr>
-<td>2.1</td>
-<td>2.2</td>
-</tr>
-</tbody>
-</table>
+		<table class='sortable' >
+			<thead>
+				<td>Nom</td><td>Adresse</td><td>Dates</td>
+			</thead>
+			<tbody id='event_table_body'>
+			</tbody>
+		</table>
 	 </div>	
   </div>	
 	<div id='footer'>

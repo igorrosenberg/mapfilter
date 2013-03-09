@@ -68,10 +68,14 @@
 		width:230px;
 		padding:10px;
 		background:#99c;
+		font-size: 75%; 
 	}
 	#map_controls {
 		display:none;
+		font-size: 75%; 
 	}
+	
+	
 	
 	#footer {
 		clear:both;

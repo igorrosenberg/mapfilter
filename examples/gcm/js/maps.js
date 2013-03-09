@@ -36,7 +36,7 @@ function addSingleMarkerToMap(marker){
 }  // end addSingleMarkerToMap
   
 function addMarkersToMap(markerList) {
-	console.log ('markerList '+markerList);
+	// console.log ('markerList '+markerList);
 	var values = markerList.values();
 	for (var i = 0; i < values.length; i++) {
 		// remember marker so hiding is posible
@@ -73,7 +73,7 @@ function createMap() {
 		  
 		addMarkersToMap(event_markers);
 
-		addMarkersToTable(event_markers);
+		populateTable(event_markers);
 		
 		showMapControls();
 	}
@@ -89,13 +89,13 @@ function showMapControls() {
 
 // Insert in separate file
 function populateTable (events) {
-	var tableElememt = document.getElementById("event_table");
+	var tableElement = document.getElementById("event_table_body");
 
 	for (var i=0; i < events.length; i++) {
         	var content = document.createElement('tr');
         	// add color to table lines? content.class = css_classes;
         	var td1 = document.createElement('td'); td1.appendChild(document.createTextNode(events[i].name));  content.appendChild(td1);
-        	var td2 = document.createElement('td'); td2.appendChild(document.createTextNode(events[i].addr));  content.appendChild(td2);
+        	var td2 = document.createElement('td'); td2.appendChild(document.createTextNode(events[i].addrOrig));  content.appendChild(td2);
         	var td3 = document.createElement('td');
         	td3.appendChild(document.createTextNode(events[i].dateStart + ' / ' + events[i].dateEnd)); 
         	content.appendChild(td3);
