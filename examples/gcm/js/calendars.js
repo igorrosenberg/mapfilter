@@ -105,9 +105,11 @@ function parseCalendarEvents(calendarAnswerText) {
 				desc: curEntry['content']['$t'],
 				addrOrig: curEntry['gd$where'][0]['valueString'] || '',  // 'location' field of the event
 				url: urlMap.related || urlMap.alternate, // TODO - is this what we want? see href above
-				dateStart: curEntry['gd$when'][0]['startTime'],
-				dateEnd: curEntry['gd$when'][0]['endTime']
+			   // FIXME: also keep hours, not just date
+				dateStart: curEntry['gd$when'][0]['startTime'].substring(0,10),
+				dateEnd: curEntry['gd$when'][0]['endTime'].substring(0,10)
 			};
+			console.warn ('event dates' + event.dateStart);
 			console.log ('created event ' + event.name + ' as ' +  JSON.stringify(event));
 			if (event.addrOrig && event.addrOrig.trim() !== '' ) {
 				console.log("Maybe a new address, get ready to geodecode:" + event.addrOrig);

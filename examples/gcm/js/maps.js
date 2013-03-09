@@ -97,7 +97,7 @@ function populateTable (events) {
         	var td1 = document.createElement('td'); td1.appendChild(document.createTextNode(events[i].name));  content.appendChild(td1);
         	var td2 = document.createElement('td'); td2.appendChild(document.createTextNode(events[i].addrOrig));  content.appendChild(td2);
         	var td3 = document.createElement('td');
-        	td3.appendChild(document.createTextNode(events[i].dateStart + ' / ' + events[i].dateEnd)); 
+        	td3.appendChild(document.createTextNode(events[i].dateStart + ' ' + events[i].dateEnd)); 
         	content.appendChild(td3);
         	
         	tableElement.appendChild(content);

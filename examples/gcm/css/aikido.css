@@ -75,6 +75,8 @@
 		font-size: 75%; 
 	}
 	
+	#map_controls table .dates { /* width: 10em; */ }
+	
 	
 	
 	#footer {
