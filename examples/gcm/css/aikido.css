@@ -63,23 +63,39 @@
 	  border: 1px solid blue;
 	  background-color: yellow;
 	}
-	#sidebar {
+	#controls {
 		float:right;
 		width:230px;
 		padding:10px;
 		background:#99c;
 		font-size: 75%; 
 	}
+	#controls .not-on-map {
+		font-style:italic;
+		color:grey;
+	}
+
 	#map_controls {
+		background:#bb5;
+		clear:both;
 		display:none;
 		font-size: 75%; 
+		padding:5px;
 	}
 	
+	#map_controls table thead { cursor:pointer; }
 	#map_controls table .dates { /* width: 10em; */ }
+	#map_controls table {
+    border: 1px solid black;
+    border-spacing:0;
+    border-collapse:collapse;
+	}
 	
-	
-	
+	#map_controls table td, #map_controls table th {  
+    border: 1px solid grey;
+	}
 	#footer {
+		display:none;
 		clear:both;
 		padding:5px 10px;
 		background:#cc9;

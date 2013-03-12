@@ -2,20 +2,9 @@
 // ---------------------
 // tracing events
 // ---------------------
-function showHideLog(){
-	var div = document.getElementById("log");
-	if (div.style.display == 'none'){
-		div.style.display = 'block';
-	}
-	else {
-		div.style.display = 'none';
-	}
-}
 
 function info(string){
-		var content = document.createElement('li');
-		content.appendChild(document.createTextNode(string));
-		document.getElementById("log_ul").appendChild(content);
+	console.log(string);
 }
 		
 // ----------------------------------

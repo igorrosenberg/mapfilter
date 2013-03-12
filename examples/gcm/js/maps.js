@@ -44,14 +44,39 @@ function addMarkersToMap(markerList) {
 		} // end for markers
 } // end addMarkersToMap
 
-function hideMarkersFromMap() {
+function deleteCalendar(cal_id, li_node) {
+	li_node.parentNode.removeChild(li_node);
+	var values = event_markers.values();
+	for (var i = values.length - 1; i >= 0 ; i--) {
+		var event = values[i];
+		if (event.calId == cal_id) {
+			console.log ('delete event ' + event.title + ' at ' + event.lat) ;
+			event.gMarker.setMap(null) ;
+			values.splice(i,1);
+		}
+	} 		
+}
+
+function hideShowCalendar(cal_id, li_node) {
+	var targetMap;
+
+	if (li_node.classList.contains('not-on-map') ) {
+		li_node.classList.remove('not-on-map');
+		targetMap = map;	// add point to the only google map on page
+	} else {
+		li_node.classList.add('not-on-map');
+		targetMap = null; // hide point from map
+	}
+
 	var values = event_markers.values();
 	for (var i = 0; i < values.length; i++) {
-		var marker = values[i];
-		console.log ('hiding marker ' + marker.title + ' at ' + marker.lat) ;
-		marker.gMarker.setMap(null) ;
-	} // end for markers
-} // end hideMarkersFromMap
+		var event = values[i];
+		if (event.calId == cal_id) {
+			console.log ('set map ' + event.title + ' at ' + event.lat + ' to ' + targetMap) ;
+			event.gMarker.setMap(targetMap) ;
+		}
+	} 
+} // end hideShowCalendar
 
 function createMap() {
 	// loop on this function until google maps ready
@@ -97,12 +122,17 @@ function showMapControls() {
 // Insert in separate file
 function populateTable (events) {
 
-	// also places the name in the show/hide list
+	// places the name in the show/hide list
  	var cal_list = document.getElementById("cal_list");
-	appendTextChild(cal_list, 'li', events[0].title + " (X -)");
+  	var node = document.createElement('li');
+  	var calId = events[0].calId;
+	appendJSLink(node, events[0].title, function() { hideShowCalendar(calId, node); });
+  	node.appendChild(document.createTextNode(' ')); 
+	appendJSLink(node, 'X', function() { deleteCalendar(calId, node); });
+  	cal_list.appendChild(node);
 
+	// inserts a table row
 	var tableElement = document.getElementById("event_table_body");
-
 	for (var i=0; i < events.length; i++) {
         	var content = document.createElement('tr');
         	// add color to table lines? content.class = css_classes;
@@ -116,6 +146,14 @@ function populateTable (events) {
 
 function appendTextChild(parent, nodeName, text){
         	var node = document.createElement(nodeName);
+        	node.appendChild(document.createTextNode(text)); 
+        	parent.appendChild(node);
+}
+
+function appendJSLink(parent, text, callback){
+        	var node = document.createElement('a');
+        	node.href = '#';
+        	node.onclick = function () { callback(); return false;};
         	node.appendChild(document.createTextNode(text)); 
         	parent.appendChild(node);
 }

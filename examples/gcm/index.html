@@ -37,7 +37,7 @@
       <div id='map_canvas'></div>
     </div>
   </div>
-  <div id="sidebar">
+  <div id="controls">
   		<h4>Calendriers</h4>
   		<ul id='cal_list'>
   			<li id='c1' class="temp"><a href='#' onclick="loadScript('mock/gcal.json'); return false;">mock</a></li>
@@ -55,6 +55,7 @@
 		<a href='http://jsfiddle.net/B3a86/2/'>Example many points</a><br/>		
 		<a href='https://developers.google.com/maps/documentation/javascript/reference#Map'>Google Maps API reference</a><br/>	
      </div>	
+  </div>	
     <div id="map_controls">
 		<a href='#' onclick="hideMarkersFromMap(); return false;">hideMarkersFromMap</a>
 		<table class='sortable' >
@@ -65,14 +66,6 @@
 			</tbody>
 		</table>
 	 </div>	
-  </div>	
-	<div id='footer'>
-		<a id='log_control' href='#' onclick="showHideLog(); return false;">-/+</a>
-		<div id='log'>
-			<h4>Logs</h4>
-			<ul id='log_ul'></ul>
-			</div>
-	</div>
 </div>
 </body>
 </html>
