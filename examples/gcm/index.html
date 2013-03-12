@@ -44,19 +44,43 @@
 			<li id='c2' class="temp"><a href='#' onclick="loadScript('https://www.google.com/calendar/feeds/aikidorennes@gmail.com/public/full'); return false;">Stages en Bretagne</a></li>
 			<li id='c2' class="temp"><a href='#' onclick="loadScript('https://www.google.com/calendar/feeds/aleaikido.com_dejam6fk5hftrvq9iu0gbar9bk@group.calendar.google.com/public/full'); return false;">Stephane Benedetti</a></li>
 			<li id="calendar_form">
-				<form onsubmit='loadScript(document.getElementById("user_cal").value); return false;' id='form' name='form'>
+				<form onsubmit='loadScript(document.getElementById("user_cal").value); return false;' id='cal_form' name='cal_form'>
 				<input type="text" id='user_cal' placeholder='Id de Google calendar'/> 
 				<a href='#' onclick='loadScript(document.getElementById("user_cal").value); return false;'>go</a>
 				</form>
 			</li>
 		</ul>
+    <div class="onCalLoad">
+  		<h4>Dates</h4>
+		<form onsubmit="return false;" id='date_form' name='date_form'>
+			<table>
+	  		<tr>
+	  			<td>Début</td><td>Fin</td><td></td>
+	  		</tr>
+	  		<tr>
+	  			<td>
+					<input type="date" id='startDate' value='2012-07-01' size='10'/> 
+				</td>
+				<td>
+					<input type="date" id='endDate' value='2013-06-31'  size='10'/> 
+				</td>
+				<td>
+					<a href='#' onclick='return false;'>go</a>
+				</td>
+	  		</tr>
+	  		</table>
+  		</form>
+  		
+    </div>
     <div id="no_map_yet">
     <p>Choisissez un calendrier dans la liste ci-dessus, ou alors entrez la référence 
     	d'un calendrier de Google (l'identifiant se trouve dans l'interface de gestion de google:
     	il est nommé Calendar ID dans les propriétés du calendrier).</p>
      </div>	
   </div>	
-    <div id="map_controls">
+<div>
+
+    <div id="map_controls" class="onCalLoad">
 		<table class='sortable' >
 			<thead>
 				<td>Nom</td><td>Adresse</td><td class="dates">Dates</td>

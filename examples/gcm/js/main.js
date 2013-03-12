@@ -35,9 +35,12 @@ function loadScript(cal) {
 			parent.removeChild(nodes[i]);
 			}
 	}
-	document.getElementById("no_map_yet").style.display = 'none';
-	document.getElementById("map_controls").style.display = 'block';	
 
+	var elementsToShow = document.querySelectorAll(".onCalLoad");
+	for (var i=0; i < elementsToShow.length; i++)
+		 elementsToShow[i].style.display = 'block';	
+	document.getElementById("no_map_yet").style.display = 'none';
+	
 	loadCalendars(cal);
 
 } // end loadScript

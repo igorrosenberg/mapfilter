@@ -1,7 +1,7 @@
 var globalCalId = 0;
 
 function loadCalendars(gCalURL) {
-	var startDay= '2010-07-01T00:00:00-00:00';
+	var startDay= '2012-07-01T00:00:00-00:00';
 	var endDay = '2013-06-31T00:00:00-00:00';
 	getGCalData(gCalURL, startDay, endDay);
 	}
@@ -97,12 +97,12 @@ function parseCalendarEvents(calendarAnswerText) {
 				dateStart: curEntry['gd$when'][0]['startTime'].substring(0,10),
 				dateEnd: curEntry['gd$when'][0]['endTime'].substring(0,10)
 			};
-			console.log ('created event ' + event.name + ' as ' +  JSON.stringify(event));
+			// console.log ('created event ' + event.name + ' as ' +  JSON.stringify(event));
 			if (event.addrOrig && event.addrOrig.trim() !== '' ) {
-				console.log("Maybe a new address, get ready to geodecode:" + event.addrOrig);
+				// console.log("Maybe a new address, get ready to geodecode:" + event.addrOrig);
 				calendarEvents.push (event);
 			} else {
-				console.log("Skipping blank address for "+event.name+" ["+event.addrOrig+"]",event);
+				console.warn("Skipping blank address for "+event.name+" ["+event.addrOrig+"]",event);
 			}
 		} 
 	} // end if calendarAnswer.feed.entry

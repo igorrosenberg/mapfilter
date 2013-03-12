@@ -69,6 +69,9 @@
 	  background-color: yellow;
 	  font-size: 70%; 
 	}
+
+	.onCalLoad {display:none;}
+	
 	#controls {
 		float:right;
 		width:230px;
@@ -85,7 +88,6 @@
 	#map_controls {
 		background:#bb5;
 		clear:both;
-		display:none;
 		font-size: 75%; 
 		padding:5px;
 	}
