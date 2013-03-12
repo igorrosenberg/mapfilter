@@ -122,23 +122,6 @@ function createMap() {
 	}
 } // end createMap
 
-// FIXME move somewhere else?
-function showMapControls() {
-	document.getElementById("no_map_yet").style.display = 'none';
-	document.getElementById("map_controls").style.display = 'block';
-	
-	// remove suggested calendars
-	var parent = document.getElementById("cal_list");
-	var nodes = parent.getElementsByTagName('li');
-	for(var i=nodes.length-1; i>=0; i--) {
-		if (nodes[i].className.match(/\btemp\b/)) {
-			parent.removeChild(nodes[i]);
-			}
-	}
-
-}
-
-
 // Insert in separate file
 function populateTable (events) {
 

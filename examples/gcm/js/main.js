@@ -26,6 +26,18 @@ function loadScript(cal) {
 		script.src = 'https://maps.googleapis.com/maps/api/js?v=3.10&sensor=false&callback=initialize';
 		document.body.appendChild(script);
 	}            
+	
+	// remove suggested calendars ("temp")
+	var parent = document.getElementById("cal_list");
+	var nodes = parent.getElementsByTagName('li');
+	for(var i=nodes.length-1; i>=0; i--) {
+		if (nodes[i].className.match(/\btemp\b/)) {
+			parent.removeChild(nodes[i]);
+			}
+	}
+	document.getElementById("no_map_yet").style.display = 'none';
+	document.getElementById("map_controls").style.display = 'block';	
+
 	loadCalendars(cal);
 
 } // end loadScript
