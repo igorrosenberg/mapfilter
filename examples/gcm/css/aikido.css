@@ -60,11 +60,14 @@
 		height:300px;
 		width:478px;
 	}
+	#map_canvas .infoWindow{ width:280px; }
+	
 	#map_canvas {
 	  height: 100%;
 	  width:100%;
 	  border: 1px solid blue;
 	  background-color: yellow;
+	  font-size: 70%; 
 	}
 	#controls {
 		float:right;

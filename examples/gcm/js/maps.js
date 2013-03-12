@@ -7,7 +7,8 @@ function myInfowindow(event) {
 		dates = 'Dates: du ' + event.dateStart + ' au ' + event.dateEnd;  
 	}
 
-	var full = '<h4>' + event.name + '</h4><ul>' ;
+	var full = '<div class="infoWindow">' ;
+	full += '<h4>' + event.name + '</h4><ul>' ;
 	if (event.desc && event.desc !== "") {
 		full += '<li>' + event.desc + '</li>';
 	}
@@ -15,6 +16,8 @@ function myInfowindow(event) {
 		 '<li>' + 'Adresse: ' + event.addrOrig + '</li>' + 
 		 '<li>' + 'Calendrier <a href="'+event.url+'">' + event.title + '</a>' + 
 		 '</li></ul>' ;
+	full += '</div>';
+	
 	return new google.maps.InfoWindow({content: full});
 }
 
