@@ -31,55 +31,65 @@ function addSingleMarkerToMap(marker){
 	return gMarker;
 }  // end addSingleMarkerToMap
   
-function addMarkersToMap(markerList) {
+function addMarkersToMap(markerList, calId) {
 	var bounds = map.getBounds();
 	if (bounds == null || bounds == undefined){
 		bounds = new google.maps.LatLngBounds();
 	}	
 	var values = markerList.values();
-	for (var i = 0; i < values.length; i++) {
-		// remember marker so hiding is possible
-		var latLng = new google.maps.LatLng(values[i].lat, values[i].lng);
-	   bounds.extend(latLng);
-		values[i].gMarker = new google.maps.Marker({
-			position: latLng,
-			title: values[i].name + '\n' + values[i].addrOrig,
-			zIndex: 2, map: map,          // adds the marker to gmap called 'map'
-		});		
-		google.maps.event.addListener(values[i].gMarker, 'click', function() {
-			myInfowindow(values[i]).open(map, values[i].gMarker);
-		});
-	} // end for markers
+	for (var i = 0; i < values.length; i++)  {
+		if (values[i].calId == calId) {
+			// remember marker so hiding is possible
+			var latLng = new google.maps.LatLng(values[i].lat, values[i].lng);
+			bounds.extend(latLng);
+			values[i].gMarker = new google.maps.Marker({
+				position: latLng,
+				title: values[i].name + '\n' + values[i].addrOrig,
+				zIndex: 2, map: map,          // adds the marker to gmap called 'map'
+			});		
+			google.maps.event.addListener(values[i].gMarker, 'click', function() {
+				myInfowindow(values[i]).open(map, values[i].gMarker);
+			});
+		} // end if-for markers
+		}
 	map.fitBounds(bounds);
 
 } // end addMarkersToMap
 
-function deleteCalendar(cal_id, li_node) {
+function deleteCalendar(calId, li_node) {
 	// remove from calendar list
 	li_node.parentNode.removeChild(li_node);
 	// remove markers from google maps
 	var values = event_markers.values();
 	for (var i = values.length - 1; i >= 0 ; i--) {
 		var event = values[i];
-		if (event.calId == cal_id) {
-			console.log ('delete event ' + event.title + ' at ' + event.lat) ;
+		if (event.calId == calId) {
 			event.gMarker.setMap(null) ;
-			values.splice(i,1);
+			event_markers.remove(values[i]);
 		}
 	}
 	// remove from table
 	var tableElement = document.getElementById("event_table_body");
-	var deleteElements = tableElement.getElementsByClassName('tr' + cal_id);
+	var deleteElements = tableElement.getElementsByClassName('tr' + calId);
 	for (var i=deleteElements.length -1; i >=0 ; i--) {	
 		deleteElements[i].parentNode.removeChild(deleteElements[i]);
 	}	
 
+	// reset map bounds
+	var bounds = new google.maps.LatLngBounds();
+	var values = event_markers.values();
+	for (var i = 0; i < values.length; i++)  {
+			// remember marker so hiding is possible
+			var latLng = new google.maps.LatLng(values[i].lat, values[i].lng);
+			bounds.extend(latLng);
+		}
+	map.fitBounds(bounds);	
 }
 
-function hideShowCalendar(cal_id, li_node) {
+function hideShowCalendar(calId, li_node) {
 
 	var tableElement = document.getElementById("event_table_body");
-	var hideElements = tableElement.getElementsByClassName('tr' + cal_id);
+	var hideElements = tableElement.getElementsByClassName('tr' + calId);
 	
 	var targetMap;
 
@@ -100,21 +110,19 @@ function hideShowCalendar(cal_id, li_node) {
 	var values = event_markers.values();
 	for (var i = 0; i < values.length; i++) {
 		var event = values[i];
-		if (event.calId == cal_id) {
-			console.log ('set map ' + event.title + ' at ' + event.lat + ' to ' + targetMap) ;
+		if (event.calId == calId) {
 			event.gMarker.setMap(targetMap) ;
 		}
 	} 
 	
 } // end hideShowCalendar
 
-function createMap() {
+function createMap(calId) {
 	// loop on this function until google maps ready
 	if (!mapScriptLoaded){
 		console.log ('map script not yet ready ??');
-		setTimeout(createMap, 50);
+		setTimeout(function () { createMap(calId);} , 50);
 	} else {
-		console.log ('event_markers exists, so use it to bound map ');
 		// only create map if it doesn't exist
 		if (!map) {
 			var mapOptions = {
@@ -124,7 +132,7 @@ function createMap() {
 			map = new google.maps.Map(mapBlock, mapOptions);
 		  }
 		  
-		addMarkersToMap(event_markers);
+		addMarkersToMap(event_markers, calId);
 
 	}
 } // end createMap
@@ -152,7 +160,6 @@ function populateTable (events) {
         	appendTextChild(tr, 'td' , events[i].dateStart + ' ' + events[i].dateEnd);        	
         	tableElement.appendChild(tr);
         }
-       
 }
 
 function appendTextChild(parent, nodeName, text){

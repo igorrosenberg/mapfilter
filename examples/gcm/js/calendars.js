@@ -1,3 +1,4 @@
+var globalCalId = 0;
 
 function loadCalendars(gCalURL) {
 	var startDay= '2010-07-01T00:00:00-00:00';
@@ -46,7 +47,7 @@ function getGCalData(gCalUrl, startDays, endDays) {
 				 info ('Calendar response received, length=' + xmlhttp.responseText.length);
 				 var calendarEvents = parseCalendarEvents(xmlhttp.responseText);
 				 populateTable(calendarEvents);
-				 geocode(calendarEvents, createMap);
+				 geocode(calendarEvents, function () { createMap(globalCalId) ; } );
 			} else {
 				 info ('Calendar response failure... status=' + xmlhttp.status);
 				 }
@@ -65,6 +66,7 @@ function parseCalendarEvents(calendarAnswerText) {
 
 	if (calendarAnswer.feed.entry) { 
 		var calendarEvents = new Array();
+		globalCalId++; 
 		for (var ii=0; calendarAnswer.feed.entry[ii]; ii++) {
 			// console.log ('Treating entry ' + ii);
 			var curEntry = calendarAnswer.feed.entry[ii];
@@ -85,6 +87,7 @@ function parseCalendarEvents(calendarAnswerText) {
 			}
 
 			var event = {
+				calId: globalCalId,
 				title: calendarTitle,
 				name: curEntry['title']['$t'],
 				desc: curEntry['content']['$t'],
@@ -103,7 +106,7 @@ function parseCalendarEvents(calendarAnswerText) {
 			}
 		} 
 	} // end if calendarAnswer.feed.entry
-	info ("Finished parsing calendar data for: " + calendarTitle)
+	info ("Finished parsing calendar data for: " + calendarTitle + " calid=" + globalCalId);
 	return calendarEvents;
 } // end parseCalendarEvents
 
