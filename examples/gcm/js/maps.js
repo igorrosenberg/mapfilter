@@ -1,4 +1,4 @@
-function myInfowindow(event) {
+function addGmapListener(event){
 	var dates; 
 	if (event.dateStart == event.dateEnd ) {
 		dates = 'Date: le ' + event.dateStart;
@@ -18,19 +18,13 @@ function myInfowindow(event) {
 		 '</li></ul>' ;
 	full += '</div>';
 	
-	return new google.maps.InfoWindow({content: full});
+	var infowindow = new google.maps.InfoWindow({content: full});
+	google.maps.event.addListener(event.gMarker, 'click', function() {
+			infowindow.open(map, event.gMarker);
+	});
 }
 
-function addSingleMarkerToMap(marker){
-	// new Gmarker object
 
-	// add Listener that pops an infoWindow 
-	google.maps.event.addListener(gMarker, 'click', function() {
-		myInfowindow(marker).open(map, gMarker);
-	});
-	return gMarker;
-}  // end addSingleMarkerToMap
-  
 function addMarkersToMap(markerList, calId) {
 	var bounds = map.getBounds();
 	if (bounds == null || bounds == undefined){
@@ -47,9 +41,8 @@ function addMarkersToMap(markerList, calId) {
 				title: values[i].name + '\n' + values[i].addrOrig,
 				zIndex: 2, map: map,          // adds the marker to gmap called 'map'
 			});		
-			google.maps.event.addListener(values[i].gMarker, 'click', function() {
-				myInfowindow(values[i]).open(map, values[i].gMarker);
-			});
+			addGmapListener(values[i]);
+
 		} // end if-for markers
 		}
 	map.fitBounds(bounds);
