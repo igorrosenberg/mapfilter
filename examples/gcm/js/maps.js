@@ -45,7 +45,9 @@ function addMarkersToMap(markerList) {
 } // end addMarkersToMap
 
 function deleteCalendar(cal_id, li_node) {
+	// remove from calendar list
 	li_node.parentNode.removeChild(li_node);
+	// remove markers from google maps
 	var values = event_markers.values();
 	for (var i = values.length - 1; i >= 0 ; i--) {
 		var event = values[i];
@@ -55,6 +57,13 @@ function deleteCalendar(cal_id, li_node) {
 			values.splice(i,1);
 		}
 	}
+	// remove from table
+	var tableElement = document.getElementById("event_table_body");
+	var deleteElements = tableElement.getElementsByClassName('tr' + cal_id);
+	for (var i=deleteElements.length -1; i >=0 ; i--) {	
+		deleteElements[i].parentNode.removeChild(deleteElements[i]);
+	}	
+
 }
 
 function hideShowCalendar(cal_id, li_node) {
