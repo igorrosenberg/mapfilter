@@ -4,32 +4,17 @@ function loadCalendars(gCalURL) {
 	var endDay = '2013-06-31T00:00:00-00:00';
 	getGCalData(gCalURL, startDay, endDay);
 	}
-		
 
 function verifyURL(gCalUrl) {
-	/*var startswithM = 'mock/';
-	if (gCalUrl.slice(0, startswithM.length) == startswithM){
-		return gCalUrl;
-	}
-	gCalUrl = gCalUrl.replace(/\/basic$/, '/full');
 
+	// add google domain if not there yet 
 	var startswith = 'https://www.google.com/calendar/feeds/';
 	if (gCalUrl.slice(0, startswith.length) != startswith){
 		gCalUrl = startswith + gCalUrl;
 	}
 
-	var endswith0 = '@gmail.com';
-	var endswith1 = '@gmail.com/public/full';
-	if (gCalUrl.slice(-endswith0.length) == endswith0){
-		gCalUrl = gCalUrl.slice(0,-endswith0.length) + endswith1;
-	}
-	if (gCalUrl.slice(-endswith1.length) != endswith1){
-		var endswith2 = '@gmail.com/public/basic';
-		if (gCalUrl.slice(-endswith2.length) == endswith2){
-			gCalUrl = gCalUrl.slice(0,-endswith2.length) + endswith1;
-		}
-		gCalUrl = gCalUrl + endswith1;
-	}*/
+	// replace any trailing specifier, ie any slashes after the @
+	gCalUrl=gCalUrl.replace(/(@[^/]*).*$/,"$1/public/full");
 	return gCalUrl;
 }
 

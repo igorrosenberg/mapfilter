@@ -23,13 +23,6 @@ function myInfowindow(event) {
 
 function addSingleMarkerToMap(marker){
 	// new Gmarker object
-	var gMarker = new google.maps.Marker({
-		position: new google.maps.LatLng(marker.lat, marker.lng),
-		title: marker.name + '\n' + marker.addrOrig,
-		map: map,          // adds the marker to gmap called 'map'
-		zIndex: 2,
-		//  icon: image,
-	});
 
 	// add Listener that pops an infoWindow 
 	google.maps.event.addListener(gMarker, 'click', function() {
@@ -39,12 +32,26 @@ function addSingleMarkerToMap(marker){
 }  // end addSingleMarkerToMap
   
 function addMarkersToMap(markerList) {
-	// console.log ('markerList '+markerList);
+	var bounds = map.getBounds();
+	if (bounds == null || bounds == undefined){
+		bounds = new google.maps.LatLngBounds();
+	}	
 	var values = markerList.values();
 	for (var i = 0; i < values.length; i++) {
-		// remember marker so hiding is posible
-		values[i].gMarker = addSingleMarkerToMap(values[i]);
-		} // end for markers
+		// remember marker so hiding is possible
+		var latLng = new google.maps.LatLng(values[i].lat, values[i].lng);
+	   bounds.extend(latLng);
+		values[i].gMarker = new google.maps.Marker({
+			position: latLng,
+			title: values[i].name + '\n' + values[i].addrOrig,
+			zIndex: 2, map: map,          // adds the marker to gmap called 'map'
+		});		
+		google.maps.event.addListener(values[i].gMarker, 'click', function() {
+			myInfowindow(values[i]).open(map, values[i].gMarker);
+		});
+	} // end for markers
+	map.fitBounds(bounds);
+
 } // end addMarkersToMap
 
 function deleteCalendar(cal_id, li_node) {
@@ -111,8 +118,6 @@ function createMap() {
 		// only create map if it doesn't exist
 		if (!map) {
 			var mapOptions = {
-				zoom: 8,
-				center: new google.maps.LatLng(48.114767,-1.68251), // Rennes
 				mapTypeId: google.maps.MapTypeId.ROADMAP
 			};
 			var mapBlock = document.getElementById('map_canvas');
@@ -121,7 +126,6 @@ function createMap() {
 		  
 		addMarkersToMap(event_markers);
 
-		showMapControls();
 	}
 } // end createMap
 
