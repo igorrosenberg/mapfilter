@@ -54,18 +54,28 @@ function deleteCalendar(cal_id, li_node) {
 			event.gMarker.setMap(null) ;
 			values.splice(i,1);
 		}
-	} 		
+	}
 }
 
 function hideShowCalendar(cal_id, li_node) {
+
+	var tableElement = document.getElementById("event_table_body");
+	var hideElements = tableElement.getElementsByClassName('tr' + cal_id);
+	
 	var targetMap;
 
 	if (li_node.classList.contains('not-on-map') ) {
-		li_node.classList.remove('not-on-map');
-		targetMap = map;	// add point to the only google map on page
+		li_node.classList.remove('not-on-map'); // display control link
+		targetMap = map;				// add point to the only google map div on page
+		for (var i=hideElements.length -1; i >=0 ; i--) {	// show on table
+				hideElements[i].classList.remove('not-on-map');
+		     }	
 	} else {
-		li_node.classList.add('not-on-map');
-		targetMap = null; // hide point from map
+		li_node.classList.add('not-on-map'); // italics for control link
+		targetMap = null; 			// hide point from google map div map
+		for (var i=hideElements.length -1; i >=0 ; i--) { // hide from table
+			hideElements[i].classList.add('not-on-map');
+	     }	
 	}
 
 	var values = event_markers.values();
@@ -76,6 +86,7 @@ function hideShowCalendar(cal_id, li_node) {
 			event.gMarker.setMap(targetMap) ;
 		}
 	} 
+	
 } // end hideShowCalendar
 
 function createMap() {
@@ -134,12 +145,13 @@ function populateTable (events) {
 	// inserts a table row
 	var tableElement = document.getElementById("event_table_body");
 	for (var i=0; i < events.length; i++) {
-        	var content = document.createElement('tr');
+        	var tr = document.createElement('tr');
+        	tr.className = 'tr' + calId;
         	// add color to table lines? content.class = css_classes;
-        	appendTextChild(content, 'td' , events[i].name);
-        	appendTextChild(content, 'td' , events[i].addrOrig);
-        	appendTextChild(content, 'td' , events[i].dateStart + ' ' + events[i].dateEnd);        	
-        	tableElement.appendChild(content);
+        	appendTextChild(tr, 'td' , events[i].name);
+        	appendTextChild(tr, 'td' , events[i].addrOrig);
+        	appendTextChild(tr, 'td' , events[i].dateStart + ' ' + events[i].dateEnd);        	
+        	tableElement.appendChild(tr);
         }
        
 }

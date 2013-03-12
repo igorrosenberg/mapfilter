@@ -74,7 +74,7 @@
 		font-style:italic;
 		color:grey;
 	}
-
+	
 	#map_controls {
 		background:#bb5;
 		clear:both;
@@ -83,6 +83,8 @@
 		padding:5px;
 	}
 	
+	#map_controls .not-on-map { display: none; }
+
 	#map_controls table thead { cursor:pointer; }
 	#map_controls table .dates { /* width: 10em; */ }
 	#map_controls table {
