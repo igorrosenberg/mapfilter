@@ -25,12 +25,10 @@ var latest_batch_id=0;
 
 function createProgressDiv() {
   	var div = document.createElement('li');
-	
-	// or use div.setAttribute ('id', xxx);
 	div.id = 'p' + (latest_batch_id++);
-        
-        div.appendChild(document.createTextNode('reading cache')); 
-  	var detail = document.createElement('div');
+    div.appendChild(document.createTextNode('reading cache')); 
+  	
+	var detail = document.createElement('div');
   	detail.id = div.id + 'd';
   	div.appendChild(detail);
 	div.onmouseover = "show("+detail.id+")";
@@ -39,7 +37,7 @@ function createProgressDiv() {
 	// use css for that
 	detail.style="display:none;"
         
-        document.getElementById("queue_ul").appendChild(div);
+    document.getElementById("queue_ul").appendChild(div);
 
 	return div.id;
 	}
@@ -55,11 +53,10 @@ function hide() {
    element.style.display = 'none';
    }
    
-function addProgress(type,id){
+function addProgress(type, id){
   	var block = document.createElement('span');
-// or use div.setAttribute ('id', xxx);
   	span.class = type;
-        document.getElementById(id).appendChild(block);
+    document.getElementById(id).appendChild(block);
 }
 
 function removeProgress(parent_id){
@@ -78,7 +75,6 @@ function startAction(event) {
 }
 
 function getPendingAdresses(pass, limit, geocode_poll_min_delay, batch_id){
-	console.log("    " + limit + " " + geocode_poll_min_delay);
 	var fetchUrl = 'update.php';
 	var ajaxURL = fetchUrl + "?pass=" + pass + "&limit="  + limit;
 	var xmlhttp=new XMLHttpRequest();
@@ -113,6 +109,7 @@ function parsePendingAdresses(responseText) {
 }
 
 // tail recursive => make as a for loop on array
+// would be possible if javascript had a Thread.sleep operation
 function geocode(addresses, geocode_poll_min_delay, pass, batch_id) {
 	if ( (!addresses) || addresses.length == 0 )
 		return;
@@ -127,11 +124,16 @@ function geocode(addresses, geocode_poll_min_delay, pass, batch_id) {
 			if (status == 'OVER_QUERY_LIMIT') {
 				var justOne = [address];
 				var adjusted_delay = 5*geocode_poll_min_delay;
-				setTimeout(function() { geocode(justOne, adjusted_delay, pass, batch_id); }, adjusted_delay);
+				setTimeout(
+					function() { geocode(justOne, adjusted_delay, pass, batch_id); }, 
+					adjusted_delay);
 			}
 		}
 	});
-	setTimeout(function() { geocode(addresses, geocode_poll_min_delay, pass, batch_id); }, geocode_poll_min_delay); 
+	// wait a bit then call on remaining elements
+	setTimeout(
+		function() { geocode(addresses, geocode_poll_min_delay, pass, batch_id); }, 
+		geocode_poll_min_delay); 
 }
 
 
@@ -140,11 +142,9 @@ function pushLatLong(address, point, pass, log_id) {
 	var lng = point.lng();
 	console.log ('received: address=' + address + ' google=' + lat + '/' + lng);
 
-
-
 	var fetchUrl = 'update.php';
 	var ajaxURL = fetchUrl + "?pass=" + pass + "&address=" + address + "&latitude=" + lat + "&longitude=" + lng ;
-	var xmlhttp=new XMLHttpRequest();
+	var xmlhttp = new XMLHttpRequest();
 	xmlhttp.onreadystatechange = function () {
 		if (xmlhttp.readyState==4) {
 			if (xmlhttp.status==200) {
@@ -159,7 +159,6 @@ function pushLatLong(address, point, pass, log_id) {
 	xmlhttp.open('GET', ajaxURL, true);
 	xmlhttp.send();
 }
-
 
 function report(string, css_classes){
                 var content = document.createElement('li');

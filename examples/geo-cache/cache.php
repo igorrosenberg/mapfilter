@@ -9,9 +9,8 @@
   mysql_select_db($dbname, $db) or die('No such schema ' . $dbname . ': ' . mysql_error());
   
   // sanitation
-  $address = strtoupper($_GET['address']);
-  if ($address)
-     $address = mysql_real_escape_string($_GET['address']) ;
+  if ($_GET['address']);
+     $address = mysql_real_escape_string( strtoupper($_GET['address']));
   else
      die('please provide an "address" parameter');
   
@@ -22,10 +21,7 @@
   $row = mysql_fetch_assoc($result);
 
   if ($row) {
-    $latitude = $row['latitude'];
-    $longitude = $row['longitude'];
-    $msg = 'cache hit';
-    echo "{status:'OK',lat:$latitude,lng:$longitude,msg:'$msg'}";
+    echo '{"lat":'.$row['latitude'].',"lng":'.$row['longitude'].'}' ;
   } else {
 		 // write to pending db
 		 $sql = 'INSERT into geocode_pending(address)' .
@@ -33,11 +29,10 @@
 		 $result = mysql_query($sql);
 		 if (! $result) {
 		      // $msg = 'DB write failed: ' . mysql_error(); // failed to write to cache pending list
-     		 echo "{status:'MISS',msg:'key not found in cache'}";	 
+     		 die('key not found in cache');	 
 		 } else {
-		 		 echo "{status:'MISS',msg:'key was not found in cache'}";	 
+     		 die('key was not found in cache');	 
 		 }
-
 		 
   }
 ?>

@@ -4,6 +4,8 @@ var googleGeocoder;
 
 var geocodeCacheUrl = 'http://igor.rosenberg.free.fr/gc/m/geo-cache/cache.php?address=';
 
+var localCache = {};
+
 function geocode(eventArray, callback) {	
 	geoCodeCalls += eventArray.length;
  	for (var i = 0; i < eventArray.length; i++) {
@@ -64,17 +66,16 @@ function geocodeCache(address, callback) {
 	xmlhttp.onreadystatechange = function () {
 		if (xmlhttp.readyState==4) {
 			if (xmlhttp.status==200) {
-				 info ('Cache response received, length=' + xmlhttp.responseText.length);
-				 localCache[address] = parseCacheResponse(xmlhttp.responseText);
+				info ('Cache response received, length=' + xmlhttp.responseText.length);
+				localCache[address] = JSON.parse(xmlhttp.responseText);
 				success(callback);
 			} else {
 				console.warn ('Cache response failure... status=' + xmlhttp.status);
 				geocodeGoogle(address, callback);
-				 }
+				}
 		 }
 	  };
 
 	xmlhttp.open("GET",ajaxURL,true);
 	xmlhttp.send();
 }
-
