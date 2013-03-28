@@ -1,19 +1,26 @@
 var geoCodeCalls = 0;
-
+var cacheSleep = 50;
 var googleGeocoder; 
 
-var geocodeCacheUrl = 'http://igor.rosenberg.free.fr/gc/m/geo-cache/cache.php?address=';
+var geocodeCacheUrl = 'http://igor.rosenberg.free.fr/gcm/geo-cache/cache.php?address=';
 
 var localCache = {};
 
 function geocode(eventArray, callback) {	
 	geoCodeCalls += eventArray.length;
- 	for (var i = 0; i < eventArray.length; i++) {
-		geocodeOneEvent(eventArray[i].addrOrig, callback);
-		}
-	// call to createMap=callback made in success
-}
 
+	var countCallback = function () {
+		geoCodeCalls--; 
+		if (geoCodeCalls == 0) { 
+			callback(); 
+		}
+         now see/delete addLatLong(event, point)
+	}
+ 	for (var i = 0; i < eventArray.length; i++) {
+		setTimeout(function(){ geocodeOneEvent(eventArray[i].addrOrig, countCallback); }, i * cacheSleep);
+		}
+	// call to createMap=callback made once remote call returns
+}
 
 function geocodeGoogle(address, callback) {
 	// loop on this function until google maps ready
@@ -29,46 +36,43 @@ function geocodeGoogle(address, callback) {
 
 	googleGeocoder.geocode({'address': address}, function(results, status){
 		if (status != 'OK') {
-			console.warn ("encodage GPS d'adresse impossible: " + status + ' pour ' + address);
-			success (callback); 
-		} else {
+			failGeoEncode(status, address);
+			} else {
 			var point = results[0].geometry.location;
-			localCache[address] = {lat:point.lat();lng: point.lng()};
-			success (callback); 
-			}
+			localCache[address] = {lat: point.lat(); lng: point.lng()};
+		}
+		callback(); 
 	});
 } // end geocodeGoogle
-
-function success( callback ){
-	geoCodeCalls--; 
-	if (geoCodeCalls == 0) { 
-		callback(); 
-		}
-         now see/delete addLatLong(event, point)
+			
+			
+function failGeoEncode(status, address) {
+		// TODO insert here user notification 
+		console.warn ("encodage GPS d'adresse impossible: " + status + ' pour ' + address);
 }
+
 function addLatLong(event, point){
 	event.lat = point.lat(); 
 	event.lng = point.lng();
 	event_markers.add(event);
 }
 
-
 function geocodeOneEvent(address, callback) {
 	if (localCache[address] == null)
 		geocodeCache(address, callback);
 	else 
-		success(callback);
+		callback();
 }
 
 function geocodeCache(address, callback) {
-	var ajaxURL = geocodeCacheUrl + address;
-	Par xmlhttp = new XMLHttpRequest();
+	var ajaxURL = geocodeCacheUrl + urlEncode(address);
+	var xmlhttp = new XMLHttpRequest();
 	xmlhttp.onreadystatechange = function () {
 		if (xmlhttp.readyState==4) {
 			if (xmlhttp.status==200) {
-				info ('Cache response received, length=' + xmlhttp.responseText.length);
+				console.log ('Cache response received, length=' + xmlhttp.responseText.length);
 				localCache[address] = JSON.parse(xmlhttp.responseText);
-				success(callback);
+				callback();
 			} else {
 				console.warn ('Cache response failure... status=' + xmlhttp.status);
 				geocodeGoogle(address, callback);
@@ -79,3 +83,4 @@ function geocodeCache(address, callback) {
 	xmlhttp.open("GET",ajaxURL,true);
 	xmlhttp.send();
 }
+
