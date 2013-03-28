@@ -1,15 +1,7 @@
 
-// ---------------------
-// tracing events
-// ---------------------
-
-function info(string){
-	console.log(string);
-}
-		
-// ----------------------------------
+// -----------------------------------------
 // make sure logs don't break the javascript
-// ----------------------------------
+// -----------------------------------------
 
 if (!("console" in window)) {
  var names = "log,debug,info,warn,error,assert,dir,dirxml,group,groupEnd,time,timeEnd,count,trace,profile,profileEnd".split(",");
@@ -17,4 +9,5 @@ if (!("console" in window)) {
  for (var i = 0, len = names.length; i < len; i++) {
    window.console[names[i]] = function(){};
  }
-}		
+}
+

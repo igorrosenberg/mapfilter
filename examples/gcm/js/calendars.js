@@ -23,7 +23,7 @@ function getGCalData(gCalUrl, startDays, endDays) {
 
 	gCalUrl = verifyURL(gCalUrl);
 
-	info ('loading: ' + gCalUrl);
+	console.log('loading: ' + gCalUrl);
 
 	// http://code.google.com/apis/calendar/docs/2.0/reference.html
 	gCalObj = {
@@ -44,12 +44,12 @@ function getGCalData(gCalUrl, startDays, endDays) {
 	xmlhttp.onreadystatechange = function () {
 		if (xmlhttp.readyState==4) {
 			if (xmlhttp.status==200) {
-				 info ('Calendar response received, length=' + xmlhttp.responseText.length);
+				 console.log('Calendar response received, length=' + xmlhttp.responseText.length);
 				 var calendarEvents = parseCalendarEvents(xmlhttp.responseText);
 				 populateTable(calendarEvents);
 				 geocode(calendarEvents, function () { createMap(globalCalId) ; } );
 			} else {
-				 info ('Calendar response failure... status=' + xmlhttp.status);
+				 console.log('Calendar response failure... status=' + xmlhttp.status);
 				 }
 		 }
 	  };
@@ -61,7 +61,7 @@ function getGCalData(gCalUrl, startDays, endDays) {
 function parseCalendarEvents(calendarAnswerText) {
 	var calendarAnswer = JSON.parse(calendarAnswerText);
 	var calendarTitle = calendarAnswer.feed.title['$t']	
-	info ("Reading calendar data: " + calendarTitle)
+	console.log("Reading calendar data: " + calendarTitle)
 	var calendarHref = calendarAnswer.feed.link[0].href  // needed for cross reference later	 
 
 	if (calendarAnswer.feed.entry) { 
@@ -80,7 +80,7 @@ function parseCalendarEvents(calendarAnswerText) {
 			   // console.log ('Treating entry link ' + jj);
 				var curLink = curEntry.link[jj];
 				if (curLink.type == 'text/html') {
-					// looks like when rel='related', href is original event info (like meetup.com)
+					// looks like when rel='related', href is original event console.log(like meetup.com)
 					// when rel='alternate', href is the google.com calendar event info
 					urlMap[curLink.rel] = curLink.href;
 				}
@@ -106,7 +106,7 @@ function parseCalendarEvents(calendarAnswerText) {
 			}
 		} 
 	} // end if calendarAnswer.feed.entry
-	info ("Finished parsing calendar data for: " + calendarTitle + " calid=" + globalCalId);
+	console.log("Finished parsing calendar data for: " + calendarTitle + " calid=" + globalCalId);
 	return calendarEvents;
 } // end parseCalendarEvents
 
