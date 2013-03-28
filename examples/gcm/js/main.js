@@ -23,7 +23,7 @@ function loadScript(cal) {
 		var script = document.createElement('script');
 		script.id = g_id;
 		script.type = 'text/javascript';
-		script.src = 'https://maps.googleapis.com/maps/api/js?v=3.10&sensor=false&callback=initialize';
+		script.src = 'https://maps.googleapis.com/maps/api/js?v=3.10&sensor=false&callback=mapInitialized';
 		document.body.appendChild(script);
 	}            
 	
@@ -45,8 +45,8 @@ function loadScript(cal) {
 
 } // end loadScript
 
-function initialize() {
+function mapInitialized() {
 	mapScriptLoaded = true;
-} // end initialize
+} // end mapInitialized
 
 
