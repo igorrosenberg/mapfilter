@@ -1,6 +1,14 @@
+// ------------------------------------------------
+// set dates in date chooser input
+// ------------------------------------------------
+document.getElementById('startDate').value = new Date ().toDateString();
+document.getElementById('endDate').value = new Date ( new Date().getTime() + 1000*60*60*24*365).toDateString();
+
 var globalCalId = 0;
 
 function loadCalendars(gCalURL) {
+	htmlLog('hhh');
+	console.log('lll');
 	var startDay= '2012-07-01T00:00:00-00:00';
 	var endDay = '2013-06-31T00:00:00-00:00';
 	getGCalData(gCalURL, startDay, endDay);

@@ -106,7 +106,7 @@
     border: 1px solid grey;
 	}
 	#footer {
-		display:none;
+	/*	display:none;*/
 		clear:both;
 		padding:5px 10px;
 		background:#cc9;
