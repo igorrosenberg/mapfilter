@@ -1,21 +1,34 @@
-// ------------------------------------------------
-// set dates in date chooser input
-// ------------------------------------------------
-document.getElementById('startDate').value = new Date ().toDateString();
-document.getElementById('endDate').value = new Date ( new Date().getTime() + 1000*60*60*24*365).toDateString();
-
 var globalCalId = 0;
 
-function loadCalendars(gCalURL) {
-	htmlLog('hhh');
-	console.log('lll');
-	var startDay= '2012-07-01T00:00:00-00:00';
-	var endDay = '2013-06-31T00:00:00-00:00';
+// ------------------------------------------------
+// 
+// ------------------------------------------------
+function dateFormat(date){
+	return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+}
+function dateFormat2(date){
+	return date.getFullYear() + "-0" + (date.getMonth() + 1) + "-" + date.getDate() + 'T00:00:00-00:00';
+}
+
+function loadCalendars(gCalURL) {	
+	// date.js syntactic sugar
+	var now = new Date (); 
+	document.getElementById("startDate").value = now.toString('MM/dd/yyyy');
+	var startDay = now.toString('yyyy-MM-dd') + 'T00:00:00-00:00';
+	
+	var year1 = now.addYears(1) ;
+	document.getElementById("endDate").value = year1.toString('MM/dd/yyyy');
+	var endDay = year1.toString('yyyy-MM-dd') + 'T00:00:00-00:00';
+	
 	getGCalData(gCalURL, startDay, endDay);
 	}
 
 function verifyURL(gCalUrl) {
 
+	var mock = "mock/";
+	if (gCalUrl.slice(0, mock.length) == mock){
+		return gCalUrl;
+	}
 	// add google domain if not there yet 
 	var startswith = 'https://www.google.com/calendar/feeds/';
 	if (gCalUrl.slice(0, startswith.length) != startswith){
