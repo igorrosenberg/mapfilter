@@ -24,25 +24,28 @@ function addGmapListener(event){
 	});
 }
 
-
-function addMarkersToMap(markerList, calId) {
+function addMarkersToMap(eventList, calId) {
+	console.log ("addMarkersToMap");
 	var bounds = map.getBounds();
 	if (bounds == null || bounds == undefined){
 		bounds = new google.maps.LatLngBounds();
 	}	
-	var values = markerList.values();
-	for (var i = 0; i < values.length; i++)  {
-		if (values[i].calId == calId) {
-			// remember marker so hiding is possible
-			var latLng = new google.maps.LatLng(values[i].lat, values[i].lng);
-			bounds.extend(latLng);
-			values[i].gMarker = new google.maps.Marker({
-				position: latLng,
-				title: values[i].name + '\n' + values[i].addrOrig,
-				zIndex: 2, map: map,          // adds the marker to gmap called 'map'
-			});		
-			addGmapListener(values[i]);
-
+	for (var i = 0; i < eventList.length; i++)  {
+		if (eventList[i].calId == calId) {
+			// how do we know where is the GPS cache data (localCache var)?
+			console.log ("Looking for " + eventList[i].addrOrig);
+			var point = localCache[eventList[i].addrOrig];
+			if (point) {
+				var latLng = new google.maps.LatLng(point.lat, point.lng);
+				bounds.extend(latLng);
+				// remember marker so hiding is possible
+				eventList[i].gMarker = new google.maps.Marker({
+					position: latLng,
+					title: eventList[i].name + '\n' + eventList[i].addrOrig,
+					zIndex: 2, map: map,          // adds the marker to gmap called 'map'
+				});		
+				addGmapListener(eventList[i]);
+			}
 		} // end if-for markers
 		}
 	map.fitBounds(bounds);
@@ -110,7 +113,7 @@ function hideShowCalendar(calId, li_node) {
 	
 } // end hideShowCalendar
 
-function createMap(calId) {
+function createMap(calId, events) {
 	// loop on this function until google maps ready
 	if (!mapScriptLoaded){
 		console.log ('map script not yet ready ??');
@@ -125,7 +128,7 @@ function createMap(calId) {
 			map = new google.maps.Map(mapBlock, mapOptions);
 		  }
 		  
-		addMarkersToMap(event_markers, calId);
+		addMarkersToMap(events, calId);
 
 	}
 } // end createMap

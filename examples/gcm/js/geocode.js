@@ -9,20 +9,21 @@ var localCache = {};
 
 function geocode(eventArray, callback) {	
 	geoCodeCalls += eventArray.length;
-
+	
 	var countCallback = function () {
 		geoCodeCalls--; 
 		if (geoCodeCalls == 0) { 
-			console.log("   now see/delete addLatLong(event, point) " );
+			console.log("geocode| CALLBACK");
 			callback(); 
 		}
       
 	}
  	for (var i = 0; i < eventArray.length; i++) {
-		setTimeout(function(){ geocodeOneEvent(eventArray[i].addrOrig, countCallback); }, i * cacheSleep);
+		geocodeOneEvent(eventArray[i].addrOrig, countCallback, i * cacheSleep);
 		}
 	// call to createMap=callback made once remote call returns
 }
+
 
 function geocodeGoogle(address, callback) {
 	// loop on this function until google maps ready
@@ -31,17 +32,19 @@ function geocodeGoogle(address, callback) {
 		setTimeout(function(){geocodeGoogle(address, callback);}, 50);
 		return;
 	}
-	if (! googleGeocoder )	
+	
+	if (! googleGeocoder)
 		googleGeocoder = new google.maps.Geocoder();
 
 	// https://developers.google.com/maps/documentation/javascript/v2/services?hl=es#Geocoding_Object
-
 	googleGeocoder.geocode({'address': address}, function(results, status){
 		if (status != 'OK') {
 			failGeoEncode(status, address);
 		} else {
 			var point = results[0].geometry.location;
+			console.log ("ggle encode OK: " + point.lat() + "/" + point.lng());
 			localCache[address] = {lat: point.lat(), lng: point.lng()};
+			console.log ("Storing " + localCache[address] + " for " + address);
 		}
 		callback(); 
 	});
@@ -53,32 +56,28 @@ function failGeoEncode(status, address) {
 		console.warn ("encodage GPS d'adresse impossible: " + status + ' pour ' + address);
 }
 
-function addLatLong(event, point){
-	event.lat = point.lat(); 
-	event.lng = point.lng();
-	event_markers.add(event);
-}
-
-function geocodeOneEvent(address, callback) {
+function geocodeOneEvent(address, callback, timeOut) {
 	if (localCache[address] == null)
-		geocodeCache(address, callback);
+		setTimeout(
+			function(){ geocodeCache(address, callback); }, 
+			timeOut);
 	else 
 		callback();
 }
 
 function geocodeCache(address, callback) {
-	var ajaxURL = geocodeCacheUrl + urlEncode(address);
+	var ajaxURL = geocodeCacheUrl + encodeURIComponent(address);
 	var xmlhttp = new XMLHttpRequest();
 	xmlhttp.onreadystatechange = function () {
 		if (xmlhttp.readyState==4) {
 			if (xmlhttp.status==200) {
 				console.log ('Cache response received, length=' + xmlhttp.responseText.length);
 				localCache[address] = JSON.parse(xmlhttp.responseText);
+				callback();
 			} else {
 				console.warn ('Cache response failure... status=' + xmlhttp.status);
 				geocodeGoogle(address, callback);
 			}
-			callback();
 		 }
 	  };
 

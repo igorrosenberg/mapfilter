@@ -68,7 +68,8 @@ function getGCalData(gCalUrl, startDays, endDays) {
 				 console.log('Calendar response received, length=' + xmlhttp.responseText.length);
 				 var calendarEvents = parseCalendarEvents(xmlhttp.responseText);
 				 populateTable(calendarEvents);
-				 geocode(calendarEvents, function () { createMap(globalCalId) ; } );
+				 // use of globalCalId is dangerous
+				 geocode(calendarEvents, function () { createMap(globalCalId, calendarEvents) ; } );
 			} else {
 				 console.log('Calendar response failure... status=' + xmlhttp.status);
 				 }
