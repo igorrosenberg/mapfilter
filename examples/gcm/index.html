@@ -5,25 +5,26 @@
     <meta charset="utf-8">
     <title>Google Maps and Calendar</title>
     <link rel="stylesheet" type="text/css" href="css/aikido.css">
-    <script type="text/javascript" src="js/util.js"></script>
-    <script type="text/javascript" src="js/json2.js"></script>
-    <script type="text/javascript" src="js/log.js"></script>
-    <script type="text/javascript" src="js/maps.js"></script>
-    <script type="text/javascript" src="js/geocode.js"></script>
-    <script type="text/javascript" src="js/calendars.js"></script>
-    <script type="text/javascript" src="js/sorttable.js"></script>
-    <script type="text/javascript" src="js/main.js"></script>
+    <script type="text/javascript" src="js/util.js" ></script>
+    <script type="text/javascript" src="js/json2.js" ></script>
+    <script type="text/javascript" src="js/log.js" ></script>
+    <script type="text/javascript" src="js/sorttable.js" ></script>
+    <script type="text/javascript" src="js/date.js" ></script>
+    <script type="text/javascript" src="js/maps.js" ></script>
+    <script type="text/javascript" src="js/geocode.js" ></script>
+    <script type="text/javascript" src="js/calendars.js" ></script>
+    <script type="text/javascript" src="js/main.js" ></script>
 </head>
 <body>
-<div id="wrap">
-	<div id="header"><h1>Carte des stages</h1></div>
+<div class="content">
+	<h1>Carte des stages</h1>
 	<noscript>
-  		<div id='noscript'>
+  		<div>
   			Cette page permet de voir les stages sur une carte.
   			Il est nécessaire d'activer Javascript pour la voir fonctionner.
   		</div>
 	</noscript>
-	<div id="nav">
+	<div class="nav">
 		<ul>
 			<li><a href="/">Option 1</a></li>
 			<li><a href="/">Option 2</a></li>
@@ -32,55 +33,59 @@
 			<li><a href="/">Option 5</a></li>
 		</ul>
 	</div>
-  <div id="main">
-    <div id='wrap_map_canvas'>
+  <div class="controls">
+	  <div class="cal_list_div">
+	  		<h4>Calendriers</h4>
+	  		<ul id='cal_list'>
+	  			<li class="temp"><a href='#' onclick="loadScript('mock/gcal.json'); return false;">mock</a></li>
+				<li class="temp"><a href='#' onclick="loadScript('https://www.google.com/calendar/feeds/aikidorennes@gmail.com/public/full'); return false;">Stages en Bretagne</a></li>
+				<li class="temp"><a href='#' onclick="loadScript('https://www.google.com/calendar/feeds/aleaikido.com_dejam6fk5hftrvq9iu0gbar9bk@group.calendar.google.com/public/full'); return false;">Stephane Benedetti</a></li>
+				<li id="calendar_form">
+					<form id='cal_form' name='cal_form'
+								onsubmit='loadScript(document.getElementById("user_cal").value); return false;' >
+					<input type="text" id='user_cal' placeholder='Id de Google calendar'/> 
+					<a href='#' onclick='loadScript(document.getElementById("user_cal").value); return false;'>go</a>
+					</form>
+				</li>
+			</ul>
+	  </div>
+	  <div class="column" id="no_map_yet">
+		 <p>Choisissez un calendrier dans cette liste, ou alors entrez la référence 
+		 	d'un calendrier de Google (l'identifiant se trouve dans l'interface de gestion de google:
+		 	il est nommé Calendar ID dans les propriétés du calendrier).</p>
+	  </div>	
+		<div class="column onCalLoad">
+	  		<h4>Dates</h4>
+			<form id='date_form' name='date_form' onsubmit="return false;" >
+				<table>
+		  		<tr>
+		  			<td>Début</td><td>Fin</td><td></td>
+		  		</tr>
+		  		<tr>
+		  			<td>
+						<input type="date" id="startDate" size="10"></input>
+					</td>
+					<td>
+						<input type="date" id="endDate" size="10"></input> 
+					</td>
+					<td>
+						<a href="#" onclick="return false;">go</a>
+					</td>
+		  		</tr>
+		  		</table>
+	  		</form>
+	  		
+		</div>
+  </div>	
+  <div class="main">
+    <div class='wrap_map_canvas'>
       <div id='map_canvas'></div>
     </div>
   </div>
-  <div id="controls">
-  		<h4>Calendriers</h4>
-  		<ul id='cal_list'>
-  			<li id='c1' class="temp"><a href='#' onclick="loadScript('mock/gcal.json'); return false;">mock</a></li>
-			<li id='c2' class="temp"><a href='#' onclick="loadScript('https://www.google.com/calendar/feeds/aikidorennes@gmail.com/public/full'); return false;">Stages en Bretagne</a></li>
-			<li id='c2' class="temp"><a href='#' onclick="loadScript('https://www.google.com/calendar/feeds/aleaikido.com_dejam6fk5hftrvq9iu0gbar9bk@group.calendar.google.com/public/full'); return false;">Stephane Benedetti</a></li>
-			<li id="calendar_form">
-				<form onsubmit='loadScript(document.getElementById("user_cal").value); return false;' id='cal_form' name='cal_form'>
-				<input type="text" id='user_cal' placeholder='Id de Google calendar'/> 
-				<a href='#' onclick='loadScript(document.getElementById("user_cal").value); return false;'>go</a>
-				</form>
-			</li>
-		</ul>
-    <div class="onCalLoad">
-  		<h4>Dates</h4>
-		<form onsubmit="return false;" id='date_form' name='date_form'>
-			<table>
-	  		<tr>
-	  			<td>Début</td><td>Fin</td><td></td>
-	  		</tr>
-	  		<tr>
-	  			<td>
-					<input type="date" id='startDate' size='10'/> 
-				</td>
-				<td>
-					<input type="date" id='endDate' size='10'/> 
-				</td>
-				<td>
-					<a href='#' onclick='return false;'>go</a>
-				</td>
-	  		</tr>
-	  		</table>
-  		</form>
-  		
-    </div>
-    <div id="no_map_yet">
-    <p>Choisissez un calendrier dans la liste ci-dessus, ou alors entrez la référence 
-    	d'un calendrier de Google (l'identifiant se trouve dans l'interface de gestion de google:
-    	il est nommé Calendar ID dans les propriétés du calendrier).</p>
-     </div>	
-  </div>	
+
 <div>
 
-    <div id="map_controls" class="onCalLoad">
+    <div class="map_controls onCalLoad">
 		<table class='sortable' >
 			<thead>
 				<td>Nom</td><td>Adresse</td><td class="dates">Dates</td>
@@ -90,8 +95,7 @@
 		</table>
 	 </div>	
 </div>
-<div id='footer'>
-  <p>ppppp</p>
+<div class='footer'>
 </div>
 </body>
 </html>

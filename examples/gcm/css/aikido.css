@@ -9,21 +9,17 @@
 	p {line-height: 100%;}
 	ul, ol { margin-left: 1em; padding-left: 0px; }
 
-	h1 { margin:0; }
+	h1 { margin:0;  padding:5px 10px; background:#ddd; 	}
 	h2 { margin:0 0 1em; }
 	h4 {margin:0px;}
-	#log li { margin-bottom:0.25em; list-style-type: none; font-size:60%; }
-	#wrap {
+	.log li { margin-bottom:0.25em; list-style-type: none; font-size:60%; }
+	.content {
 		width:750px;
 		margin:0 auto;
 		background:#99c;
 	}
-	#header {
-	  	padding:5px 10px;
-		background:#ddd;
-	}
 	
-	#noscript {
+	noscript {
 		border: 4px solid red;
 		background:#d99;
 		font-size: 150%; 
@@ -32,33 +28,27 @@
 		text-align: center;
 	}
 
-	#no_map_yet p {
-		text-align: justify;
-	} 
-	
-	#nav {
+	.nav {
 		padding:5px 10px;
 		background:#c99;
 	}
-	#nav ul {
+	.nav ul {
 		margin:0;
 		padding:0;
 		list-style:none;
 	}
-	#nav li {
+	.nav li {
 		display:inline;
 		margin:0;
 		padding:0;
 	}
-	#main {
-		float:left;
-		width:480px;
+	.main {
 		padding:10px;
 		background:#9c9;
 	}
-	#wrap_map_canvas {
+	.wrap_map_canvas {
 		height:300px;
-		width:478px;
+	   width:100%;
 	}
 	#map_canvas .infoWindow{ width:280px; }
 	
@@ -72,54 +62,61 @@
 
 	.onCalLoad {display:none;}
 	
-	#controls {
-		float:right;
-		width:230px;
-		height:300px;
+	.column {
+		text-align: justify;
+		float: right; 
+		position:absolute;
+		top: 10px;
+		right: 10px;
+		width:45%;
+	} 
+	
+	.controls {
+		position:relative;
 		padding:10px;
 		background:#99c;
 		font-size: 75%; 
 	}
-	#controls .not-on-map {
+	.controls .not-on-map {
 		font-style:italic;
 		color:grey;
 	}
 	
-	#map_controls {
+	.map_controls {
 		background:#bb5;
 		clear:both;
 		font-size: 75%; 
 		padding:5px;
 	}
 	
-	#map_controls .not-on-map { display: none; }
+	.map_controls .not-on-map { display: none; }
 
-	#map_controls table thead { cursor:pointer; }
-	#map_controls table .dates { /* width: 10em; */ }
-	#map_controls table {
+	.map_controls table thead { cursor:pointer; }
+	.map_controls table .dates { /* width: 10em; */ }
+	.map_controls table {
     border: 1px solid black;
     border-spacing:0;
     border-collapse:collapse;
 	}
 	
-	#map_controls table td, #map_controls table th {  
+	.map_controls table td, #map_controls table th {  
     border: 1px solid grey;
 	}
-	#footer {
+	.footer {
 	/*	display:none;*/
 		clear:both;
 		padding:5px 10px;
 		background:#cc9;
 		position:relative;
 	}
-	#log_control {
+	.log_control {
 		text-decoration:none;
 		position:absolute;
 		top:0px;
 		right:0px;
 		font-size:50%; 
 	}
-	* html #footer {
+	* html .footer {
 		height:1px;
 	}
 
