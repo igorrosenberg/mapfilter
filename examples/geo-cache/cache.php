@@ -9,7 +9,7 @@
   mysql_select_db($dbname, $db) or die('No such schema ' . $dbname . ': ' . mysql_error());
   
   // sanitation
-  if ($_GET['address']);
+  if ($_GET['address'])
      $address = mysql_real_escape_string( strtoupper($_GET['address']));
   else
      die('please provide an "address" parameter');
