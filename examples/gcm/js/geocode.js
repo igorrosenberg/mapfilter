@@ -13,7 +13,6 @@ function geocode(eventArray, callback) {
 	var countCallback = function () {
 		geoCodeCalls--; 
 		if (geoCodeCalls == 0) { 
-			console.log("geocode| CALLBACK");
 			callback(); 
 		}
       
@@ -44,7 +43,6 @@ function geocodeGoogle(address, callback) {
 			var point = results[0].geometry.location;
 			console.log ("ggle encode OK: " + point.lat() + "/" + point.lng());
 			localCache[address] = {lat: point.lat(), lng: point.lng()};
-			console.log ("Storing " + localCache[address] + " for " + address);
 		}
 		callback(); 
 	});
