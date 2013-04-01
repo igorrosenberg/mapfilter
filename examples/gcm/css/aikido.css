@@ -2,21 +2,22 @@
 	  height: 100%;
 	  margin: 0;
 	  padding: 0;
-	  color:#000;
-	  background:#a7a09a;
+	  color:#3D120B;;
 	}
+	body {
+		  background: url("http://www.aikido-rennes.fr/wp-content/themes/aikido/images/fd-aikido.jpg") no-repeat scroll center top #F7EAD5;
+}
 
 	p {line-height: 100%;}
 	ul, ol { margin-left: 1em; padding-left: 0px; }
 
-	h1 { margin:0;  padding:5px 10px; background:#ddd; 	}
-	h2 { margin:0 0 1em; }
-	h4 {margin:0px;}
+	h2 { margin:0;  padding:5px 10px; color:#3D120B;	}
+	h4 {margin:0px; color:#3D120B;}
 	.log li { margin-bottom:0.25em; list-style-type: none; font-size:60%; }
 	.content {
 		width:750px;
-		margin:0 auto;
-		background:#99c;
+		margin:300px auto;
+		background:#ddd;
 	}
 	
 	noscript {
@@ -28,23 +29,9 @@
 		text-align: center;
 	}
 
-	.nav {
-		padding:5px 10px;
-		background:#c99;
-	}
-	.nav ul {
-		margin:0;
-		padding:0;
-		list-style:none;
-	}
-	.nav li {
-		display:inline;
-		margin:0;
-		padding:0;
-	}
 	.main {
 		padding:10px;
-		background:#9c9;
+		background:#e5d2b1;
 	}
 	.wrap_map_canvas {
 		height:300px;
@@ -70,11 +57,14 @@
 		right: 10px;
 		width:45%;
 	} 
+	.column table{
+		margin-left:15px;
+		margin-top:5px;
+	}
 	
 	.controls {
 		position:relative;
 		padding:10px;
-		background:#99c;
 		font-size: 75%; 
 	}
 	.controls .not-on-map {
@@ -83,7 +73,7 @@
 	}
 	
 	.map_controls {
-		background:#bb5;
+		background:#ddd;
 		clear:both;
 		font-size: 75%; 
 		padding:5px;
@@ -102,8 +92,13 @@
 	.map_controls table td, #map_controls table th {  
     border: 1px solid grey;
 	}
+	
+	.cal_list_div li {
+		 list-style:none;
+		 margin-bottom: 4px;
+	 }
 	.footer {
-	/*	display:none;*/
+		display:none;
 		clear:both;
 		padding:5px 10px;
 		background:#cc9;
