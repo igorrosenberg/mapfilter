@@ -1,3 +1,4 @@
+
 var geoCodeCalls = 0;
 var cacheSleep = 50;
 var googleGeocoder; 
@@ -12,9 +13,10 @@ function geocode(eventArray, callback) {
 	var countCallback = function () {
 		geoCodeCalls--; 
 		if (geoCodeCalls == 0) { 
+			console.log("   now see/delete addLatLong(event, point) " );
 			callback(); 
 		}
-         now see/delete addLatLong(event, point)
+      
 	}
  	for (var i = 0; i < eventArray.length; i++) {
 		setTimeout(function(){ geocodeOneEvent(eventArray[i].addrOrig, countCallback); }, i * cacheSleep);
@@ -37,9 +39,9 @@ function geocodeGoogle(address, callback) {
 	googleGeocoder.geocode({'address': address}, function(results, status){
 		if (status != 'OK') {
 			failGeoEncode(status, address);
-			} else {
+		} else {
 			var point = results[0].geometry.location;
-			localCache[address] = {lat: point.lat(); lng: point.lng()};
+			localCache[address] = {lat: point.lat(), lng: point.lng()};
 		}
 		callback(); 
 	});
@@ -72,11 +74,11 @@ function geocodeCache(address, callback) {
 			if (xmlhttp.status==200) {
 				console.log ('Cache response received, length=' + xmlhttp.responseText.length);
 				localCache[address] = JSON.parse(xmlhttp.responseText);
-				callback();
 			} else {
 				console.warn ('Cache response failure... status=' + xmlhttp.status);
 				geocodeGoogle(address, callback);
-				}
+			}
+			callback();
 		 }
 	  };
 
