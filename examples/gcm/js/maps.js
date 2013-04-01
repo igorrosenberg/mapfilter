@@ -135,7 +135,8 @@ function createMap(calId, events) {
 
 // Insert in separate file
 function populateTable (events) {
-
+	if (events.length == 0)
+		return;
 	// places the name in the show/hide list
  	var cal_list = document.getElementById("cal_list");
   	var node = document.createElement('li');

@@ -29,6 +29,13 @@ function verifyURL(gCalUrl) {
 	if (gCalUrl.slice(0, mock.length) == mock){
 		return gCalUrl;
 	}
+	
+	// add email if not there yet 
+	var email = '@gmail.com';
+	if (gCalUrl.indexOf('@') < 0){
+		gCalUrl = gCalUrl + email;
+	}
+
 	// add google domain if not there yet 
 	var startswith = 'https://www.google.com/calendar/feeds/';
 	if (gCalUrl.slice(0, startswith.length) != startswith){
@@ -93,7 +100,7 @@ function parseCalendarEvents(calendarAnswerText) {
 			// console.log ('Treating entry ' + ii);
 			var curEntry = calendarAnswer.feed.entry[ii];
 			if (!(curEntry['gd$when'] && curEntry['gd$when'][0]['startTime'])) {
-				// console.log(" skipping entry (no gd$when) " + curEntry['title']['$t']);
+				console.log(" skipping entry (no gd$when) " + curEntry['title']['$t']);
 				// console.log(" skipped " + curEntry['gd$when'] + '/' + curEntry);
 				continue;
 			};
@@ -128,7 +135,7 @@ function parseCalendarEvents(calendarAnswerText) {
 			}
 		} 
 	} // end if calendarAnswer.feed.entry
-	console.log("Finished parsing calendar data for: " + calendarTitle + " calid=" + globalCalId);
+	console.log("Finished parsing calendar data for: " + calendarTitle + " entries:"+calendarEvents.length + "	 calid=" + globalCalId);
 	return calendarEvents;
 } // end parseCalendarEvents
 
