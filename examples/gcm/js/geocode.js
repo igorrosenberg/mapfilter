@@ -72,8 +72,14 @@ function geocodeCache(address, callback) {
 		if (xmlhttp.readyState==4) {
 			if (xmlhttp.status==200) {
 				console.log ('Cache response received, length=' + xmlhttp.responseText.length);
-				localCache[address] = JSON.parse(xmlhttp.responseText);
-				callback();
+				if (xmlhttp.responseText[0] == '{') {
+					localCache[address] = JSON.parse(xmlhttp.responseText);
+					callback();
+				} else {
+					console.warn ('Cache response incorrect... ' + xmlhttp.responseText);
+					geocodeGoogle(address, callback);
+				}
+					
 			} else {
 				console.warn ('Cache response failure... status=' + xmlhttp.status);
 				geocodeGoogle(address, callback);
