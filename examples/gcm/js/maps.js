@@ -1,3 +1,9 @@
+function mapInitialized() {
+	var mapOptions = { mapTypeId: google.maps.MapTypeId.ROADMAP };
+	var mapBlock = document.getElementById('map_canvas');
+	map = new google.maps.Map(mapBlock, mapOptions);
+}
+
 function addGmapListener(event){
 	var dates; 
 	if (event.dateStart == event.dateEnd ) {
@@ -9,7 +15,7 @@ function addGmapListener(event){
 
 	var full = '<div class="infoWindow">' ;
 	full += '<h4>' + event.name + '</h4><ul>' ;
-	if (event.desc && event.desc !== "") {
+	if (event.desc && event.desc.trim() !== "") {
 		full += '<li>' + event.desc + '</li>';
 	}
 	full += '<li>' + dates + '</li>' + 
@@ -24,8 +30,14 @@ function addGmapListener(event){
 	});
 }
 
-function addMarkersToMap(eventList, calId) {
-	console.log ("addMarkersToMap");
+function createMap(calId, eventList) {
+	// loop on this function until google maps ready
+	if (!map){
+		console.log ('map script not yet ready ??');
+		setTimeout(function () { createMap(calId, eventList);} , 50);
+		return;
+	}
+	console.log ("createMap");
 	var bounds = map.getBounds();
 	if (bounds == null || bounds == undefined){
 		bounds = new google.maps.LatLngBounds();
@@ -49,8 +61,7 @@ function addMarkersToMap(eventList, calId) {
 		} // end if-for markers
 		}
 	map.fitBounds(bounds);
-
-} // end addMarkersToMap
+} // end createMap
 
 function deleteCalendar(calId, li_node) {
 	// remove from calendar list
@@ -82,6 +93,7 @@ function deleteCalendar(calId, li_node) {
 	map.fitBounds(bounds);	
 }
 
+// applies to map and table, separate?
 function hideShowCalendar(calId, li_node) {
 
 	var tableElement = document.getElementById("event_table_body");
@@ -90,14 +102,14 @@ function hideShowCalendar(calId, li_node) {
 	var targetMap;
 
 	if (li_node.classList.contains('not-on-map') ) {
-		li_node.classList.remove('not-on-map'); // display control link
-		targetMap = map;				// add point to the only google map div on page
+		targetMap = map;				// add points to the only google map div on page
+		li_node.classList.remove('not-on-map'); // normal font for control link
 		for (var i=hideElements.length -1; i >=0 ; i--) {	// show on table
 				hideElements[i].classList.remove('not-on-map');
 		     }	
 	} else {
+		targetMap = null; 			// hide points from google map div map
 		li_node.classList.add('not-on-map'); // italics for control link
-		targetMap = null; 			// hide point from google map div map
 		for (var i=hideElements.length -1; i >=0 ; i--) { // hide from table
 			hideElements[i].classList.add('not-on-map');
 	     }	
@@ -113,27 +125,7 @@ function hideShowCalendar(calId, li_node) {
 	
 } // end hideShowCalendar
 
-function createMap(calId, events) {
-	// loop on this function until google maps ready
-	if (!mapScriptLoaded){
-		console.log ('map script not yet ready ??');
-		setTimeout(function () { createMap(calId);} , 50);
-	} else {
-		// only create map if it doesn't exist
-		if (!map) {
-			var mapOptions = {
-				mapTypeId: google.maps.MapTypeId.ROADMAP
-			};
-			var mapBlock = document.getElementById('map_canvas');
-			map = new google.maps.Map(mapBlock, mapOptions);
-		  }
-		  
-		addMarkersToMap(events, calId);
-
-	}
-} // end createMap
-
-// Insert in separate file
+// TODO Insert in separate file
 function populateTable (events) {
 	if (events.length == 0)
 		return;

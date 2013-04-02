@@ -1,11 +1,11 @@
-
-var geoCodeCalls = 0;
-var cacheSleep = 50;
 var googleGeocoder; 
 
-var geocodeCacheUrl = 'http://igor.rosenberg.free.fr/gcm/geo-cache/cache.php?address=';
-
+var geoCodeCalls = 0;
 var localCache = {};
+
+// FIXME: cross-site
+var geocodeCacheUrl = '../geo-cache/cache.php?address=';
+var cacheSleep = 50;
 
 function geocode(eventArray, callback) {	
 	geoCodeCalls += eventArray.length;
@@ -26,7 +26,7 @@ function geocode(eventArray, callback) {
 
 function geocodeGoogle(address, callback) {
 	// loop on this function until google maps ready
-	if (!mapScriptLoaded){
+	if (!map){
 		console.log ('map script not yet ready ??');
 		setTimeout(function(){geocodeGoogle(address, callback);}, 50);
 		return;
