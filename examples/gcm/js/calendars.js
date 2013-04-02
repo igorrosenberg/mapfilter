@@ -1,25 +1,30 @@
 var globalCalId = 0;
 
-// ------------------------------------------------
-// 
-// ------------------------------------------------
-function dateFormat(date){
-	return date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
-}
-function dateFormat2(date){
-	return date.getFullYear() + "-0" + (date.getMonth() + 1) + "-" + date.getDate() + 'T00:00:00-00:00';
-}
+function initDateTags() {	
+	// date.js syntactic sugar
+	var startTag = document.getElementById("startTag");
+	startTag.value = new Date ().toString('dd/MM/yyyy');
+	var endTag = document.getElementById("endTag");
+	endTag.value = new Date ().addYears(offset).toString('dd/MM/yyyy');
+}	
+
+function readDateTag(tagId, offset) {	
+	// date.js syntactic sugar
+	var now; 
+	var tag = document.getElementById(tagId);
+	if (tag.value is valid as date.js) {
+		read new date as date.js format:
+		now = new Date (tag.value,'dd/MM/yyyy');
+	} else {
+		now = new Date ().addYears(offset); 
+		tag.value = now.toString('dd/MM/yyyy');
+	}
+	return now.toString('yyyy-MM-dd') + 'T00:00:00-00:00';
+}	
 
 function loadCalendars(gCalURL) {	
-	// date.js syntactic sugar
-	var now = new Date (); 
-	document.getElementById("startDate").value = now.toString('MM/dd/yyyy');
-	var startDay = now.toString('yyyy-MM-dd') + 'T00:00:00-00:00';
-	
-	var year1 = now.addYears(1) ;
-	document.getElementById("endDate").value = year1.toString('MM/dd/yyyy');
-	var endDay = year1.toString('yyyy-MM-dd') + 'T00:00:00-00:00';
-	
+	var startDay = readDateTag("startDate", 0);
+	var endDay = readDateTag("endDate", 1);
 	getGCalData(gCalURL, startDay, endDay);
 	}
 
@@ -30,13 +35,13 @@ function verifyURL(gCalUrl) {
 		return gCalUrl;
 	}
 	
-	// add email if not there yet 
+	// add email domain part if not there yet 
 	var email = '@gmail.com';
 	if (gCalUrl.indexOf('@') < 0){
 		gCalUrl = gCalUrl + email;
 	}
 
-	// add google domain if not there yet 
+	// add google url domain if not there yet 
 	var startswith = 'https://www.google.com/calendar/feeds/';
 	if (gCalUrl.slice(0, startswith.length) != startswith){
 		gCalUrl = startswith + gCalUrl;
@@ -55,6 +60,7 @@ function getGCalData(gCalUrl, startDays, endDays) {
 
 	// http://code.google.com/apis/calendar/docs/2.0/reference.html
 	gCalObj = {
+		'?alt':'json',
 		'start-min': startDays,
 		'start-max': endDays,
 		'max-results': 200,
@@ -62,21 +68,24 @@ function getGCalData(gCalUrl, startDays, endDays) {
 		'sortorder': 'ascending',
 		'singleevents': false
 		};
-
+ 
 	var array = [];
 	for (var key in gCalObj) {
  		array.push( key + '=' + gCalObj[key] ) ;
 	}		
-	var ajaxURL = gCalUrl + "?alt=json&" +  array.join("&");
+	var ajaxURL = gCalUrl + array.join('&');
 	var xmlhttp=new XMLHttpRequest();
 	xmlhttp.onreadystatechange = function () {
 		if (xmlhttp.readyState==4) {
 			if (xmlhttp.status==200) {
 				 console.log('Calendar response received, length=' + xmlhttp.responseText.length);
-				 var calendarEvents = parseCalendarEvents(xmlhttp.responseText);
-				 populateTable(calendarEvents);
-				 // use of globalCalId is dangerous
-				 geocode(calendarEvents, function () { createMap(globalCalId, calendarEvents) ; } );
+				 var calendarEvents = parseCalendarEvents(xmlhttp.responseText, ++globalCalId );
+				 if (calendarEvents.isEmpty()) {
+				 	console.warn ('no events in this interval for calendar ' +gCalURL);
+				 } else {
+				 	populateTable(calendarEvents);
+				 	geocode(calendarEvents, function () { createMap(calendarEvents) ; } );
+				}
 			} else {
 				 console.log('Calendar response failure... status=' + xmlhttp.status);
 				 }
@@ -87,7 +96,7 @@ function getGCalData(gCalUrl, startDays, endDays) {
 	xmlhttp.send();
 }
 
-function parseCalendarEvents(calendarAnswerText) {
+function parseCalendarEvents(calendarAnswerText, currentCalId) {
 	var calendarAnswer = JSON.parse(calendarAnswerText);
 	var calendarTitle = calendarAnswer.feed.title['$t']	
 	console.log("Reading calendar data: " + calendarTitle)
@@ -95,7 +104,6 @@ function parseCalendarEvents(calendarAnswerText) {
 
 	if (calendarAnswer.feed.entry) { 
 		var calendarEvents = new Array();
-		globalCalId++; 
 		for (var ii=0; calendarAnswer.feed.entry[ii]; ii++) {
 			// console.log ('Treating entry ' + ii);
 			var curEntry = calendarAnswer.feed.entry[ii];
@@ -116,7 +124,7 @@ function parseCalendarEvents(calendarAnswerText) {
 			}
 
 			var event = {
-				calId: globalCalId,
+				calId: currentCalId,
 				title: calendarTitle,
 				name: curEntry['title']['$t'],
 				desc: curEntry['content']['$t'],
@@ -135,7 +143,7 @@ function parseCalendarEvents(calendarAnswerText) {
 			}
 		} 
 	} // end if calendarAnswer.feed.entry
-	console.log("Finished parsing calendar data for: " + calendarTitle + " entries:"+calendarEvents.length + "	 calid=" + globalCalId);
+	console.log("Finished parsing calendar data for: " + calendarTitle + " entries:"+calendarEvents.length + "	 calid=" + currentCalId);
 	return calendarEvents;
 } // end parseCalendarEvents
 

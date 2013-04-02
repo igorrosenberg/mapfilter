@@ -30,38 +30,44 @@ function addGmapListener(event){
 	});
 }
 
-function createMap(calId, eventList) {
+function createMap(eventList) {
 	// loop on this function until google maps ready
 	if (!map){
 		console.log ('map script not yet ready ??');
-		setTimeout(function () { createMap(calId, eventList);} , 50);
+		setTimeout(function () { createMap(eventList);} , 50);
 		return;
 	}
 	console.log ("createMap");
-	var bounds = map.getBounds();
+	for (var i = 0; i < eventList.length; i++)  {
+		// how do we know where is the GPS cache data (localCache var)?
+		console.log ("Looking for " + eventList[i].addrOrig);
+		var point = localCache[eventList[i].addrOrig];
+		if (point) {
+			var latLng = new google.maps.LatLng(point.lat, point.lng);
+			// remember marker so hiding is possible
+			eventList[i].gMarker = new google.maps.Marker({
+				position: latLng,
+				title: eventList[i].name + '\n' + eventList[i].addrOrig,
+				zIndex: 2, 
+				map: map          // adds the marker to gmap called 'map'
+			});		
+			addGmapListener(eventList[i]);
+		} else {
+			console.warn ('no GPS data for '+ eventList[i].addrOrig);}
+		}
+	}
+	incrementBounds(eventList, map.getBounds());
+} // end createMap
+
+function incrementBounds(eventList, bounds){
 	if (bounds == null || bounds == undefined){
 		bounds = new google.maps.LatLngBounds();
 	}	
 	for (var i = 0; i < eventList.length; i++)  {
-		if (eventList[i].calId == calId) {
-			// how do we know where is the GPS cache data (localCache var)?
-			console.log ("Looking for " + eventList[i].addrOrig);
-			var point = localCache[eventList[i].addrOrig];
-			if (point) {
-				var latLng = new google.maps.LatLng(point.lat, point.lng);
-				bounds.extend(latLng);
-				// remember marker so hiding is possible
-				eventList[i].gMarker = new google.maps.Marker({
-					position: latLng,
-					title: eventList[i].name + '\n' + eventList[i].addrOrig,
-					zIndex: 2, map: map,          // adds the marker to gmap called 'map'
-				});		
-				addGmapListener(eventList[i]);
-			}
-		} // end if-for markers
-		}
+		bounds.extend( eventList[i].gMarker.getPosition() );
+	}
 	map.fitBounds(bounds);
-} // end createMap
+}
 
 function deleteCalendar(calId, li_node) {
 	// remove from calendar list
@@ -83,14 +89,7 @@ function deleteCalendar(calId, li_node) {
 	}	
 
 	// reset map bounds
-	var bounds = new google.maps.LatLngBounds();
-	var values = event_markers.values();
-	for (var i = 0; i < values.length; i++)  {
-			// remember marker so hiding is possible
-			var latLng = new google.maps.LatLng(values[i].lat, values[i].lng);
-			bounds.extend(latLng);
-		}
-	map.fitBounds(bounds);	
+	incrementBounds(event_markers.values(), null);
 }
 
 // applies to map and table, separate?
