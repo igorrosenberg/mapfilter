@@ -86,7 +86,9 @@ function deleteCalendar(calId, li_node) {
 	// remove markers from google maps
 	var values = event_markers[calId];
 	for (var i = 0; i < values.length; i++) {
-		values[i].gMarker.setMap(null) ;
+		if (values[i].gMarker) {
+			values[i].gMarker.setMap(null) ;
+		}
 	}
 	delete event_markers[calId];
 
