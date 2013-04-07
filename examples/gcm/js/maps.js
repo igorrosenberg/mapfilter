@@ -4,7 +4,26 @@ function mapInitialized() {
 	map = new google.maps.Map(mapBlock, mapOptions);
 }
 
+// Place given event on Google Maps, relying on local GPS cache  
 function addGmapListener(event){
+
+	// how do we know where the GPS cache data is (localCache var)?
+	console.log ("Looking for " + event.addrOrig);
+	var point = localCache[event.addrOrig];
+	if (!point) {
+		console.warn ('no GPS data for addr='+ event.addrOrig + ' date=' +  event.dateStart + ' name=' +event.name );
+		return;
+	}
+
+	var latLng = new google.maps.LatLng(point.lat, point.lng);
+	// remember marker so hiding is possible
+	event.gMarker = new google.maps.Marker({
+		position: latLng,
+		title: event.name + '\n' + event.addrOrig,
+		zIndex: 2, 
+		map: map          // adds the marker to gmap called 'map'
+	});		
+
 	var dates; 
 	if (event.dateStart == event.dateEnd ) {
 		dates = 'Date: le ' + event.dateStart;
@@ -39,22 +58,7 @@ function createMap(eventList) {
 	}
 	console.log ("createMap");
 	for (var i = 0; i < eventList.length; i++)  {
-		// how do we know where is the GPS cache data (localCache var)?
-		console.log ("Looking for " + eventList[i].addrOrig);
-		var point = localCache[eventList[i].addrOrig];
-		if (point) {
-			var latLng = new google.maps.LatLng(point.lat, point.lng);
-			// remember marker so hiding is possible
-			eventList[i].gMarker = new google.maps.Marker({
-				position: latLng,
-				title: eventList[i].name + '\n' + eventList[i].addrOrig,
-				zIndex: 2, 
-				map: map          // adds the marker to gmap called 'map'
-			});		
-			addGmapListener(eventList[i]);
-		} else {
-			console.warn ('no GPS data for '+ eventList[i].addrOrig);
-		}
+		addGmapListener(eventList[i]);
 	}
 	incrementBounds(eventList, map.getBounds());
 } // end createMap
