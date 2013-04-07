@@ -53,7 +53,7 @@ function createMap(eventList) {
 			});		
 			addGmapListener(eventList[i]);
 		} else {
-			console.warn ('no GPS data for '+ eventList[i].addrOrig);}
+			console.warn ('no GPS data for '+ eventList[i].addrOrig);
 		}
 	}
 	incrementBounds(eventList, map.getBounds());
@@ -64,7 +64,9 @@ function incrementBounds(eventList, bounds){
 		bounds = new google.maps.LatLngBounds();
 	}	
 	for (var i = 0; i < eventList.length; i++)  {
-		bounds.extend( eventList[i].gMarker.getPosition() );
+		if (eventList[i].gMarker) {
+			bounds.extend( eventList[i].gMarker.getPosition() );
+		}
 	}
 	map.fitBounds(bounds);
 }

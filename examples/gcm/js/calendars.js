@@ -12,9 +12,8 @@ function readDateTag(tagId, offset) {
 	// date.js syntactic sugar
 	var now; 
 	var tag = document.getElementById(tagId);
-	if (tag.value is valid as date.js) {
-		read new date as date.js format:
-		now = new Date (tag.value,'dd/MM/yyyy');
+	if (tag.value.match(/\d{2}\/\d{2}\/\d{4}/)) {
+		now = Date.parseExact(tag.value, 'dd/MM/yyyy');
 	} else {
 		now = new Date ().addYears(offset); 
 		tag.value = now.toString('dd/MM/yyyy');
@@ -80,8 +79,8 @@ function getGCalData(gCalUrl, startDays, endDays) {
 			if (xmlhttp.status==200) {
 				 console.log('Calendar response received, length=' + xmlhttp.responseText.length);
 				 var calendarEvents = parseCalendarEvents(xmlhttp.responseText, ++globalCalId );
-				 if (calendarEvents.isEmpty()) {
-				 	console.warn ('no events in this interval for calendar ' +gCalURL);
+				 if (calendarEvents.length == 0) {
+				 	console.warn ('no events in this interval ('+startDays+':'+endDays+') for calendar ' + gCalUrl);
 				 } else {
 				 	populateTable(calendarEvents);
 				 	geocode(calendarEvents, function () { createMap(calendarEvents) ; } );
@@ -102,8 +101,8 @@ function parseCalendarEvents(calendarAnswerText, currentCalId) {
 	console.log("Reading calendar data: " + calendarTitle)
 	var calendarHref = calendarAnswer.feed.link[0].href  // needed for cross reference later	 
 
+	var calendarEvents = new Array();
 	if (calendarAnswer.feed.entry) { 
-		var calendarEvents = new Array();
 		for (var ii=0; calendarAnswer.feed.entry[ii]; ii++) {
 			// console.log ('Treating entry ' + ii);
 			var curEntry = calendarAnswer.feed.entry[ii];
