@@ -61,6 +61,10 @@ function createMap(eventList) {
 		addGmapListener(eventList[i]);
 	}
 	incrementBounds(eventList, map.getBounds());
+
+	// also store those points in global calendar map	
+	event_markers[eventList[0].calId] = eventList;
+
 } // end createMap
 
 function incrementBounds(eventList, bounds){
@@ -78,15 +82,14 @@ function incrementBounds(eventList, bounds){
 function deleteCalendar(calId, li_node) {
 	// remove from calendar list
 	li_node.parentNode.removeChild(li_node);
+	
 	// remove markers from google maps
-	var values = event_markers.values();
-	for (var i = values.length - 1; i >= 0 ; i--) {
-		var event = values[i];
-		if (event.calId == calId) {
-			event.gMarker.setMap(null) ;
-			event_markers.remove(values[i]);
-		}
+	var values = event_markers[calId];
+	for (var i = 0; i < values.length; i++) {
+		values[i].gMarker.setMap(null) ;
 	}
+	delete event_markers[calId];
+
 	// remove from table
 	var tableElement = document.getElementById("event_table_body");
 	var deleteElements = tableElement.getElementsByClassName('tr' + calId);
@@ -95,7 +98,9 @@ function deleteCalendar(calId, li_node) {
 	}	
 
 	// reset map bounds
-	incrementBounds(event_markers.values(), null);
+	for (var otherCalId in event_markers) {
+		incrementBounds(event_markers[otherCalId], null);
+	}	
 }
 
 // applies to map and table, separate?
@@ -120,12 +125,9 @@ function hideShowCalendar(calId, li_node) {
 	     }	
 	}
 
-	var values = event_markers.values();
+	var values = event_markers[calId];
 	for (var i = 0; i < values.length; i++) {
-		var event = values[i];
-		if (event.calId == calId) {
-			event.gMarker.setMap(targetMap) ;
-		}
+		values[i].gMarker.setMap(targetMap) ;
 	} 
 	
 } // end hideShowCalendar
@@ -138,9 +140,25 @@ function populateTable (events) {
  	var cal_list = document.getElementById("cal_list");
   	var node = document.createElement('li');
   	var calId = events[0].calId;
-	appendJSLink(node, events[0].title, function() { hideShowCalendar(calId, node); });
-  	node.appendChild(document.createTextNode(' ')); 
-	appendJSLink(node, 'X', function() { deleteCalendar(calId, node); });
+
+	// add hide/show on cal name  	
+  	var node1 = document.createElement('a');
+  	node1.href = '#';
+  	node1.onclick = function () { hideShowCalendar(calId, node); return false;};
+  	node1.appendChild(document.createTextNode(events[0].title)); 
+	node.appendChild(node1);
+
+	// add delete cal button
+  	var node3 = document.createElement('img');
+  	node3.src = 'img/delete-2x.png'; 
+  	node3.className = 'deleteButton'; 
+  	node3.title = 'Delete calendar'; 
+  	var node2 = document.createElement('a');
+  	node2.href = '#';
+  	node2.onclick = function () { deleteCalendar(calId, node); return false;};
+  	node2.appendChild(node3); 
+	node.appendChild(node2);
+		
   	cal_list.appendChild(node);
 
 	// inserts a table row
@@ -149,24 +167,23 @@ function populateTable (events) {
         	var tr = document.createElement('tr');
         	tr.className = 'tr' + calId;
         	// add color to table lines? content.class = css_classes;
-        	appendTextChild(tr, 'td' , events[i].name);
-        	appendTextChild(tr, 'td' , events[i].addrOrig);
-        	appendTextChild(tr, 'td' , events[i].dateStart + ' ' + events[i].dateEnd);        	
+        	tr.appendChild(textNode('td' , events[i].name));
+        	tr.appendChild(textNode('td' , events[i].addrOrig));
+        	tr.appendChild(textNode('td' , events[i].dateStart + ' ' + events[i].dateEnd));
         	tableElement.appendChild(tr);
         }
 }
 
-function appendTextChild(parent, nodeName, text){
+function textNode(nodeName, text){
         	var node = document.createElement(nodeName);
         	node.appendChild(document.createTextNode(text)); 
-        	parent.appendChild(node);
+        	return node;
 }
 
-function appendJSLink(parent, text, callback){
-        	var node = document.createElement('a');
-        	node.href = '#';
-        	node.onclick = function () { callback(); return false;};
+function textNode(nodeName, text, clazz){
+        	var node = document.createElement(nodeName);
         	node.appendChild(document.createTextNode(text)); 
-        	parent.appendChild(node);
+        	node.className = clazz; 
+        	return node;
 }
 

@@ -1,8 +1,8 @@
 // the google map object, loaded asynch
 var map;
 
-// list of the events with information. 
-var event_markers = new Set();
+// A map calId => list of the events 
+var event_markers = {};
 
 // Add google maps script if not there yet = async load gmaps
 function loadScript(cal) {

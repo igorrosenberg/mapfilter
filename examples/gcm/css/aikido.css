@@ -97,6 +97,9 @@
 		 list-style:none;
 		 margin-bottom: 4px;
 	 }
+
+	.cal_list_div .deleteButton  { height: 15px; width: 15px; margin-bottom: -3px; margin-left: 10px;}
+
 	.footer {
 		display:none;
 		clear:both;
